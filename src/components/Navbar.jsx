@@ -58,7 +58,7 @@ const Navbar = () => {
                                         value="english"
                                         className="bg-white "
                                     >
-                                        English
+                                        En
                                     </option>
                                     <option
                                         value="French"
