@@ -1,0 +1,13 @@
+export const CUSTOMER_REGISTER = "CUSTOMER_REGISTER";
+export const CUSTOMER_LOGIN = "CUSTOMER_LOGIN";
+export const GET_CUSTOMER = "GET_CUSTOMER";
+
+export const GET_PRODUCTS = "GET_PRODUCTS";
+export const GET_SINGLE_PRODUCT = "GET_SINGLE_PRODUCT";
+
+export const GET_CATEGORIES = "GET_CATEGORIES";
+
+export const LOGOUT = "LOGOUT";
+
+export const ADD_TO_CART = "ADD_TO_CART";
+export const GET_USER_CART_ITEMS = "GET_USER_CART_ITEMS";
