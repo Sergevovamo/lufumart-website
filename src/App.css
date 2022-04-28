@@ -15,7 +15,6 @@
     width: 100%;
     height: auto;
     background-color: #fff;
-    transition: 700ms ease-in-out;
     box-shadow: 0 0 0 0.5px rgb(50 50 93 / 10%), 0 2px 5px 0 rgb(50 50 93 / 10%), 0 1px 1.5px 0 rgb(0 0 0 / 7%);
 }
 
@@ -25,72 +24,9 @@
     left: 0px;
     right: 0px;
     z-index: 999;
-    transition: 700ms ease-in-out;
     background-color: #fff;
     border-bottom: 1px solid rgba(128, 128, 128, 0.473);
     box-shadow: 0 0 0 0.5px rgb(50 50 93 / 10%), 0 2px 5px 0 rgb(50 50 93 / 10%), 0 1px 1.5px 0 rgb(0 0 0 / 7%);
-}
-
-
-/* cart and wishlist svg,s */
-
-.svg {
-    transform: translateX(60px);
-    cursor: pointer;
-    transition: 50ms ease-in-out;
-    z-index: -200;
-}
-
-.card:hover .svg {
-    transform: translateX(0px);
-    transition: 300ms ease-in-out;
-    z-index: 200;
-}
-
-
-/* loading spinner */
-
-.lds-facebook {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-}
-
-.lds-facebook div {
-    display: inline-block;
-    position: absolute;
-    left: 4px;
-    width: 6px;
-    background: orange;
-    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-}
-
-.lds-facebook div:nth-child(1) {
-    left: 8px;
-    animation-delay: -0.24s;
-}
-
-.lds-facebook div:nth-child(2) {
-    left: 32px;
-    animation-delay: -0.12s;
-}
-
-.lds-facebook div:nth-child(3) {
-    left: 56px;
-    animation-delay: 0;
-}
-
-@keyframes lds-facebook {
-    0% {
-        top: 8px;
-        height: 64px;
-    }
-    50%,
-    100% {
-        top: 24px;
-        height: 32px;
-    }
 }
 
 
@@ -110,64 +46,161 @@ ion-icon {
 }
 
 
-/* .rec {
-    position: relative;
+/* swiper js styling */
+
+.slides_container .swiper {
+    height: 280px;
+    display: flex;
+    align-items: center;
 }
 
-.rec.rec-arrow {
-    position: absolute;
+.slides_container .swiper-slide {
     background-color: #fff;
-    color: gray;
+    border-radius: 10px;
+    padding: 10px 7px;
+    cursor: pointer;
 }
 
-.rec-arrow.rec-arrow-left {
+.previousButton,
+.nextButton {
+    background-color: rgba(0, 0, 0, 0.411);
+    color: #fff;
+    padding: 7px;
+    border-radius: 50%;
+    position: absolute;
     z-index: 200;
+    cursor: pointer;
 }
 
-.rec-arrow.rec-arrow-right {
-    z-index: 200;
+.previousButton:hover,
+.nextButton:hover {
+    background-color: rgba(0, 0, 0, 0.61);
+}
+
+.nextButton {
     right: 0px;
 }
 
-.rec-arrow.rec-arrow-right:hover {
-    background-color: red;
+.previousButton {
+    left: 0px;
 }
 
-.rec-arrow.rec-arrow-left:hover {
-    background-color: red;
+
+/* Works on Firefox */
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: gray rgba(128, 128, 128, 0.452);
 }
 
-button.rec-dot {
-    visibility: hidden;
-} */
 
-button.rec-dot {
-    visibility: hidden;
+/* Works on Chrome, Edge, and Safari */
+
+*::-webkit-scrollbar {
+    width: 8px;
 }
 
-.rec-carousel {
+*::-webkit-scrollbar-track {
+    background: rgba(128, 128, 128, 0.349);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.452);
+    border-radius: 20px;
+}
+
+
+/* spinner */
+
+.lds-spinner {
+    display: inline-block;
     position: relative;
+    width: 80px;
+    height: 80px;
 }
 
-.rec-carousel button {
+.lds-spinner div {
+    transform-origin: 40px 40px;
+    animation: lds-spinner 1.2s linear infinite;
+}
+
+.lds-spinner div:after {
+    content: "";
+    display: block;
     position: absolute;
-    z-index: 200;
-    background-color: #fff;
-    border: 1px solid gray;
-    padding: 20px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    top: 40%;
+    top: 3px;
+    left: 37px;
+    width: 6px;
+    height: 18px;
+    border-radius: 20%;
+    background: gray;
 }
 
-.rec-carousel button:nth-child(1) {
-    left: 14px;
+.lds-spinner div:nth-child(1) {
+    transform: rotate(0deg);
+    animation-delay: -1.1s;
 }
 
-.rec-carousel button:nth-child(3) {
-    right: 14px;
+.lds-spinner div:nth-child(2) {
+    transform: rotate(30deg);
+    animation-delay: -1s;
+}
+
+.lds-spinner div:nth-child(3) {
+    transform: rotate(60deg);
+    animation-delay: -0.9s;
+}
+
+.lds-spinner div:nth-child(4) {
+    transform: rotate(90deg);
+    animation-delay: -0.8s;
+}
+
+.lds-spinner div:nth-child(5) {
+    transform: rotate(120deg);
+    animation-delay: -0.7s;
+}
+
+.lds-spinner div:nth-child(6) {
+    transform: rotate(150deg);
+    animation-delay: -0.6s;
+}
+
+.lds-spinner div:nth-child(7) {
+    transform: rotate(180deg);
+    animation-delay: -0.5s;
+}
+
+.lds-spinner div:nth-child(8) {
+    transform: rotate(210deg);
+    animation-delay: -0.4s;
+}
+
+.lds-spinner div:nth-child(9) {
+    transform: rotate(240deg);
+    animation-delay: -0.3s;
+}
+
+.lds-spinner div:nth-child(10) {
+    transform: rotate(270deg);
+    animation-delay: -0.2s;
+}
+
+.lds-spinner div:nth-child(11) {
+    transform: rotate(300deg);
+    animation-delay: -0.1s;
+}
+
+.lds-spinner div:nth-child(12) {
+    transform: rotate(330deg);
+    animation-delay: 0s;
+}
+
+@keyframes lds-spinner {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

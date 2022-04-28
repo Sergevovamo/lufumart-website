@@ -13,7 +13,8 @@ module.exports = {
 
             },
             width: {
-                container_width: "85%"
+                container_width: "85%",
+
             }
         },
     },

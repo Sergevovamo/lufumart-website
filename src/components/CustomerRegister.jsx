@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import favicon from "../favicon.png";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { customerRegister } from "../redux/actions/AuthActions";
+import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
-// import { ToastContainer } from "react-toastify";
 
 const CustomerRegister = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     // useEffect(() => {}, []);
     const {
         register,
@@ -20,9 +22,11 @@ const CustomerRegister = () => {
         shouldFocusError: true,
     });
     // getting the fileds value
-    const onSubmit = (data) => {
-        console.log(data);
-        dispatch(customerRegister(data));
+    const onSubmit = async (data) => {
+        if (data) {
+            await dispatch(customerRegister(data));
+            navigate("/login/customer");
+        }
     };
     return (
         <>
@@ -47,7 +51,7 @@ const CustomerRegister = () => {
                             {...register("name", { required: true })}
                         />
                         {errors.name && (
-                            <p className="text-red"> name is required </p>
+                            <p className="text-red"> Name is required </p>
                         )}
                         <input
                             type="text"
@@ -133,7 +137,13 @@ const CustomerRegister = () => {
                         >
                             REGISTER
                         </button>
-                        {/* <ToastContainer /> */}
+                        <ToastContainer />
+                        <div>
+                            I already have an account.
+                            <Link to="/login/customer">
+                                <span className="text-orange"> Login</span>
+                            </Link>
+                        </div>
                     </form>
                 </section>
             </div>

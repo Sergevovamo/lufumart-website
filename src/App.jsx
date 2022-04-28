@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom";
 import CustomerRegister from "./components/CustomerRegister";
 import FlashSale from "./components/FlashSale";
 import Banners from "./components/Banners";
-import Deals from "./components/Deals";
 import Featured from "./components/Featured";
 import Subscribe from "./components/Subscribe";
 // import GetCustomers from "./components/GetCustomers";
@@ -18,7 +17,10 @@ import BestSellers from "./components/BestSellers";
 import Footer from "./components/Footer";
 import MenClothing from "./components/MenClothing";
 import DeliveryGuyDashboard from "./components/DeliveryGuyDashboard";
-import Elastic from "./components/Elastic";
+import Checkout from "./components/Checkout";
+import CarouselSection from "./components/CarouselSection";
+import ElectronicDeals from "./components/deals/ElectronicDeals";
+import NewArrivals from "./components/deals/NewArrivals";
 
 function App() {
     return (
@@ -30,15 +32,16 @@ function App() {
                         path="/"
                         element={
                             <>
+                                <CarouselSection />
                                 <Banners />
                                 <FeaturedBrands />
                                 <FlashSale />
-                                <Deals />
-                                <Featured />
                                 <TopCategories />
+                                <NewArrivals />
+                                <Featured />
                                 <BestSellers />
                                 <MenClothing />
-                                <Elastic />
+                                <ElectronicDeals />
                                 <Subscribe />
                                 {/* <GetCustomers /> */}
                                 <Footer />
@@ -58,6 +61,7 @@ function App() {
                         path="/dashboard/delivery/*"
                         element={<DeliveryGuyDashboard />}
                     />
+                    <Route path="/checkout/" element={<Checkout />} />
                     <Route path="/product_view/:id" element={<ProductView />} />
                     <Route path="/cart" element={<Cart />} />
                 </Routes>

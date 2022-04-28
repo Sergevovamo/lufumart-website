@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import test from "../../images/mine1.jpeg";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -16,15 +15,26 @@ const ProductView = () => {
     }, []);
 
     const productData = useSelector((state) => state.Products.product[0]);
-    console.log("The product is", productData);
+    // console.log("The product is", productData);
     const loadingStatus = useSelector((state) => state.Products.loading);
-    console.log("The loading status  is", loadingStatus);
+    // console.log("The loading status  is", loadingStatus);
 
     // handle add to cart
     const token = localStorage.getItem("loginToken");
 
     const handleAddToCart = async () => {
-        token ? await dispatch(addToCart(id)) : navigate("/login/customer");
+        // token
+        //     ? (await dispatch(addToCart(id)))
+        //     : navigate("/login/customer");
+
+        if (token) {
+            await dispatch(addToCart(id));
+            toast.success("Succesfully added to cart", {
+                position: toast.POSITION.TOP_CENTER,
+            });
+        } else {
+            navigate("/login/customer");
+        }
     };
     return (
         <>

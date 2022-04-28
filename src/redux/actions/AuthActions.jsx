@@ -26,7 +26,7 @@ export const authToken = () => {
 };
 
 // customer register
-export const customerRegister = (payload) => (dispatch) => {
+export const customerRegister = (payload) => async (dispatch) => {
     let { name, email, password, password_confirmation, phone, gender } =
         payload;
     // config
@@ -44,20 +44,21 @@ export const customerRegister = (payload) => (dispatch) => {
         phone,
         gender,
     });
-    // console.log(AUTH_API);
     try {
-        axios.post(`${AUTH_API}/signup`, body, config).then((res) => {
-            if (data) {
-                const data = res.data;
-                console.log(data);
-                const token = res.data.token;
-                dispatch({
-                    type: types.CUSTOMER_REGISTER,
-                    payload: data,
-                });
-                localStorage.setItem("registerToken", token);
-            }
-        });
+        const response = await axios.post(`${AUTH_API}/signup`, body, config);
+        const data = await response.data;
+        const token = data.token;
+        console.log(data);
+        if (data) {
+            dispatch({
+                type: types.CUSTOMER_REGISTER,
+                payload: data,
+            });
+            localStorage.setItem("registerToken", token);
+            toast.success("Successfully registered", {
+                position: toast.POSITION.TOP_CENTER,
+            });
+        }
     } catch (error) {
         console.log(error.response);
     }

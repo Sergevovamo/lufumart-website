@@ -14,8 +14,8 @@ import Footer from "./Footer";
 const DeliveryGuyDashboard = () => {
     return (
         <section className="bg-gray-100 min-h-screen h-full">
-            <div className="w-container_width mx-auto py-10 grid grid-cols-3 gap-4">
-                <div className="shadow-sm bg-white rounded-lg w-80">
+            <div className="w-container_width mx-auto py-10 grid grid-cols-4 gap-5">
+                <div className="shadow-sm bg-white rounded-lg ">
                     <div className="items-center rounded-lg flex flex-col space-y-2 bg-green p-5">
                         <img
                             src={profile}
@@ -185,7 +185,7 @@ const DeliveryGuyDashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-span-2 bg-white shadow-sm">
+                <div className="col-span-3 bg-white shadow-sm">
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route

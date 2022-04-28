@@ -17,53 +17,57 @@ const TopCategories = () => {
                 <span>Top categories</span>
                 <span className=" text-white underline">View more</span>
             </div>
-            <div className="w-container_width mx-auto py-4 grid grid-cols-4 gap-3 ">
-                {loadingStatus ? (
-                    <main className=" w-full text-orange">
-                        <div>Please wait</div>
-                        <div className="lds-facebook">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </main>
-                ) : (
-                    categories &&
-                    categories.map((category) => (
-                        <div
-                            key={category._id}
-                            className="flex space-x-4 px-2 justify-between items-center h-24 cursor-pointer shadow-sm bg-white rounded-lg"
-                        >
-                            <div className=" h-20 w-full  items-center flex ">
-                                <img
-                                    src={category.imageUrl}
-                                    alt=""
-                                    className="max-h-full max-w-full "
-                                />
+            {loadingStatus ? (
+                <main className=" bg-full text-center mt-5 ">
+                    <div className="lds-spinner">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </main>
+            ) : (
+                <div className="w-container_width mx-auto py-4 grid  grid-cols-2 md:grid-cols-4 gap-3 ">
+                    {categories &&
+                        categories.map((category) => (
+                            <div
+                                key={category._id}
+                                className="md:flex p-2 md:p-0 md:space-x-4 space-y-3 px-2 justify-between items-center md:h-24 cursor-pointer shadow-sm bg-white rounded-lg  hover:shadow-lg"
+                            >
+                                <div className=" h-20 w-full   flex justify-center ">
+                                    <img src={category.imageUrl} alt="" />
+                                </div>
+                                <div className=" w-full ">
+                                    <p>{category.name}</p>
+                                </div>
+                                <div className="hidden md:block">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M9 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                </div>
                             </div>
-                            <div className=" w-full ">
-                                <p>{category.name}</p>
-                            </div>
-                            <div className="  ">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M9 5l7 7-7 7"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
+                        ))}
+                </div>
+            )}
         </section>
     );
 };

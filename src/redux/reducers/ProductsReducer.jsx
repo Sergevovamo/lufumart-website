@@ -27,12 +27,19 @@ export const productsReducer = (state = initialState, action) => {
                 loading: false,
                 categories: action.payload,
             };
-        case types.ADD_TO_CART:
         case types.GET_USER_CART_ITEMS:
             return {
                 ...state,
                 loading: false,
                 cart: action.payload,
+            };
+        case types.ADD_TO_CART:
+        case types.DECREASE_CART_PRODUCT_QUANTITY:
+        case types.REMOVE_CART_PRODUCT:
+            return {
+                ...state,
+                // cart: action.payload,
+                loading: false,
             };
 
         default:

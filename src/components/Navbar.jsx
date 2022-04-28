@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
+
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../redux/actions/AuthActions";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserCartItems } from "../redux/actions/ProductsActions";
 const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     // setting navbar fixed on scroll
     const [fixed, setFixed] = useState(true);
     useEffect(() => {
@@ -19,38 +22,35 @@ const Navbar = () => {
 
     const fixedNav = () => {
         let heightY = window.scrollY;
-        if (heightY > 200) {
+        if (heightY > 0) {
             setFixed(false);
         } else {
             setFixed(true);
         }
     };
     // display login,logout &register,dashboard buttons conditionally in respect with the token availability
-
-    const [logState, setLogState] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
-        log();
-        console.log("The state is", logState);
-    }, [logState]);
-
-    const log = () => {
         const token = localStorage.getItem("loginToken");
-        token ? setLogState("Logout") : setLogState("Login");
+        if (token) {
+            setIsLoggedIn(!isLoggedIn);
+        }
+    }, []);
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate("/login/customer");
     };
-    // toggling between login and logout
-    const handleLogState = () => {
-        logState === "Logout"
-            ? dispatch(logout())
-            : navigate("/login/customer");
-    };
+    // get the total cart items
+    useEffect(() => {
+        dispatch(getUserCartItems());
+    }, []);
+    const CartItems = useSelector((state) => state.Products.cart.cartProducts);
+    let totalCartItems = CartItems && CartItems.length;
     return (
         <nav className={fixed ? "navbar" : "Fixed"}>
             <main style={{ borderBottom: "1px solid gray" }}>
                 <div className="flex justify-between items-center  h-full w-container_width mx-auto ">
                     <div className="flex items-center ">
-                        {/* <div >
-                            <div> English</div>
-                        </div> */}
                         <span>
                             <form>
                                 <select className="bg-white border-0 outline-0">
@@ -58,7 +58,7 @@ const Navbar = () => {
                                         value="english"
                                         className="bg-white "
                                     >
-                                        En
+                                        English
                                     </option>
                                     <option
                                         value="French"
@@ -82,14 +82,39 @@ const Navbar = () => {
                             className="p-2 hover:bg-green hover:text-white "
                             style={{ borderRight: "1px solid gray" }}
                         >
-                            <button onClick={handleLogState}>{logState}</button>
+                            {isLoggedIn ? (
+                                <button onClick={handleLogout}>Logout</button>
+                            ) : (
+                                <button
+                                    onClick={() => navigate("/login/customer")}
+                                >
+                                    Login
+                                </button>
+                            )}
+
                             <ToastContainer />
                         </span>
                         <span
                             className="p-2 hover:bg-green hover:text-white"
                             style={{ borderRight: "1px solid gray" }}
                         >
-                            <button>Register</button>
+                            {isLoggedIn ? (
+                                <button
+                                    onClick={() =>
+                                        navigate("/dashboard/customer")
+                                    }
+                                >
+                                    Dashboard
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() =>
+                                        navigate("/register/customer")
+                                    }
+                                >
+                                    Register
+                                </button>
+                            )}
                         </span>
                     </div>
                 </div>
@@ -111,12 +136,12 @@ const Navbar = () => {
                         <form className="w-full flex">
                             <input
                                 type="text"
-                                placeholder="Search products here.."
-                                className=" w-11/12  border p-2 rounded-tl-lg rounded-bl-lg"
+                                placeholder="Search products,categories,brands here.."
+                                className=" w-11/12  border p-2 rounded-tl rounded-bl outline-none"
                             />
                             <input
                                 type="submit"
-                                className="w-1/5 p-2 border bg-green text-white font-bold rounded-tr-lg rounded-br-lg"
+                                className="w-1/5 p-2 border bg-green text-white cursor-pointer rounded-tr rounded-br"
                                 value="Search"
                             />
                         </form>
@@ -139,7 +164,7 @@ const Navbar = () => {
                                     />
                                 </svg>
                                 <p className="absolute left-6 -top-3 text-white  rounded-full w-5 h-5 flex justify-center items-center bg-orange">
-                                    2
+                                    0
                                 </p>
                             </button>
                         </span>
@@ -160,8 +185,8 @@ const Navbar = () => {
                                             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                                         />
                                     </svg>
-                                    <p className="absolute left-6 -top-3 text-white rounded-full w-5 h-5 flex justify-center items-center bg-orange">
-                                        2
+                                    <p className="absolute left-6 -top-3  text-white rounded-full w-5 h-5 flex justify-center items-center bg-orange">
+                                        {totalCartItems || 0}
                                     </p>
                                 </button>
                             </span>
@@ -169,7 +194,9 @@ const Navbar = () => {
                     </div>
                 </div>
             </main>
-            <main>
+            <main
+                style={{ borderBottom: "1px solid rgba(128, 128, 128, 0.144)" }}
+            >
                 <div className="flex justify-around items-center  h-full w-4/5  mx-auto">
                     <ul className="flex ">
                         <li className="px-4 hover:bg-green hover:text-white rounded py-2 mx-1 ">

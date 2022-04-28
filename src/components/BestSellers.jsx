@@ -10,14 +10,14 @@ const BestSellers = () => {
                 <p>Best Sellers</p>
                 <p className="underline">view more</p>
             </div>
-            <div className="w-container_width mx-auto  pt-3 grid grid-cols-4 gap-3 ">
+            <div className="w-container_width mx-auto  pt-3 grid grid-cols-2 md:grid-cols-4 gap-3 ">
                 {loop.map((each, index) => (
                     <div
                         key={index}
-                        className=" h-32 w-full shadow bg-white rounded-lg flex justify-center space-x-1 items-center"
+                        className="h-auto p-2 md:p-0 md:h-32 w-full shadow bg-white rounded-lg md:flex justify-center md:space-x-1 items-center"
                     >
                         <div
-                            className="w-full h-28 flex items-center px-2"
+                            className="w-full h-24 flex items-center px-2"
                             style={{ borderRight: "1px solid grey" }}
                         >
                             <img

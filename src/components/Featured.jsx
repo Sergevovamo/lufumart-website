@@ -1,140 +1,22 @@
-import React, { useEffect } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
     getProducts,
     getSingleProduct,
 } from "../redux/actions/ProductsActions";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+// import Swiper core and required modules
+import SwiperCore, { Navigation, A11y } from "swiper";
 
-function SampleNextArrow(props) {
-    const { style, onClick } = props;
-
-    return (
-        <div
-            className="slick-arrow"
-            style={{
-                ...style,
-                display: "flex",
-                background: "#fff",
-                color: "gray",
-                border: "1px solid rgba(128, 128, 128, 0.342)",
-                position: "absolute",
-                right: "0px",
-                top: "40%",
-                cursor: "pointer",
-                zIndex: "200",
-                width: "40px",
-                height: "40px",
-                justifyContent: "center",
-                borderRadius: "50%",
-                alignItems: "center",
-            }}
-            onClick={onClick}
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 5l7 7-7 7"
-                />
-            </svg>
-        </div>
-    );
-}
-
-function SamplePrevArrow(props) {
-    const { style, onClick } = props;
-    return (
-        <div
-            className="slick-arrow"
-            style={{
-                ...style,
-                display: "flex",
-                background: "#fff",
-                color: "gray",
-                border: "1px solid rgba(128, 128, 128, 0.342)",
-                position: "absolute",
-                left: "0px",
-                top: "40%",
-                cursor: "pointer",
-                zIndex: "200",
-                width: "40px",
-                height: "40px",
-                justifyContent: "center",
-                borderRadius: "50%",
-                alignItems: "center",
-            }}
-            onClick={onClick}
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 19l-7-7 7-7"
-                />
-            </svg>
-        </div>
-    );
-}
-
+// install Swiper modules
+SwiperCore.use([Navigation, A11y]);
 const Featured = () => {
-    // slick carousel functionalities
-    let settings = {
-        dots: false,
-        infinite: false,
-        autoplay: false,
-        speed: 500,
-        slidesToShow: 6,
-        slidesToScroll: 6,
-        initialSlide: 0,
-        nextArrow: <SampleNextArrow />,
-        prevArrow: <SamplePrevArrow />,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
-                    dots: true,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    initialSlide: 2,
-                },
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    dotd: true,
-                    arrows: false,
-                },
-            },
-        ],
-    };
+    const swiperRef = React.useRef(null);
     // getting the products from the state
     const dispatch = useDispatch();
     const Navigate = useNavigate();
@@ -148,105 +30,160 @@ const Featured = () => {
     };
 
     const allProducts = useSelector((state) => state.Products.products);
-    // console.log("all products", allProducts);
     const loadingStatus = useSelector((state) => state.Products.loading);
-    // console.log(loadingStatus);
-    return (
-        <div className="w-full bg-gray-100 py-14">
-            <h2 className="w-container_width  text-white rounded mx-auto bg-orange p-2 ">
-                {" "}
-                Featured products
-            </h2>
 
-            <Slider
-                {...settings}
-                className=" w-container_width  mx-auto py-4 relative "
-            >
+    return (
+        <section className=" bg-gray-100">
+            <div className="w-container_width mx-auto relative py-5 ">
+                <p className="p-2 mb-5 rounded bg-orange text-white">
+                    Featured products
+                </p>
                 {loadingStatus ? (
-                    <main className=" w-full text-orange">
-                        <div>Please wait</div>
-                        <div className="lds-facebook">
+                    <main className=" bg-full text-center mt-5 ">
+                        <div className="lds-spinner">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                             <div></div>
                             <div></div>
                             <div></div>
                         </div>
                     </main>
                 ) : (
-                    allProducts &&
-                    allProducts.map((product) => (
-                        <main key={product._id} className="  ">
-                            <div
-                                onClick={() => handleProductView(product._id)}
-                                className=" bg-white relative card shadow-sm  rounded-lg  h-72 min-h-full max-h-full cursor-pointer mx-1"
-                            >
-                                <svg
-                                    className="absolute right-2 top-1 rounded-sm p-0.5 h-6 w-6 bg-green  text-gray-50 svg "
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                    />
-                                </svg>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="absolute right-2 top-8 rounded-sm p-0.5  h-6 w-6 bg-green  text-gray-50 svg "
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                                    />
-                                </svg>
-                                <div>
-                                    <div className="flex justify-center h-32">
-                                        <img
-                                            src={product.imageUrl[0]}
-                                            alt={product.name}
-                                        />
-                                    </div>
+                    <div className="slides_container">
+                        <Swiper
+                            ref={swiperRef}
+                            spaceBetween={10}
+                            slidesPerView={2}
+                            navigation={false}
+                            // onSlideChange={() => console.log("slide change")}
+                            // onSwiper={(swiper) => console.log(swiper)}
+                            breakpoints={{
+                                640: {
+                                    slidesPerView: 2,
+                                },
+                                768: {
+                                    slidesPerView: 4,
+                                },
+                                1024: {
+                                    slidesPerView: 6,
+                                },
+                            }}
+                        >
+                            {allProducts &&
+                                allProducts.map((product) => {
+                                    let text = product.description;
 
-                                    <div className="p-2">
-                                        <p className="text-lg py-1 ">
-                                            {product.name}
-                                        </p>
-                                        <p className="text-sm">
-                                            {product.description}
-                                        </p>
-                                        <div className="flex justify-between items-center pt-3">
-                                            <div>
-                                                <p>
-                                                    {" "}
-                                                    <s>
-                                                        ${" "}
-                                                        {product.price.toLocaleString()}
-                                                    </s>{" "}
+                                    const truncateDescription = (str, num) => {
+                                        if (str.length > num) {
+                                            let subStr = str.substring(0, num);
+                                            return subStr + ".....";
+                                        } else {
+                                            return str;
+                                        }
+                                    };
+                                    return (
+                                        <SwiperSlide
+                                            key={product._id}
+                                            onClick={() =>
+                                                handleProductView(product._id)
+                                            }
+                                        >
+                                            <main className="space-y-1 card">
+                                                <div className="flex justify-center h-32 bg-white">
+                                                    <img
+                                                        src={
+                                                            product.imageUrl[0]
+                                                        }
+                                                        alt=""
+                                                    />
+                                                </div>
+                                                <p className="text-lg">
+                                                    {product.name}
                                                 </p>
-                                            </div>
-                                            <div>
-                                                <p className=" font-extrabold text-green text-2xl">
-                                                    ${" "}
-                                                    {product.salePrice.toLocaleString()}
+                                                <p className="text-sm">
+                                                    {truncateDescription(
+                                                        text,
+                                                        40
+                                                    )}
                                                 </p>
-                                            </div>
-                                        </div>
+                                                <div className="flex justify-between items-center">
+                                                    <div>
+                                                        <s className="text-sm">
+                                                            ${" "}
+                                                            {product.price.toLocaleString()}
+                                                        </s>
+                                                    </div>
+                                                    <div>
+                                                        <p className=" text-2xl text-green">
+                                                            ${" "}
+                                                            {product.salePrice.toLocaleString()}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </main>
+                                        </SwiperSlide>
+                                    );
+                                })}
+                            {loadingStatus ? (
+                                ""
+                            ) : (
+                                <>
+                                    <div
+                                        className="previousButton"
+                                        onClick={() =>
+                                            swiperRef.current.swiper.slidePrev()
+                                        }
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-6 w-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth={2}
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M15 19l-7-7 7-7"
+                                            />
+                                        </svg>
                                     </div>
-                                </div>
-                            </div>
-                        </main>
-                    ))
+                                    <div
+                                        className="nextButton"
+                                        onClick={() =>
+                                            swiperRef.current.swiper.slideNext()
+                                        }
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-6 w-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth={2}
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M9 5l7 7-7 7"
+                                            />
+                                        </svg>
+                                    </div>
+                                </>
+                            )}
+                        </Swiper>
+                    </div>
                 )}
-            </Slider>
-        </div>
+            </div>
+        </section>
     );
 };
 

@@ -1,11 +1,8 @@
 import React from "react";
-import appStore from "../../images/appstore.png";
-import playstore from "../../images/images.jpeg";
-
 const Subscribe = () => {
     return (
-        <section className="w-full h-auto py-7 bg-green">
-            <div className="w-container_width  h-full mx-auto  grid grid-cols-3  gap-2 ">
+        <section className="w-full h-auto py-7 bg-gray-100">
+            <div className="w-container_width  h-full mx-auto  grid md:grid-cols-3  gap-4 ">
                 <div className=" w-full  h-full bg-white flex flex-col justify-center items-center p-5 space-y-3 rounded">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -50,12 +47,12 @@ const Subscribe = () => {
                         </a>
                     </div>
                 </div>
-                <div className="  p-3 w-full p-3  h-full bg-white rounded">
+                <div className="  w-full p-3  h-full bg-white rounded">
                     <p className="pb-5">
                         Subcribe to our newsletter to get{" "}
                         <span className="text-orange px-1">updated</span> on{" "}
                         <span className="text-orange">New </span> new and
-                        <span className="text-orange"> amzing !! </span> deals
+                        <span className="text-orange"> amazing !! </span> deals
                     </p>
                     <form className="flex space-x-2 ">
                         <input
@@ -66,7 +63,7 @@ const Subscribe = () => {
                         <input
                             type="submit"
                             value="Subscribe"
-                            className="bg-orange uppercase text-gray-100 font-bold p-2"
+                            className="bg-orange uppercase text-gray-100  p-2"
                         />
                     </form>
                 </div>
