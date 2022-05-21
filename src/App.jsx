@@ -13,14 +13,15 @@ import Navbar from "./components/Navbar";
 import ProductView from "./components/ProductView";
 import Cart from "./components/Cart";
 import TopCategories from "./components/TopCategories";
-import BestSellers from "./components/BestSellers";
 import Footer from "./components/Footer";
 import MenClothing from "./components/MenClothing";
 import DeliveryGuyDashboard from "./components/DeliveryGuyDashboard";
-import Checkout from "./components/Checkout";
 import CarouselSection from "./components/CarouselSection";
 import ElectronicDeals from "./components/deals/ElectronicDeals";
-import NewArrivals from "./components/deals/NewArrivals";
+import Checkout from "./components/Checkout";
+import ForYou from "./components/deals/ForYou";
+import NewArrivals from "./components/NewArrivals";
+import RecommendedSellers from "./components/RecommendedSellers";
 
 function App() {
     return (
@@ -35,11 +36,12 @@ function App() {
                                 <CarouselSection />
                                 <Banners />
                                 <FeaturedBrands />
-                                <FlashSale />
-                                <TopCategories />
                                 <NewArrivals />
+                                <TopCategories />
+                                <FlashSale />
+                                <ForYou />
                                 <Featured />
-                                <BestSellers />
+                                <RecommendedSellers />
                                 <MenClothing />
                                 <ElectronicDeals />
                                 <Subscribe />
@@ -61,9 +63,10 @@ function App() {
                         path="/dashboard/delivery/*"
                         element={<DeliveryGuyDashboard />}
                     />
-                    <Route path="/checkout/" element={<Checkout />} />
+
                     <Route path="/product_view/:id" element={<ProductView />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout" element={<Checkout />} />
                 </Routes>
             </div>
         </Router>

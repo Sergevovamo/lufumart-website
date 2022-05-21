@@ -1,16 +1,19 @@
 import React from "react";
 
-const NewArrivals = () => {
+const ForYou = () => {
     return (
-        <section className="bg-gray-100">
+        <section className="bg-uniform_grey">
             <div className="w-container_width mx-auto">
-                <p className="p-2 mb-5 bg-orange text-white rounded">
+                {/* <p className="p-2 mb-5 bg-orange text-white rounded">
                     New Arrivals
+                </p> */}
+                <p className="text-2xl text-center pb-10 ">
+                    HOT DEALS JUST FOR YOU !!
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2  ">
                     <div className=" grid grid-rows-2 gap-2 h-auto md:h-80">
                         <div className=" grid grid-cols-1 md:grid-cols-2 gap-2 ">
-                            <div className="bg-white flex items-center space-x-3 p-2">
+                            <div className="bg-white shadow  flex items-center space-x-3 p-2">
                                 <div className=" h-28 flex justify-center w-full">
                                     <img
                                         src="https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg"
@@ -20,7 +23,7 @@ const NewArrivals = () => {
                                 <div className="w-full space-y-3">
                                     <p>New bangles for women</p>
                                     <button className=" flex  text-gray-800 items-center p-2 bg-gray-200 hover:bg-gray-100  rounded-full  ">
-                                        <span>Have a look</span>
+                                        <span>Explore</span>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-6 w-6"
@@ -38,7 +41,7 @@ const NewArrivals = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="bg-white flex items-center space-x-3 p-2 ">
+                            <div className="bg-white shadow  flex items-center space-x-3 p-2 ">
                                 <div className=" h-28 flex justify-center w-full">
                                     <img
                                         src="https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg"
@@ -48,7 +51,7 @@ const NewArrivals = () => {
                                 <div className="w-full space-y-3 ">
                                     <p>New bangles for women</p>
                                     <button className=" flex  text-gray-800 items-center p-2 bg-gray-200 hover:bg-gray-100  rounded-full  ">
-                                        <span>Have a look</span>
+                                        <span>Explore</span>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-6 w-6"
@@ -67,7 +70,7 @@ const NewArrivals = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white grid md:grid-cols-2 items-center justify-center p-2 md:p-0 ">
+                        <div className="bg-white shadow  grid md:grid-cols-2 items-center justify-center p-2 md:p-0 ">
                             <div className="flex justify-center h-36 ">
                                 <img
                                     src="https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg"
@@ -77,7 +80,7 @@ const NewArrivals = () => {
                             <div className="space-y-5">
                                 <p>New televisions and radios</p>
                                 <button className=" flex  text-gray-800 items-center p-2 bg-gray-200 hover:bg-gray-100  rounded-full  ">
-                                    <span>Have a look</span>
+                                    <span>Explore</span>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-6 w-6"
@@ -97,7 +100,7 @@ const NewArrivals = () => {
                         </div>
                     </div>
                     <div className=" grid grid-rows-2 gap-2  md:h-80 ">
-                        <div className="bg-white grid md:grid-cols-2 items-center justify-center p-2 md:p-0  ">
+                        <div className="bg-white shadow  grid md:grid-cols-2 items-center justify-center p-2 md:p-0  ">
                             <div className="flex justify-center h-36 ">
                                 <img
                                     src="https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg"
@@ -107,7 +110,7 @@ const NewArrivals = () => {
                             <div className="space-y-5">
                                 <p>New televisions and radios</p>
                                 <button className=" flex  text-gray-800 items-center p-2 bg-gray-200 hover:bg-gray-100  rounded-full  ">
-                                    <span>Have a look</span>
+                                    <span>Explore</span>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-6 w-6"
@@ -126,7 +129,7 @@ const NewArrivals = () => {
                             </div>
                         </div>
                         <div className=" grid grid-cols-1 md:grid-cols-2 gap-2">
-                            <div className="bg-white flex items-center space-x-3 p-2">
+                            <div className="bg-white shadow  flex items-center space-x-3 p-2">
                                 <div className=" h-28 flex justify-center w-full">
                                     <img
                                         src="https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg"
@@ -136,7 +139,7 @@ const NewArrivals = () => {
                                 <div className="w-full space-y-3">
                                     <p>New bangles for women</p>
                                     <button className=" flex  text-gray-800 items-center p-2 bg-gray-200 hover:bg-gray-100  rounded-full  ">
-                                        <span>Have a look</span>
+                                        <span>Explore</span>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-6 w-6"
@@ -154,7 +157,7 @@ const NewArrivals = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="bg-white flex items-center space-x-3 p-2">
+                            <div className="bg-white shadow  flex items-center space-x-3 p-2">
                                 <div className=" h-28 flex justify-center w-full">
                                     <img
                                         src="https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg"
@@ -164,7 +167,7 @@ const NewArrivals = () => {
                                 <div className="w-full space-y-3">
                                     <p>New bangles for women</p>
                                     <button className=" flex  text-gray-800 items-center p-2 bg-gray-200 hover:bg-gray-100  rounded-full  ">
-                                        <span>Have a look</span>
+                                        <span>Explore</span>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-6 w-6"
@@ -190,4 +193,4 @@ const NewArrivals = () => {
     );
 };
 
-export default NewArrivals;
+export default ForYou;

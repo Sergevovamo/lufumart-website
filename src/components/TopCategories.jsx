@@ -9,14 +9,13 @@ const TopCategories = () => {
     // getting all the categories from state
     const categories = useSelector((state) => state.Products.categories);
     const loadingStatus = useSelector((state) => state.Products.loading);
-    // console.log("loading is ", loadingStatus);
-    // console.log("THe state is ", categories);
     return (
-        <section className="bg-gray-100 py-7">
-            <div className=" w-container_width mx-auto text-white  bg-orange p-2 flex justify-between rounded">
+        <section className="bg-uniform_grey py-7">
+            {/* <div className=" w-container_width mx-auto text-white  bg-orange p-2 flex justify-between rounded">
                 <span>Top categories</span>
                 <span className=" text-white underline">View more</span>
-            </div>
+            </div> */}
+            <p className="text-2xl text-center pb-7 ">TOP CATEGORIES</p>
             {loadingStatus ? (
                 <main className=" bg-full text-center mt-5 ">
                     <div className="lds-spinner">

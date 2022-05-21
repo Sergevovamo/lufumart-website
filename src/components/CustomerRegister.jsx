@@ -46,7 +46,7 @@ const CustomerRegister = () => {
                     >
                         <input
                             type="text"
-                            placeholder="name"
+                            placeholder="Name"
                             className="border  focus:outline-0 p-2 w-full "
                             {...register("name", { required: true })}
                         />

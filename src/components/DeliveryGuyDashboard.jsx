@@ -13,9 +13,9 @@ import ManageProfile from "./delivery_dashboard_routes/ManageProfile";
 import Footer from "./Footer";
 const DeliveryGuyDashboard = () => {
     return (
-        <section className="bg-gray-100 min-h-screen h-full">
+        <section className="bg-gray-50 min-h-screen h-full">
             <div className="w-container_width mx-auto py-10 grid grid-cols-4 gap-5">
-                <div className="shadow-sm bg-white rounded-lg ">
+                <div className="shadow bg-white rounded-lg ">
                     <div className="items-center rounded-lg flex flex-col space-y-2 bg-green p-5">
                         <img
                             src={profile}
@@ -185,7 +185,7 @@ const DeliveryGuyDashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-span-3 bg-white shadow-sm">
+                <div className="col-span-3 bg-white shadow rounded p-3">
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route

@@ -33,6 +33,9 @@ const ProductView = () => {
                 position: toast.POSITION.TOP_CENTER,
             });
         } else {
+            toast.error("Failed..Kindly login first ", {
+                position: toast.POSITION.TOP_CENTER,
+            });
             navigate("/login/customer");
         }
     };
@@ -95,9 +98,7 @@ const ProductView = () => {
 
                         <div className=" col-span-2  flex flex-col space-y-2">
                             <div className="flex justify-between items-center">
-                                <p className="text-2xl ">
-                                    {productData.description}
-                                </p>
+                                <p className="text-2xl ">{productData.name}</p>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-6 w-6 text-green"

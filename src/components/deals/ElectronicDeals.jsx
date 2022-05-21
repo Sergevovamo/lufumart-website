@@ -2,11 +2,12 @@ import React from "react";
 
 const ElectronicDeals = () => {
     return (
-        <section className="bg-gray-100 py-10">
+        <section className="bg-uniform_grey py-10">
             <div className="w-container_width mx-auto">
-                <p className="bg-orange p-2 mb-5 text-white rounded">
+                {/* <p className="bg-orange p-2 mb-5 text-white rounded">
                     Electronic deals
-                </p>
+                </p> */}
+                <p className="text-2xl text-center pb-7 ">ELECTRONIC DEALS</p>
                 <div className="grid  grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="bg-green  hover:shadow-lg">
                         <div>

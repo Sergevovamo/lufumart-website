@@ -53,9 +53,11 @@ const Cart = () => {
                 {Totals === 0 || !token ? (
                     <div className="text-center space-y-8">
                         <p className=" text-xl">Your cart is empty</p>
+                        {/* <Link to="/"> */}
                         <button className="p-2 bg-orange text-white rounded-sm">
                             Start shopping
                         </button>
+                        {/* </Link> */}
                     </div>
                 ) : (
                     <div className="w-container_width mx-auto  flex flex-col  md:grid md:grid-cols-3 gap-4 ">
@@ -73,9 +75,17 @@ const Cart = () => {
                                 )}
                             </div>
                             {loadingStatus ? (
-                                <main className=" w-full text-orange text-center mt-5 font-semibold">
-                                    <div>Please wait</div>
-                                    <div className="lds-facebook">
+                                <main className=" bg-full text-center mt-5 ">
+                                    <div className="lds-spinner">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
                                         <div></div>
                                         <div></div>
                                         <div></div>
@@ -87,6 +97,7 @@ const Cart = () => {
                                     const {
                                         imageUrl,
                                         description,
+                                        name,
                                         _id,
                                         price,
                                         salePrice,
@@ -107,7 +118,7 @@ const Cart = () => {
                                                         "1px solid rgba(128, 128, 128, 0.418)",
                                                 }}
                                             >
-                                                <div className="inline-flex gap-4">
+                                                <div className="inline-flex gap-4 items-center">
                                                     <div className="h-20 w-20 flex justify-center items-center">
                                                         <img
                                                             src={imageUrl[0]}
@@ -115,7 +126,7 @@ const Cart = () => {
                                                         />
                                                     </div>
                                                     <div>
-                                                        <p>{description}</p>
+                                                        <p>{name}</p>
                                                         <p className="text-xl">
                                                             ${" "}
                                                             {price.toLocaleString()}
@@ -232,9 +243,11 @@ const Cart = () => {
                                             Checkout
                                         </button>
                                     </Link>
-                                    <button className="p-2 bg-green rounded-lg text-white ">
-                                        Continue shopping
-                                    </button>
+                                    <Link to="/">
+                                        <button className="p-2 bg-green rounded-lg text-white ">
+                                            Continue shopping
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

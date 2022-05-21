@@ -1,9 +1,9 @@
 import React from "react";
 const Subscribe = () => {
     return (
-        <section className="w-full h-auto py-7 bg-gray-100">
+        <section className="w-full h-auto py-7 bg-uniform_grey">
             <div className="w-container_width  h-full mx-auto  grid md:grid-cols-3  gap-4 ">
-                <div className=" w-full  h-full bg-white flex flex-col justify-center items-center p-5 space-y-3 rounded">
+                <div className=" w-full  h-full bg-white shadow flex flex-col justify-center items-center p-5 space-y-3 rounded">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-7 w-7 text-orange"
@@ -22,7 +22,7 @@ const Subscribe = () => {
                         <p>Term & Conditions</p>
                     </a>
                 </div>
-                <div className=" w-full  h-full bg-white flex flex-col justify-center items-center py-3 rounded ">
+                <div className=" w-full  h-full bg-white shadow flex flex-col justify-center items-center py-3 rounded ">
                     <h2 className=" ">
                         Get lufumart{" "}
                         <span className="before:block mx-2 before:absolute before:-inset-1 before:-skew-y-3 before:bg-orange relative inline-block">
@@ -47,7 +47,7 @@ const Subscribe = () => {
                         </a>
                     </div>
                 </div>
-                <div className="  w-full p-3  h-full bg-white rounded">
+                <div className="  w-full p-3  h-full bg-white shadow rounded">
                     <p className="pb-5">
                         Subcribe to our newsletter to get{" "}
                         <span className="text-orange px-1">updated</span> on{" "}

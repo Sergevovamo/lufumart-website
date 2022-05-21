@@ -31,13 +31,15 @@ const FlashSale = () => {
 
     const allProducts = useSelector((state) => state.Products.products);
     const loadingStatus = useSelector((state) => state.Products.loading);
-
+    // logic to display custom carousel buttons
+    const [showControls, setShowControls] = useState(false);
+    setTimeout(() => {
+        setShowControls(true);
+    }, 6000);
     return (
-        <section className=" bg-gray-100">
+        <section className=" bg-uniform_grey">
             <div className="w-container_width mx-auto relative py-5 ">
-                <p className="p-2 mb-5 rounded bg-orange text-white">
-                    Flash sale
-                </p>
+                <p className="text-2xl text-center pb-10 ">FLASH SALE</p>
                 {loadingStatus ? (
                     <main className=" bg-full text-center mt-5 ">
                         <div className="lds-spinner">
@@ -72,18 +74,20 @@ const FlashSale = () => {
                                     slidesPerView: 4,
                                 },
                                 1024: {
+                                    slidesPerView: 5,
+                                },
+                                1240: {
                                     slidesPerView: 6,
                                 },
                             }}
                         >
                             {allProducts &&
                                 allProducts.map((product) => {
-                                    let text = product.description;
-
-                                    const truncateDescription = (str, num) => {
+                                    let text = product.name;
+                                    const truncateProductName = (str, num) => {
                                         if (str.length > num) {
                                             let subStr = str.substring(0, num);
-                                            return subStr + ".....";
+                                            return subStr + "........";
                                         } else {
                                             return str;
                                         }
@@ -95,8 +99,8 @@ const FlashSale = () => {
                                                 handleProductView(product._id)
                                             }
                                         >
-                                            <main className="space-y-1 card">
-                                                <div className="flex justify-center h-32 bg-white">
+                                            <main className="space-y-3 card  h-60  md:h-56  ">
+                                                <div className="border-b border-gray-200 pb-1 flex justify-center  h-32   bg-white">
                                                     <img
                                                         src={
                                                             product.imageUrl[0]
@@ -104,16 +108,14 @@ const FlashSale = () => {
                                                         alt=""
                                                     />
                                                 </div>
-                                                <p className="text-lg">
-                                                    {product.name}
-                                                </p>
-                                                <p className="text-sm">
-                                                    {truncateDescription(
+                                                <p className=" lowercase first-letter:uppercase">
+                                                    {truncateProductName(
                                                         text,
-                                                        40
+                                                        15
                                                     )}
                                                 </p>
-                                                <div className="flex justify-between items-center">
+
+                                                <div className="flex flex-col md:flex-row  justify-between    md:items-center ">
                                                     <div>
                                                         <s className="text-sm">
                                                             ${" "}
@@ -121,7 +123,7 @@ const FlashSale = () => {
                                                         </s>
                                                     </div>
                                                     <div>
-                                                        <p className=" text-2xl text-green">
+                                                        <p className=" text-lg text-green">
                                                             ${" "}
                                                             {product.salePrice.toLocaleString()}
                                                         </p>
@@ -131,12 +133,10 @@ const FlashSale = () => {
                                         </SwiperSlide>
                                     );
                                 })}
-                            {loadingStatus ? (
-                                ""
-                            ) : (
+                            {showControls ? (
                                 <>
                                     <div
-                                        className="previousButton"
+                                        className="previousButton hidden md:block"
                                         onClick={() =>
                                             swiperRef.current.swiper.slidePrev()
                                         }
@@ -157,7 +157,7 @@ const FlashSale = () => {
                                         </svg>
                                     </div>
                                     <div
-                                        className="nextButton"
+                                        className="nextButton hidden md:block"
                                         onClick={() =>
                                             swiperRef.current.swiper.slideNext()
                                         }
@@ -178,6 +178,8 @@ const FlashSale = () => {
                                         </svg>
                                     </div>
                                 </>
+                            ) : (
+                                ""
                             )}
                         </Swiper>
                     </div>
@@ -188,3 +190,10 @@ const FlashSale = () => {
 };
 
 export default FlashSale;
+
+<div className="absolute top-2 right-0  z-50">
+    <p className="bg-orange text-white animate-bounce  py-1 px-2  rounded-tl-full rounded-bl-full">
+        {" "}
+        New
+    </p>
+</div>;

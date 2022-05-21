@@ -127,6 +127,22 @@ export const logout = () => (dispatch) => {
     });
 };
 
+// get customer address
+
+export const getCustomerAddress = () => async (dispatch) => {
+    const response = await axios.get(
+        "http://localhost:7000/user_address",
+        authToken()
+    );
+    const data = await response.data;
+    if (data) {
+        dispatch({
+            type: types.GET_CUSTOMER_ADDRESS,
+            payload: data,
+        });
+    }
+};
+
 // token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGdtYWlsLmNvbSIsImlkIjoiNjI1M2Y5NWExOTZkOTgwOGZjNmU3OTA2IiwiaWF0IjoxNjQ5NjcwNDkwLCJleHAiOjE2NTIwODk2OTB9.D89kJalYysagtuv1O4nCXyYE0ACruUp65kumGp4XCDY
 
 // token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtlbHZpbm1hdGlAZ21haWwuY29tIiwiaWQiOiI2MjUzZmY3NTE5NmQ5ODA4ZmM2ZTc5MWEiLCJpYXQiOjE2NDk2NzIwNTQsImV4cCI6MTY1MjA5MTI1NH0.5PPYZmy_ALMOAGCtLu__xqTNJYpOQiN9S2rgGGY5Eoo

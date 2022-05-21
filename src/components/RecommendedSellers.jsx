@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from "react";
 
-const BestSellers = () => {
+const RecommendedSellers = () => {
     const [count, setCount] = useState(null);
 
     const loop = [1, 2, 3, 4, 5, 6, 7];
     return (
-        <section className="bg-gray-100 py-7">
-            <div className=" rounded p-2 w-container_width mx-auto bg-orange text-white flex justify-between">
+        <section className="bg-uniform_grey py-7">
+            {/* <div className=" rounded p-2 w-container_width mx-auto bg-orange text-white flex justify-between">
                 <p>Best Sellers</p>
                 <p className="underline">view more</p>
-            </div>
+            </div> */}
+            <p className="text-2xl text-center pb-7 ">RECOMMENDED SELLERS</p>
             <div className="w-container_width mx-auto  pt-3 grid grid-cols-2 md:grid-cols-4 gap-3 ">
                 {loop.map((each, index) => (
                     <div
                         key={index}
-                        className="h-auto p-2 md:p-0 md:h-32 w-full shadow bg-white rounded-lg md:flex justify-center md:space-x-1 items-center"
+                        className="h-auto p-2 md:p-0 md:h-32 w-full shadow bg-white rounded md:flex justify-center md:space-x-1 items-center"
                     >
                         <div
                             className="w-full h-24 flex items-center px-2"
                             style={{ borderRight: "1px solid grey" }}
                         >
                             <img
-                                src="https://res.cloudinary.com/lufumart-ecommerce/image/upload/v1645622365/thuxf1fiqmw6fvzss7ds.jpg"
+                                src="https://res.cloudinary.com/lufumart-ecommerce/image/upload/v1653091110/kemhp0vtbiu7xsttk4yl.jpg"
                                 alt=""
                                 className="max-w-full max-h-full"
                             />
                         </div>
                         <div className="w-full px-2">
-                            <p className="text-lg">Philips</p>
+                            <p>Seller 1</p>
                             <p className="flex my-2">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -111,4 +112,4 @@ const BestSellers = () => {
     );
 };
 
-export default BestSellers;
+export default RecommendedSellers;

@@ -1,10 +1,11 @@
 import React from "react";
 const FeaturedBrands = () => {
     return (
-        <section className="bg-gray-100 ">
-            <div className="p-2 bg-orange w-container_width mx-auto text-white rounded">
+        <section className="bg-uniform_grey">
+            {/* <div className="p-2 bg-orange w-container_width mx-auto text-white rounded">
                 Featured brands
-            </div>
+            </div> */}
+            <p className="text-2xl text-center py-7 ">FEATURED BRANDS</p>
             <div className="w-container_width mx-auto grid grid-cols-2 gap-2 md:flex  justify-between md:space-y-0  md:space-x-2 py-10  text-white">
                 {brands.map((brand, index) => {
                     return (

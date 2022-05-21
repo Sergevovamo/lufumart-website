@@ -11,14 +11,14 @@ import Footer from "./Footer";
 const CustomerLogin = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const currentUser = useSelector(
-        (state) => state.auth.customer.current_user
-    );
-    currentUser && console.log(currentUser);
+    // const currentUser = useSelector(
+    //     (state) => state.auth.customer.current_user
+    // );
+    // currentUser && console.log(currentUser);
 
-    useEffect(() => {
-        dispatch(getCustomer());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getCustomer());
+    // }, []);
     const {
         register,
         handleSubmit,
@@ -33,7 +33,7 @@ const CustomerLogin = () => {
     const onSubmit = async (data) => {
         const { email, password } = data;
         await dispatch(customerLogin(data));
-        navigate("/");
+        // navigate("/");
     };
     return (
         <>

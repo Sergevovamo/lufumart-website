@@ -22,7 +22,7 @@ const Navbar = () => {
 
     const fixedNav = () => {
         let heightY = window.scrollY;
-        if (heightY > 0) {
+        if (heightY > 300) {
             setFixed(false);
         } else {
             setFixed(true);

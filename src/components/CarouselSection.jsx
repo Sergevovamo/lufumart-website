@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategories } from "../redux/actions/ProductsActions";
 // Import Swiper React components
@@ -22,10 +22,13 @@ const CarouselSection = () => {
     // getting all the categories from state
     const categories = useSelector((state) => state.Products.categories);
     const loadingStatus = useSelector((state) => state.Products.loading);
+    // open the mega menu on hover
+    const [isOpen, setIsOpen] = useState(false);
+    // console.log(isOpen);
     return (
-        <section className="bg-gray-100 py-5">
-            <div className=" w-container_width mx-auto block md:grid md:grid-cols-4 md:gap-2">
-                <div className="bg-white h-96 hidden relative md:block overflow-y-auto ">
+        <section className=" py-5 bg-uniform_grey">
+            <div className=" w-container_width mx-auto  block md:grid md:grid-cols-4 md:gap-2">
+                <div className="bg-white h-96 hidden overflow-y-auto md:block  shadow">
                     <p className="font-semibold py-1 px-3 text-center ">
                         Categories
                     </p>
@@ -50,13 +53,16 @@ const CarouselSection = () => {
                         categories &&
                         categories.map((category) => {
                             const { name, createdAt } = category;
-
                             return (
                                 <>
                                     <ul>
                                         <div
                                             key={createdAt}
-                                            className="flex justify-between items-center py-1.5 px-3 hover:bg-gray-200 cursor-pointer "
+                                            onMouseEnter={() => setIsOpen(true)}
+                                            onMouseLeave={() =>
+                                                setIsOpen(false)
+                                            }
+                                            className="flex justify-between items-center py-1.5 px-3 hover:bg-gray-100 cursor-pointer "
                                         >
                                             <li className="list-none ">
                                                 {name}
@@ -82,7 +88,8 @@ const CarouselSection = () => {
                         })
                     )}
                 </div>
-                <div className="col-span-3 bg-white  h-96">
+
+                <div className="col-span-3 bg-white  h-96 relative">
                     <div className="carousel_container">
                         <Swiper
                             ref={swiperRef}
@@ -99,7 +106,7 @@ const CarouselSection = () => {
                             // onSwiper={(swiper) => console.log(swiper)}
                         >
                             <div
-                                className="previousButton"
+                                className="previousButton "
                                 onClick={() =>
                                     swiperRef.current.swiper.slidePrev()
                                 }
@@ -120,7 +127,7 @@ const CarouselSection = () => {
                                 </svg>
                             </div>
                             <div
-                                className="nextButton"
+                                className="nextButton "
                                 onClick={() =>
                                     swiperRef.current.swiper.slideNext()
                                 }
@@ -156,6 +163,20 @@ const CarouselSection = () => {
                             ))}
                         </Swiper>
                     </div>
+                    {/* <div
+                        className={
+                            isOpen
+                                ? "absolute grid gap-2 p-2 grid-cols-5 w-full bg-green top-0 z-20 h-96 visible "
+                                : " invisible "
+                        }
+                    >
+                        <div className="bg-white">section</div>
+                        <div className="bg-white">section</div>
+                        <div className="bg-white">section</div>
+                        <div className="bg-white">section</div>
+                        <div className="bg-white">section</div>
+                        <div className="bg-white">section</div>
+                    </div> */}
                 </div>
             </div>
         </section>

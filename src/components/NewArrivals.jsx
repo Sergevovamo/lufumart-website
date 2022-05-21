@@ -15,7 +15,7 @@ import SwiperCore, { Navigation, A11y } from "swiper";
 
 // install Swiper modules
 SwiperCore.use([Navigation, A11y]);
-const Featured = () => {
+const NewArrivals = () => {
     const swiperRef = React.useRef(null);
     // getting the products from the state
     const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const Featured = () => {
     return (
         <section className=" bg-uniform_grey">
             <div className="w-container_width mx-auto relative py-5 ">
-                <p className="text-2xl text-center py-7 ">FEATURED PRODUCTS</p>
+                <p className="text-2xl text-center pb-10 ">NEW ARRIVALS</p>
                 {loadingStatus ? (
                     <main className=" bg-full text-center mt-5 ">
                         <div className="lds-spinner">
@@ -130,6 +130,12 @@ const Featured = () => {
                                                     </div>
                                                 </div>
                                             </main>
+                                            <div className="absolute top-2 right-0  z-50">
+                                                <p className="bg-orange text-white animate-bounce  py-1 px-2  rounded-tl-full rounded-bl-full">
+                                                    {" "}
+                                                    New
+                                                </p>
+                                            </div>
                                         </SwiperSlide>
                                     );
                                 })}
@@ -189,4 +195,4 @@ const Featured = () => {
     );
 };
 
-export default Featured;
+export default NewArrivals;

@@ -18,10 +18,10 @@ const CustomerDashboard = () => {
         dispatch(getCustomer());
     }, []);
     return (
-        <section className="w-full min-h-screen h-auto py-10 bg-grey">
+        <section className="w-full min-h-screen h-auto py-10 bg-gray-50 ">
             <div className="h-auto w-11/12  mx-auto dashboard">
-                <div className="w-full h-96 bg-white shadow">
-                    <div className="items-center flex flex-col space-y-2 bg-green p-5">
+                <div className="w-full h-96 bg-white shadow rounded-lg">
+                    <div className="items-center rounded-lg flex flex-col space-y-2 bg-green p-5">
                         <img
                             src={profile}
                             className="w-16 h-16 rounded-full object-cover "
