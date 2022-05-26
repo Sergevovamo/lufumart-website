@@ -190,10 +190,3 @@ const FlashSale = () => {
 };
 
 export default FlashSale;
-
-<div className="absolute top-2 right-0  z-50">
-    <p className="bg-orange text-white animate-bounce  py-1 px-2  rounded-tl-full rounded-bl-full">
-        {" "}
-        New
-    </p>
-</div>;

@@ -18,6 +18,8 @@ module.exports = {
             },
             width: {
                 container_width: "85%",
+                mobile: "90%",
+
 
             },
             height: {

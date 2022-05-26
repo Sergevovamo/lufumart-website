@@ -9,8 +9,8 @@
 
 /* setting the navbar fixed on scroll */
 
-.navbar {
-    /* position: relative; */
+
+/* .navbar {
     z-index: 999;
     width: 100%;
     height: auto;
@@ -27,7 +27,7 @@
     background-color: #fff;
     border-bottom: 1px solid rgba(128, 128, 128, 0.473);
     box-shadow: 0 0 0 0.5px rgb(50 50 93 / 10%), 0 2px 5px 0 rgb(50 50 93 / 10%), 0 1px 1.5px 0 rgb(0 0 0 / 7%);
-}
+} */
 
 
 /* icon styling */

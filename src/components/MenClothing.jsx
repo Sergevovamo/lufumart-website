@@ -31,11 +31,7 @@ const MenClothing = () => {
 
     const allProducts = useSelector((state) => state.Products.products);
     const loadingStatus = useSelector((state) => state.Products.loading);
-    // logic to display custom carousel buttons
-    const [showControls, setShowControls] = useState(false);
-    setTimeout(() => {
-        setShowControls(true);
-    }, 6000);
+
     return (
         <section className=" bg-uniform_grey">
             <div className="w-container_width mx-auto relative py-5 ">
@@ -133,7 +129,9 @@ const MenClothing = () => {
                                         </SwiperSlide>
                                     );
                                 })}
-                            {showControls ? (
+                            {loadingStatus ? (
+                                ""
+                            ) : (
                                 <>
                                     <div
                                         className="previousButton hidden md:block"
@@ -178,8 +176,6 @@ const MenClothing = () => {
                                         </svg>
                                     </div>
                                 </>
-                            ) : (
-                                ""
                             )}
                         </Swiper>
                     </div>

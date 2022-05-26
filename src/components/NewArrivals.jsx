@@ -32,10 +32,10 @@ const NewArrivals = () => {
     const allProducts = useSelector((state) => state.Products.products);
     const loadingStatus = useSelector((state) => state.Products.loading);
     // logic to display custom carousel buttons
-    const [showControls, setShowControls] = useState(false);
-    setTimeout(() => {
-        setShowControls(true);
-    }, 6000);
+    // const [showControls, setShowControls] = useState(false);
+    // setTimeout(() => {
+    //     setShowControls(true);
+    // }, 6000);
     return (
         <section className=" bg-uniform_grey">
             <div className="w-container_width mx-auto relative py-5 ">
@@ -131,7 +131,7 @@ const NewArrivals = () => {
                                                 </div>
                                             </main>
                                             <div className="absolute top-2 right-0  z-50">
-                                                <p className="bg-orange text-white animate-bounce  py-1 px-2  rounded-tl-full rounded-bl-full">
+                                                <p className="bg-red text-white animate-bounce  py-1 px-2  rounded-tl-full rounded-bl-full">
                                                     {" "}
                                                     New
                                                 </p>
@@ -139,7 +139,9 @@ const NewArrivals = () => {
                                         </SwiperSlide>
                                     );
                                 })}
-                            {showControls ? (
+                            {loadingStatus ? (
+                                ""
+                            ) : (
                                 <>
                                     <div
                                         className="previousButton hidden md:block"
@@ -184,8 +186,6 @@ const NewArrivals = () => {
                                         </svg>
                                     </div>
                                 </>
-                            ) : (
-                                ""
                             )}
                         </Swiper>
                     </div>
