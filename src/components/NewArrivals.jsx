@@ -84,6 +84,12 @@ const NewArrivals = () => {
                             {allProducts &&
                                 allProducts.map((product) => {
                                     let text = product.name;
+                                    let convertedPrice =
+                                        product.salePrice / 114;
+                                    let Discount = convertedPrice * 0.2;
+                                    let inititialPrice =
+                                        convertedPrice - Discount;
+                                    // console.log(inititialPrice);
                                     const truncateProductName = (str, num) => {
                                         if (str.length > num) {
                                             let subStr = str.substring(0, num);
@@ -119,13 +125,13 @@ const NewArrivals = () => {
                                                     <div>
                                                         <s className="text-sm">
                                                             ${" "}
-                                                            {product.price.toLocaleString()}
+                                                            {inititialPrice.toLocaleString()}
                                                         </s>
                                                     </div>
                                                     <div>
                                                         <p className=" text-lg text-green">
                                                             ${" "}
-                                                            {product.salePrice.toLocaleString()}
+                                                            {convertedPrice.toLocaleString()}
                                                         </p>
                                                     </div>
                                                 </div>
