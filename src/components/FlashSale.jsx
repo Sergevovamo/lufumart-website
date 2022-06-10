@@ -85,11 +85,9 @@ const FlashSale = () => {
                                 allProducts.map((product) => {
                                     let text = product.name;
 
-                                    let convertedPrice =
-                                        product.salePrice / 114;
-                                    let Discount = convertedPrice * 0.2;
+                                    let Discount = product.salePrice * 0.2;
                                     let initialPrice =
-                                        convertedPrice - Discount;
+                                        product.salePrice + Discount;
                                     // console.log(initialPrice);
                                     const truncateProductName = (str, num) => {
                                         if (str.length > num) {
@@ -132,7 +130,7 @@ const FlashSale = () => {
                                                     <div>
                                                         <p className=" text-lg text-green">
                                                             ${" "}
-                                                            {convertedPrice.toLocaleString()}
+                                                            {product.salePrice.toLocaleString()}
                                                         </p>
                                                     </div>
                                                 </div>

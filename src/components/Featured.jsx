@@ -80,11 +80,10 @@ const Featured = () => {
                             {allProducts &&
                                 allProducts.map((product) => {
                                     let text = product.name;
-                                    let convertedPrice =
-                                        product.salePrice / 114;
-                                    let Discount = convertedPrice * 0.2;
+
+                                    let Discount = product.salePrice * 0.2;
                                     let initialPrice =
-                                        convertedPrice - Discount;
+                                        product.salePrice + Discount;
                                     // console.log(inititialPrice);
                                     const truncateProductName = (str, num) => {
                                         if (str.length > num) {
@@ -127,7 +126,7 @@ const Featured = () => {
                                                     <div>
                                                         <p className=" text-lg text-green">
                                                             ${" "}
-                                                            {convertedPrice.toLocaleString()}
+                                                            {product.salePrice.toLocaleString()}
                                                         </p>
                                                     </div>
                                                 </div>
