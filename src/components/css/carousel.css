@@ -1,14 +1,17 @@
 /* swiper js styling */
 
-.carousel_container .swiper {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    height: 384px;
+/* .carousel_container .swiper {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  height: 384px;
 }
 
 .carousel_container .swiper-slide {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.swiper-pagination {}
+.swiper-pagination {
+  color: #fff;
+  background-color: #fff;
+} */
