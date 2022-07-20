@@ -7,15 +7,19 @@ import { addToCart, getSingleProduct } from "../redux/actions/ProductsActions";
 import Footer from "./Footer";
 const ProductView = () => {
   const { id } = useParams();
-//   console.log(id);
+  //   console.log(id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(getSingleProduct(id));
+    let subscribed = true;
+    if (subscribed) {
+      dispatch(getSingleProduct(id));
+    }
+    return () => (subscribed = false);
   }, []);
 
   const productData = useSelector((state) => state.Products.product[0]);
-  //   console.log("The product is", productData);
+
   const loadingStatus = useSelector((state) => state.Products.loading);
   // console.log("The loading status  is", loadingStatus);
 
@@ -33,7 +37,7 @@ const ProductView = () => {
   };
   return (
     <>
-      <section className=" h-full bg-gray-100 py-16 ">
+      <section className=" h-full bg-white md:bg-gray-100 py-16 ">
         {loadingStatus ? (
           <main className=" w-full text-orange text-center mt-7">
             <div>Please wait</div>
@@ -44,27 +48,31 @@ const ProductView = () => {
             </div>
           </main>
         ) : (
-          <div className="  w-mobile md:w-container_width mx-auto rounded-lg shadow  bg-white h-auto p-3 ">
+          <div className="  w-full md:w-container_width mx-auto rounded-lg md:shadow  bg-white h-auto p-3 ">
             <div className="grid md:grid-cols-3 gap-14 items-center ">
               <div className="">
                 <div className="h-80 w-full bg-white flex justify-center ">
-                  <img src={productData.imageUrl[0]} alt="" />
+                  <img src={productData?.imageUrl[0]} alt="" />
                 </div>
                 <div className="my-4 flex justify-center space-x-3   h-20   ">
-                  {productData &&
-                    productData.imageUrl.map((prdImg) => {
-                      return (
-                        <div className="bg-white  flex jusify-center   rounded-lg ">
-                          <img src={prdImg} alt="" />
-                        </div>
-                      );
-                    })}
+                  {productData?.imageUrl.length < 2
+                    ? ""
+                    : productData?.imageUrl.map((prdImg) => {
+                        return (
+                          <div
+                            key={prdImg}
+                            className="bg-white  flex jusify-center   rounded-lg "
+                          >
+                            <img src={prdImg} alt="" />
+                          </div>
+                        );
+                      })}
                 </div>
               </div>
 
               <div className=" md:col-span-2  flex flex-col space-y-2">
                 <div className="flex justify-between items-center">
-                  <p className="text-lg text-orange ">{productData.name}</p>
+                  <p className="text-lg text-orange ">{productData?.name}</p>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-8 w-8 text-green"
@@ -82,20 +90,20 @@ const ProductView = () => {
                 </div>
 
                 <p className="text-2xl font-bold">
-                  $ {productData.salePrice.toLocaleString()}
+                  $ {productData?.salePrice.toLocaleString()}
                 </p>
                 <p className="text-sm">
                   {" "}
-                  <s>$ {productData.price.toLocaleString()}</s>
+                  <s>$ {productData?.price.toLocaleString()}</s>
                 </p>
                 <p>
-                  <b>Availability:</b> {productData.availability}
+                  <b>Availability:</b> {productData?.availability}
                 </p>
                 <p>
-                  <b>Condition:</b> {productData.condition}
+                  <b>Condition:</b> {productData?.condition}
                 </p>
                 <p>
-                  <b>Items left:</b> {productData.quantity}
+                  <b>Items left:</b> {productData?.quantity}
                 </p>
                 <p className="text-orange ">Offers for you</p>
                 <li>Lorem ipsum dolor sit amet.</li>
@@ -111,7 +119,7 @@ const ProductView = () => {
             </div>
             <div className=" w-full mt-3 space-y-3">
               <p className="text-xl font-bold ">Description</p>
-              <p>{productData.description}</p>
+              <p>{productData?.description}</p>
             </div>
           </div>
         )}

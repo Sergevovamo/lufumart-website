@@ -6,6 +6,7 @@ const initialState = {
   categories: [],
   sub_categories: [],
   cart: [],
+  orderPaid: null,
 };
 
 export const productsReducer = (state = initialState, action) => {
@@ -53,6 +54,12 @@ export const productsReducer = (state = initialState, action) => {
         ...state,
         cart: action.payload,
         loading: false,
+      };
+    case types.MAKE_ORDER:
+      return {
+        ...state,
+        loading: false,
+        orderPaid: action.payload,
       };
 
     default:

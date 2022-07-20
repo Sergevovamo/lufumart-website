@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as types from "../types";
 import toast from "react-hot-toast";
+
 const PRODUCT_API = "https://api-v1.lufumart.com/api/v1";
 // authentication using the stored token
 const authToken = () => {
@@ -22,7 +23,7 @@ const authToken = () => {
 // get products
 export const getProducts = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${PRODUCT_API}/products`, authToken());
+    const response = await axios.get(`${PRODUCT_API}/products`);
     const data = await response.data;
     if (data) {
       dispatch({
@@ -168,5 +169,35 @@ export const removeProduct = (prodId) => async (dispatch) => {
     }
   } catch (error) {
     console.log(error.response);
+  }
+};
+
+// make payment for the order
+export const makeOrder = () => async (dispatch) => {
+  // const { deliveryAddress, paymentMethod } = payload;
+
+  const body = JSON.stringify({
+    deliveryAddress: "Electronic house,Luthuli Avenue ",
+    paymentMethod: "Cash on delivery",
+  });
+  try {
+    const response = await axios.post(
+      "https://api-v1.lufumart.com/api/v1/orders/create",
+      body,
+      authToken()
+    );
+    const data = await response.data;
+    console.log("Data is", data);
+    if (data) {
+      dispatch({
+        type: types.MAKE_ORDER,
+        payload: data,
+      });
+      toast.success(data.message);
+      getUserCartItems();
+    }
+  } catch (error) {
+    toast.error(error.response.data.message);
+    console.log(error.response.data.message);
   }
 };

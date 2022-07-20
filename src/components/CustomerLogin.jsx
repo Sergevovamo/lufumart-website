@@ -3,17 +3,15 @@ import favicon from "../favicon.png";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { customerLogin } from "../redux/actions/AuthActions";
-
-import { useNavigate, useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 const CustomerLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // const origin = location.state?.from?.pathname || "/";
-
+  const path = location?.state?.from?.pathname || "/";
+  console.log("path", path);
   const auth = useSelector((state) => state.auth.isAuthenticated);
 
   const {
@@ -33,7 +31,7 @@ const CustomerLogin = () => {
 
   useEffect(() => {
     if (auth) {
-      navigate("/");
+      navigate(path);
     }
   }, [auth]);
   return (

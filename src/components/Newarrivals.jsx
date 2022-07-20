@@ -14,7 +14,7 @@ import {
 // install Swiper modules
 SwiperCore.use([Navigation]);
 
-const Featured = () => {
+const Newarrivals = () => {
   const swiperRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Featured = () => {
   return (
     <section className="py-6 bg-uniform_grey">
       <div className="w-mobile md:w-container_width mx-auto">
-        <h2 className="text-2xl text-center mb-8">FEATURED PRODUCTS</h2>
+        <h2 className="text-2xl text-center mb-8">NEW ARRIVALS</h2>
         <Swiper
           // install Swiper modules
           ref={swiperRef}
@@ -118,8 +118,11 @@ const Featured = () => {
                 return (
                   <SwiperSlide
                     key={_id}
-                    className="bg-white p-2.5 rounded space-y-3 "
+                    className="bg-white p-2.5 rounded space-y-3 relative"
                   >
+                    <div className="absolute right-0 bg-red text-white px-3 py-1 rounded-tl-full rounded-bl-full top-[9px] animate-bounce">
+                      New
+                    </div>
                     <div
                       onClick={() => handleProductView(_id)}
                       className="h-36 flex justify-center cursor-pointer"
@@ -162,4 +165,4 @@ const Featured = () => {
   );
 };
 
-export default Featured;
+export default Newarrivals;

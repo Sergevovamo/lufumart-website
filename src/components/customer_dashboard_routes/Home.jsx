@@ -7,7 +7,7 @@ const Home = ({ currentUser }) => {
         <div className="shadow rounded-lg flex flex-col justify-center bg-white items-center p-3">
           <p className="font-bold">Items in your cart</p>
           <p className="font-bold bg-orange text-white p-2 rounded-lg h-10 w-10  text-center mt-3 ">
-            {currentUser?.cart?.length}
+            {currentUser?.cart?.length || 0}
           </p>
         </div>
         <div className="shadow rounded-lg flex flex-col justify-center bg-white items-center p-3">

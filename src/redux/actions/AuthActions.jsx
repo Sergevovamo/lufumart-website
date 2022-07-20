@@ -8,14 +8,12 @@ const AUTH_API = "https://api-v1.lufumart.com/api/v1/auth";
 export const authToken = () => {
   // Get token from localStorage
   const token = localStorage.getItem("loginToken");
-
   // Headers
   const config = {
     headers: {
       "content-Type": "application/json",
     },
   };
-
   // if token exist ,add authorizarion
 
   if (token) {
@@ -24,6 +22,7 @@ export const authToken = () => {
 
   return config;
 };
+
 // user auth
 
 export const userAuth = () => async (dispatch) => {
@@ -70,6 +69,8 @@ export const customerRegister = (payload) => async (dispatch) => {
         type: types.CUSTOMER_REGISTER,
         payload: data,
       });
+      const token = data.token;
+      localStorage.setItem("loginToken", token);
       toast.success("Succesfully registered");
     }
   } catch (error) {
@@ -77,9 +78,8 @@ export const customerRegister = (payload) => async (dispatch) => {
       type: types.CUSTOMER_REGISTER_FAIL,
       payload: error.response.data.message,
     });
-
-    // console.log(error.response.data.message);
     toast.error(error.response.data.message);
+    localStorage.removeItem("loginToken");
   }
 };
 
@@ -134,11 +134,12 @@ export const customerLogin = (payload) => async (dispatch) => {
 // logout
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem("loginToken");
-  toast.success("Succesfully logged out");
   dispatch({
     type: types.LOGOUT,
   });
+  localStorage.removeItem("loginToken");
+  toast.success("Succesfully logged out");
+  userAuth();
 };
 
 // get customer address

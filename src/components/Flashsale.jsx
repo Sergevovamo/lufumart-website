@@ -14,7 +14,7 @@ import {
 // install Swiper modules
 SwiperCore.use([Navigation]);
 
-const Featured = () => {
+const Flashsale = () => {
   const swiperRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Featured = () => {
   return (
     <section className="py-6 bg-uniform_grey">
       <div className="w-mobile md:w-container_width mx-auto">
-        <h2 className="text-2xl text-center mb-8">FEATURED PRODUCTS</h2>
+        <h2 className="text-2xl text-center mb-8">FLASH SALE</h2>
         <Swiper
           // install Swiper modules
           ref={swiperRef}
@@ -162,4 +162,4 @@ const Featured = () => {
   );
 };
 
-export default Featured;
+export default Flashsale;

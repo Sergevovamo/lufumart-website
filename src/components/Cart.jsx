@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Footer from "./Footer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import {
@@ -14,7 +13,11 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserCartItems());
+    let suscribed = true;
+    if (suscribed) {
+      dispatch(getUserCartItems());
+    }
+    return () => (suscribed = false);
   }, []);
 
   const CartItems = useSelector((state) => state.Products.cart.cartProducts);
@@ -68,11 +71,11 @@ const Cart = () => {
             <div className="col-span-2 bg-white shadow  rounded pb-5">
               <div>
                 {totalCartItems === 1 ? (
-                  <p className="p-2  bg-gray-100 text-2xl  text-center">
+                  <p className="p-2  border-b-2 border-dashed text-xl  ">
                     There is 1 item in your cart
                   </p>
                 ) : (
-                  <p className="p-2  bg-gray-100 text-2xl  text-center">
+                  <p className="p-2  border-b-2 border-dashed text-2xl  ">
                     There are {totalCartItems || 0} items in your cart
                   </p>
                 )}
@@ -106,25 +109,17 @@ const Cart = () => {
 
                   return (
                     <div key={_id} className="  px-4">
-                      <main
-                        className="flex b justify-between py-4"
-                        style={{
-                          borderBottom: "1px solid rgba(128, 128, 128, 0.418)",
-                        }}
-                      >
+                      <main className="flex justify-between py-3 border-b-[1px] border-gray-200">
                         <div className="inline-flex gap-4 items-center">
-                          <div className="h-20 w-20 flex justify-center items-center">
-                            <img src={imageUrl[0]} alt="" />
+                          <div className="h-32 w-20 ">
+                            <img src={imageUrl[0]} alt="" className="h-full" />
                           </div>
                           <div>
                             <p>{name}</p>
-                            <p className="text-xl">
-                              $ {price.toLocaleString()}
+                            <p className="text-lg">
+                              $ {salePrice.toLocaleString()}
                             </p>
-                            <p>
-                              <s>$ {salePrice.toLocaleString()}</s>
-                            </p>
-                            <p>Vat: $ {vat}</p>
+                            <p className="text-sm">Vat: $ {vat}</p>
                           </div>
                         </div>
                         <div className="flex flex-col justify-center items-end space-y-7">
@@ -174,7 +169,7 @@ const Cart = () => {
             </div>
             <div className=" bg-white h-full md:h-56 shadow-sm rounded ">
               <div>
-                <p className="p-2  bg-gray-100 text-2xl text-center  ">
+                <p className="p-2  border-b-2 border-dashed text-xl  ">
                   Cart summary
                 </p>
               </div>
@@ -211,7 +206,6 @@ const Cart = () => {
           </div>
         )}
       </section>
-      <Footer />
     </>
   );
 };

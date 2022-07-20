@@ -4,14 +4,16 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { customerRegister } from "../redux/actions/AuthActions";
-import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
+// import toast from "react-hot-toast";
 
 const CustomerRegister = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const error = useSelector((state) => state?.auth?.errorMsg);
-  // console.log("ERrors", error);
+
+  const error = useSelector((state) => state?.auth?.errorMsg);
+  const auth = useSelector((state) => state.auth.isAuthenticated);
+  // console.log("Register error is", error);
 
   // useEffect(() => {
   //   if (!error) {
@@ -30,13 +32,19 @@ const CustomerRegister = () => {
     shouldFocusError: true,
   });
   // getting the fileds value
+
   const onSubmit = (data) => {
     if (data) {
       dispatch(customerRegister(data));
-      navigate("/login/customer");
+      console.log(data);
     }
   };
-
+  // ensuring the user is authenticated
+  useEffect(() => {
+    if (auth) {
+      navigate("/");
+    }
+  }, [auth]);
   return (
     <>
       <div className=" items-center flex justify-center  min-h-screen h-full w-full bg-gray-100 py-6  ">
@@ -126,7 +134,7 @@ const CustomerRegister = () => {
             >
               REGISTER
             </button>
-            <ToastContainer />
+
             <div>
               I already have an account.
               <Link to="/login/customer">

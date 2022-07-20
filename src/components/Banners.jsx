@@ -1,23 +1,28 @@
 import React from "react";
 
 const Banners = () => {
-    return (
-        <section className="bg-uniform_grey">
-            <div className="w-container_width mx-auto ">
-                <div className="   grid gap-3 md:flex py-6 md:space-x-4 ">
-                    <div className="p-2 w-full h-36 flex justify-center bg-black text-white rounded ">
-                        <p>AD</p>
-                    </div>
-                    <div className="p-2 w-full h-36 flex justify-center bg-black text-white rounded ">
-                        <p>AD</p>
-                    </div>
-                    <div className="p-2 w-full h-36 flex justify-center bg-black text-white rounded ">
-                        <p>AD</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+  const banners = [1, 2, 3];
+  return (
+    <section className="bg-uniform_grey py-9 md:py-2">
+      <div className="w-container_width mx-auto ">
+        {/* <marquee behavior="" direction=""> */}
+        <div className="   grid grid-cols-2 md:grid-cols-3 gap-3">
+          {banners.map((banner, index) => {
+            return (
+              <div key={index} className=" w-full h-36 flex">
+                <img
+                  src="https://demo.activeitzone.com/ecommerce/public/uploads/all/HordtzBXzs1JUTTFpRyGLPYO26Z9J4IVt3jLeOsM.png"
+                  alt=""
+                  className="rounded"
+                />
+              </div>
+            );
+          })}
+        </div>
+        {/* </marquee> */}
+      </div>
+    </section>
+  );
 };
 
 export default Banners;

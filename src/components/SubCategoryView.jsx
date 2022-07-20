@@ -15,7 +15,9 @@ const SubCategoryView = () => {
   );
   // sub category names
   const subCategories = useSelector((state) => state?.Products?.sub_categories);
-  // console.log("subCategories", subCategories);
+  const loading = useSelector((state) => state?.Products?.loading);
+
+  console.log("loading", loading);
   const specific = subCategories.find((subCat) => subCat._id === id);
 
   // console.log("Specific sub category is", specific?.name);
@@ -29,7 +31,7 @@ const SubCategoryView = () => {
   //   function to naviate specific product
   const handleViewProduct = (id) => {
     console.log("product id is", id);
-    // navigate(`/product_view/${id}`);
+    navigate(`/product_view/${id}`);
   };
   return (
     <section className="py-10 bg-uniform_grey">
@@ -38,8 +40,8 @@ const SubCategoryView = () => {
           {specific?.name} ({total || 0})
         </p>
       </div>
+
       <div className="w-mobile md:w-container_width mx-auto grid sm:grid-cols-5 gap-3">
-        {/* <h className="text2xl">ID IS- {id}</h> */}
         {productsBySubCategories?.products?.map((prd) => {
           const { name, price, imageUrl, _id } = prd;
           //   function to trucate the product names
