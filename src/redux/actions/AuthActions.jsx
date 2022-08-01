@@ -1,10 +1,10 @@
 import * as types from "../types";
 import axios from "axios";
 import toast from "react-hot-toast";
+
 const AUTH_API = "https://api-v1.lufumart.com/api/v1/auth";
 
 // Authentication using the stored token
-
 export const authToken = () => {
   // Get token from localStorage
   const token = localStorage.getItem("loginToken");
@@ -24,7 +24,6 @@ export const authToken = () => {
 };
 
 // user auth
-
 export const userAuth = () => async (dispatch) => {
   try {
     const response = await axios.get(`${AUTH_API}/profile`, authToken());

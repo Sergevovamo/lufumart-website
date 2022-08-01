@@ -1,16 +1,14 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 // import Swiper core and required modules
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
-import {
-  getProducts,
-  getSingleProduct,
-} from "../redux/actions/ProductsActions";
+import { getSingleProduct } from "../redux/actions/ProductsActions";
 // install Swiper modules
 SwiperCore.use([Navigation]);
 
@@ -18,22 +16,35 @@ const Flashsale = () => {
   const swiperRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //   get products from redux
+
+  const isLoading = useSelector((state) => state?.Products?.loading);
+
+  // view individual product
+  const handleProductView = (id) => {
+    navigate(`/product_view/${id}`);
+  };
+
+  // fetch flashsales
+  const [flashsaleProducts, setFlashsaleProducts] = useState([]);
   useEffect(() => {
     let subscribed = true;
     if (subscribed) {
-      dispatch(getProducts());
+      getFlashSales();
     }
     return () => (subscribed = false);
   }, []);
-
-  const loadedProducts = useSelector((state) => state?.Products?.products);
-  const isLoading = useSelector((state) => state?.Products?.loading);
-  // view individual product
-  const handleProductView = (id) => {
-    dispatch(getSingleProduct(id));
-    navigate(`/product_view/${id}`);
+  const getFlashSales = async () => {
+    try {
+      const response = await axios.get(
+        "https://api-v1.lufumart.com/api/v1/product-promotions/lufumart-app/flash-sale-promotions"
+      );
+      const data = await response.data;
+      setFlashsaleProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  const totalFlashsales = flashsaleProducts?.length;
   return (
     <section className="py-6 bg-uniform_grey">
       <div className="w-mobile md:w-container_width mx-auto">
@@ -65,7 +76,12 @@ const Flashsale = () => {
           <div onClick={() => swiperRef.current.swiper.slidePrev()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10  p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 left-0"
+              // className="h-10 w-10  p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 left-0"
+              className={
+                totalFlashsales <= 6
+                  ? "hidden"
+                  : "h-10 w-10  p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 left-0"
+              }
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -81,7 +97,11 @@ const Flashsale = () => {
           <div onClick={() => swiperRef.current.swiper.slideNext()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10 p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 right-0"
+              className={
+                totalFlashsales <= 6
+                  ? "hidden"
+                  : "h-10 w-10 p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 right-0"
+              }
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -113,8 +133,8 @@ const Flashsale = () => {
             </main>
           ) : (
             <>
-              {loadedProducts?.map((loadedProduct) => {
-                const { _id, name, salePrice, imageUrl } = loadedProduct;
+              {flashsaleProducts?.map((flashsaleProduct) => {
+                const { _id, name, salePrice, imageUrl } = flashsaleProduct;
                 return (
                   <SwiperSlide
                     key={_id}

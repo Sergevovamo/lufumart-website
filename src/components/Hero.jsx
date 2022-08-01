@@ -152,7 +152,7 @@ const Hero = () => {
     <div className="bg-uniform_grey py-10">
       <div className="w-mobile md:w-container_width h-[400px] mx-auto grid bg-white rounded md:grid-cols-4 gap-3">
         <div className=" p-2">
-          <h2 className="text-orange animate-bounce text-center text-xl">
+          <h2 className="text-orange animate-bounce text-center text-xl -z-10">
             Enjoy amazing deals!!
           </h2>
           <div className="grid grid-rows-2 h-full  items-center">
@@ -160,13 +160,15 @@ const Hero = () => {
               {deals.map((deal, index) => {
                 return (
                   <div key={index} className="shadow rounded-lg p-2">
-                    <div className="h-20 flex border-b-[1px] border-black">
+                    <div className="h-10 flex justify-center ">
                       <img
-                        src="https://res.cloudinary.com/lufumart-ecommerce/image/upload/v1652469600/bcjykjkjuhrb2cfujnyr.jpg"
+                        src="https://res.cloudinary.com/lufumart-ecommerce/image/upload/v1654433142/dbmng2xdi2ynm77qeamy.jpg"
                         alt=""
                       />
                     </div>
-                    <h2>Fashion baby products </h2>
+                    <h2 className="whitespace-nowrap overflow-hidden text-ellipsis">
+                      Fashion baby products{" "}
+                    </h2>
                   </div>
                 );
               })}
@@ -189,11 +191,11 @@ const Hero = () => {
                     />
                   </svg>
                 </div>
-                <div>
+                <div className="text-center space-y-2">
                   <h2>BECOME A SELLER</h2>
-                  <p className=" text-center text-green  cursor-pointer">
+                  <button className="  bg-green text-white rounded-lg p-2 ">
                     Register now
-                  </p>
+                  </button>
                 </div>
               </div>
             </div>
@@ -284,4 +286,4 @@ const images = [
   },
 ];
 
-const deals = [1, 2];
+const deals = [1, 2, 3, 4];

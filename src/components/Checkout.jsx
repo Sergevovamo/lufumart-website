@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserCartItems, makeOrder } from "../redux/actions/ProductsActions";
-
+import MapComponent from "./MapComponent";
 const Checkout = () => {
   const dispatch = useDispatch();
   const orderedItems = useSelector(
@@ -19,18 +19,28 @@ const Checkout = () => {
   }, []);
 
   const handlePay = () => {
-    dispatch(makeOrder());
+    dispatch(makeOrder(data));
   };
 
   const total = orderedItems?.length;
-
+  // open google maps
+  const [open, setOpen] = useState(false);
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  console.log("Actual address is", deliveryAddress);
+  const data = {
+    deliveryAddress,
+    paymentMethod: "Mpesa",
+  };
   return (
     <section className="py-14 bg-uniform_grey">
       <div className="w-mobile md:w-container_width  grid md:grid-cols-5 gap-4 mx-auto">
         <div className="space-y-5 md:md:col-span-3">
           <div>
             <h2 className="text-lg my-2">Delivery Address</h2>
-            <div className="flex justify-between items-center rounded-lg bg-white p-2 space-x-5">
+            <div
+              // onClick={() => setOpen(true)}
+              className="cursor-pointer  flex justify-between items-center rounded-lg bg-white p-2 space-x-5"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-11 w-11 p-1.5 bg-orange text-white rounded-full"
@@ -50,7 +60,9 @@ const Checkout = () => {
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <p className="flex-auto">KOja</p>
+              <p className="flex-auto">
+                {deliveryAddress || "Search your delivery location "}
+              </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -130,22 +142,19 @@ const Checkout = () => {
           </div> */}
 
           <div className="grid grid-cols-2 gap-2">
-            {loop.map((l) => {
-              const {} = l;
+            {orderedItems?.map((orderedItem) => {
+              const { name, price, quantity, imageUrl, _id } = orderedItem;
               return (
-                <div className="bg-white p-2 rounded">
+                <div key={_id} className="bg-white p-2 rounded">
                   <div className="h-[100px] w-full flex justify-center">
-                    <img
-                      src="https://res.cloudinary.com/lufumart-ecommerce/image/upload/v1658162654/fjqn2txhajepj6tsgi6v.jpg"
-                      alt=""
-                    />
+                    <img src={imageUrl[0]} alt={name} />
                   </div>
-                  <p className="my-2">Black & white jamsuit </p>
+                  <p className="my-2">{name}</p>
                   <div className="flex justify-between">
                     <p>
-                      Qty: <span>5</span>{" "}
+                      Qty: <span>{quantity}</span>{" "}
                     </p>
-                    <p className="text-green"> $ 20.5</p>
+                    <p className="text-green"> $ {price}</p>
                   </div>
                 </div>
               );
@@ -167,6 +176,12 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+      {open ? (
+        <MapComponent
+          setOpen={setOpen}
+          setDeliveryAddress={setDeliveryAddress}
+        />
+      ) : null}
     </section>
   );
 };

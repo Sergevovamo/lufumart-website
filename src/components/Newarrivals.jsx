@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import Swiper core and required modules
@@ -19,16 +19,22 @@ const Newarrivals = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //   get products from redux
+
   useEffect(() => {
     let subscribed = true;
     if (subscribed) {
-      dispatch(getProducts());
+      loadProducts();
     }
     return () => (subscribed = false);
   }, []);
-
-  const loadedProducts = useSelector((state) => state?.Products?.products);
+  const loadProducts = useCallback(() => {
+    dispatch(getProducts());
+  }, []);
+  const loadedProducts = useSelector((state) => state.Products.products);
+  // console.log("loadedProducts are", loadedProducts);
   const isLoading = useSelector((state) => state?.Products?.loading);
+  // const loaded = useSelector((state) => state?.Products);
+  // console.log(loaded);
   // view individual product
   const handleProductView = (id) => {
     dispatch(getSingleProduct(id));
@@ -141,7 +147,7 @@ const Newarrivals = () => {
                       <svg
                         // onClick={() => alert("Clicked")}
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-orange z-50"
+                        className="h-6 w-6 text-orange "
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"

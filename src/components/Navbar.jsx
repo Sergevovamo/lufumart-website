@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCategories,
-  getSubCategories,
+  getSubCategoryByCategory,
   getUserCartItems,
 } from "../redux/actions/ProductsActions";
 import { logout } from "../redux/actions/AuthActions";
@@ -12,18 +12,24 @@ import { logout } from "../redux/actions/AuthActions";
 const Navbar = () => {
   let dispatch = useDispatch();
   let navigate = useNavigate();
+
   //   category and navbar state
   const [isFixed, setisFixed] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [subCategoryMenu, setSubCategoryMenu] = useState(false);
-  const [heading, setHeading] = useState("");
-  const [filtered_sub_category, set_filtered_sub_category] = useState([]);
-  const [openSearch, setOpenSearch] = useState(false);
+  const [hideCategories, setHideCategories] = useState(false);
+  const [title, setTitle] = useState("");
+  const [isAuth, setIsAuth] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [openSearch, setOpenSearch] = useState(false);
   // getting all the categories from state
   const categories = useSelector((state) => state?.Products?.categories);
+
+  // console.log("Categories are", categories);
   const categoriesLoading = useSelector((state) => state?.Products?.loading);
+  // console.log("Loading is", categoriesLoading);
   // getting all the sub-categories from state
   const subCategories = useSelector((state) => state?.Products?.sub_categories);
+  // console.log("subCategories are", subCategories);
   // auth state
   // check if user is authenticated
   const [dashboard, setDashboard] = useState("");
@@ -32,24 +38,18 @@ const Navbar = () => {
   const auth = useSelector((state) => state.auth.isAuthenticated);
   // console.log("Auth", auth);
 
-  // dispatch categories and sub-categories
+  // dispatch categories
   useEffect(() => {
+    let subscribed = true;
+    if (subscribed) {
+      loadCategories();
+    }
+    return () => (subscribed = false);
+  }, []);
+
+  const loadCategories = useCallback(() => {
     dispatch(getCategories());
-  }, []);
-  useEffect(() => {
-    dispatch(getSubCategories());
-  }, []);
-
-  // show sub categories
-  const handleShow = (sub) => {
-    set_filtered_sub_category(sub);
-    setMenu(true);
-    setSubCategoryMenu(true);
-  };
-  // const handleHide = () => {
-  //   setMenu(false);
-
-  // };
+  });
 
   // cart totals
   useEffect(() => {
@@ -77,36 +77,16 @@ const Navbar = () => {
     });
   };
   fixedNav();
-  // show the categories and sub-categories
-  const showMenus = () => {
-    setMenu(true);
-  };
 
-  const hideMenus = () => {
-    setSubCategoryMenu(false);
-    setMenu(false);
-  };
-  const showSubMenu = () => {
-    setSubCategoryMenu(true);
-    setMenu(true);
-  };
-  const hideSubmenu = () => {
-    setMenu(false);
-    setSubCategoryMenu(false);
-  };
-  const handleView = (id) => {
-    setSubCategoryMenu(false);
-    setMenu(false);
-    navigate(`/sub-category/${id}`);
-  };
-  // handle authentication
   useEffect(() => {
     if (auth) {
       setDashboard("Dashboard");
       setSignUp("Logout");
+      setIsAuth(true);
     } else {
       setDashboard("Register");
       setSignUp("Login");
+      setIsAuth(false);
     }
   }, [auth]);
 
@@ -126,19 +106,40 @@ const Navbar = () => {
       navigate("/login/customer");
     }
   };
+  // functions to show and hide categories and sub_categories
+  const handleShowSubCtegories = (id, name) => {
+    dispatch(getSubCategoryByCategory(id));
+    setHideCategories(true);
+    setTitle(name);
+  };
+  const handleProductSubCategiesView = (id, name) => {
+    setHideCategories(false);
+    setMenu(false);
+    navigate(`/sub_prd/${id}/${name}`);
+  };
 
+  const handleToggle = () => {
+    if (isAuth) {
+      setIsDropdownOpen(!isDropdownOpen);
+    } else {
+      navigate("/login/customer");
+    }
+  };
+  const enterDashboard = () => {
+    navigate("/dashboard/customer");
+    setIsDropdownOpen(false);
+  };
+  const handleLogout = () => {
+    dispatch(logout());
+    setIsDropdownOpen(false);
+  };
   return (
     <section
       className={
         isFixed
           ? "  bg-white h-[85px]  z-50  fixed left-0 right-0 top-0  border-b-[1px] border-gray-200"
-          : " bg-white h-[85px] z-50 "
+          : " bg-white h-[85px] z-50 border-b-[1px]"
       }
-      // className={
-      //   isFixed
-      //     ? "  bg-white h-[85px]  fixed left-0 right-0 top-0  border-b-[1px] border-gray-200"
-      //     : " bg-white h-[85px]  fixed left-0 right-0 top-0  border-b-[1px] border-gray-200"
-      // }
     >
       <div className=" relative w-mobile h-full sm:w-container_width mx-auto flex justify-between items-center space-x-6">
         <div className="text-orange" onClick={() => setMenu(!menu)}>
@@ -166,13 +167,31 @@ const Navbar = () => {
             />
           </div>
         </Link>
+
         <div
-          onMouseEnter={showMenus}
-          onMouseLeave={hideMenus}
-          className="text-orange relative"
+          className="hidden sm:block text-orange relative md:flex items-center space-x-1 cursor-pointer"
+          onClick={() => setMenu(!menu)}
         >
-          <h2 className="hidden sm:block ">CATEGORIES</h2>
-          <div className="absolute left-0 w-full right-0 h-8"></div>
+          <h2 className=" text-lg ">Categories</h2>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={
+              menu
+                ? "h-5 w-5 rotate-180 transition"
+                : "h-5 w-5 rotate-0 transition"
+            }
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              // d={menu ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
         </div>
         <div className="flex-auto hidden sm:block">
           <form>
@@ -224,24 +243,49 @@ const Navbar = () => {
               />
             </svg>
           </div> */}
-          <Link to="/login/customer">
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7 text-orange sm:hidden"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
+
+          <div className="relative">
+            <svg
+              onClick={handleToggle}
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-7 w-7 text-orange sm:hidden"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d={
+                  isAuth
+                    ? "M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+                    : "M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                }
+              />
+            </svg>
+            <div
+              className={
+                isDropdownOpen
+                  ? "md:hidden block  z-50 absolute -left-16 top-14 w-[153px]    space-y-2 bg-white p-2 shadow rounded-bl-xl"
+                  : "hidden"
+              }
+            >
+              <button
+                onClick={handleLogout}
+                className="p-1.5 bg-orange text-white rounded w-full"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+                Logout
+              </button>
+              <button
+                onClick={enterDashboard}
+                className="p-1.5  bg-orange text-white rounded w-full"
+              >
+                Dashboard
+              </button>
             </div>
-          </Link>
+          </div>
+
           <Link to="/cart">
             <div className="text-orange  relative ml-2 ">
               <svg
@@ -260,7 +304,6 @@ const Navbar = () => {
               </svg>
 
               <div className="absolute -top-3 left-4 bg-orange text-white w-5 h-5 rounded-full flex items-center justify-center p-2">
-                {/* <span>{cartTotal || 0}</span> */}
                 <span>{cartTotal || 0}</span>
               </div>
             </div>
@@ -270,10 +313,9 @@ const Navbar = () => {
         <div
           className={
             menu
-              ? "sm:shadow  md:h-[400px] h-screen overflow-auto  w-[250px] bg-white text-black z-50  absolute md:left-[180px] translate-x-[-42px] md:translate-x-0  top-[85px] transition"
+              ? "sm:shadow  h-[100vh] sm:h-[60vh]  overflow-auto  w-[270px] bg-white text-black z-50  absolute md:left-[180px] translate-x-[-42px] md:translate-x-0  top-[85px] transition"
               : "md:hidden translate-x-[-300px] h-screen overflow-auto w-[250px] absolute  bg-white top-[85px] transition z-50"
           }
-          // className="h-[400px] w-[250px] bg-white text-black z-50 overflow-y-auto absolute left-[180px] top-[85px]"
         >
           <h2 className="p-2 text-xl text-orange border-b-2 border-dashed sm:hidden block">
             Categories
@@ -296,35 +338,23 @@ const Navbar = () => {
               </div>
             </main>
           ) : (
-            <ul>
+            <div>
               {categories?.map((category) => {
-                let { name, _id } = category;
-                const filteredSubCategories = subCategories?.filter(
-                  (filteredSubCategory) =>
-                    filteredSubCategory?.category?._id === _id
-                );
-                // console.log("filteredSubCategories are", filteredSubCategories);
-                return (
-                  <Fragment>
-                    <div
-                      onMouseEnter={() => handleShow(filteredSubCategories)}
-                      // onMouseLeave={handleHide}
-                      onClick={() =>
-                        heading !== name ? setHeading(name) : setHeading("")
-                      }
-                      key={_id}
-                      className="  flex justify-between items-center px-3 py-1.5 hover:bg-gray-100"
-                    >
-                      <li className="font-bold md:font-normal">{name} </li>
-                      {/* <li>{heading === name ? heading : ""}</li> */}
+                const { name, _id } = category;
 
+                return (
+                  <ul
+                    key={_id}
+                    className={hideCategories ? "hidden" : "block "}
+                  >
+                    <div
+                      onClick={() => handleShowSubCtegories(_id, name)}
+                      className="flex justify-between items-center p-1.5 hover:bg-gray-50 cursor-pointer"
+                    >
+                      <li>{name}</li>
                       <svg
+                        className="h-5 w-5 text-orange"
                         xmlns="http://www.w3.org/2000/svg"
-                        className={
-                          heading === name
-                            ? "rotate-[-90deg]  transition md:rotate-[0deg] h-5 w-5 text-orange"
-                            : "rotate-[90deg]   transition md:rotate-[0deg] h-5 w-5 text-orange"
-                        }
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
@@ -335,50 +365,48 @@ const Navbar = () => {
                         />
                       </svg>
                     </div>
-                    <div
-                      className={heading === name ? "md:hidden " : " hidden"}
-                    >
-                      {filteredSubCategories.map((item) => {
-                        const { name, _id } = item;
-                        return (
-                          <div
-                            onClick={() => handleView(_id)}
-                            className="text-gray-600 px-4 my-1.5"
-                          >
-                            <p> {name}</p>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </Fragment>
+                  </ul>
                 );
               })}
-            </ul>
-          )}
-        </div>
-        <div
-          onMouseEnter={showSubMenu}
-          onMouseLeave={hideSubmenu}
-          className={
-            subCategoryMenu
-              ? "sm:bg-gray-200  absolute hidden sm:block sm:top-[85px] top-[130px] sm:left-[430px]   z-50 w-[250px] sm:h-[400px] h-screen p-2 "
-              : "hidden"
-          }
-        >
-          <ul>
-            {filtered_sub_category?.map((item) => {
-              const { name, _id } = item;
-              return (
-                <li
-                  onClick={() => handleView(_id)}
-                  key={_id}
-                  className="my-2 hover:text-orange cursor-pointer"
+              <div className={hideCategories ? "block" : "hidden"}>
+                <div
+                  onClick={() => setHideCategories(false)}
+                  className="flex  space-x-5 items-center cursor-pointer p-2   bg-orange font-bold text-white"
                 >
-                  {name}
-                </li>
-              );
-            })}
-          </ul>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M11 17l-5-5m0 0l5-5m-5 5h12"
+                    />
+                  </svg>
+                  <p> {title}</p>
+                </div>
+                <ul className="bg-white">
+                  {subCategories?.map((sub) => {
+                    const { name, _id } = sub;
+
+                    return (
+                      <li
+                        key={_id}
+                        onClick={() => handleProductSubCategiesView(_id, name)}
+                        className="my-[4px] mx-3  hover:text-orange  cursor-pointer"
+                      >
+                        {name}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const PRODUCT_API = "https://api-v1.lufumart.com/api/v1";
 // authentication using the stored token
-const authToken = () => {
+export const authToken = () => {
   // getting the token from the local storage
   const token = localStorage.getItem("loginToken");
   // header
@@ -53,36 +53,59 @@ export const getSingleProduct = (id) => async (dispatch) => {
 };
 // get all categories
 export const getCategories = () => async (dispatch) => {
-  const response = await axios.get(`${PRODUCT_API}/product-categories`);
-  const data = await response.data;
-  // console.log(data);
-  if (data) {
-    dispatch({
-      type: types.GET_CATEGORIES,
-      payload: data,
-    });
+  try {
+    const response = await axios.get(`${PRODUCT_API}/product-categories`);
+    const data = await response.data;
+    // console.log(data);
+    if (data) {
+      dispatch({
+        type: types.GET_CATEGORIES,
+        payload: data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 // get all sub-categories
-export const getSubCategories = () => async (dispatch) => {
-  const response = await axios.get(`${PRODUCT_API}/product-sub-categories`);
-  const data = await response.data;
-  // console.log(data);
-  if (data) {
-    dispatch({
-      type: types.GET_SUB_CATEGORIES,
-      payload: data,
-    });
+// export const getSubCategories = () => async (dispatch) => {
+//   const response = await axios.get(`${PRODUCT_API}/product-sub-categories`);
+//   const data = await response.data;
+//   // console.log("sub category id", data);
+//   if (data) {
+//     dispatch({
+//       type: types.GET_SUB_CATEGORIES,
+//       payload: data,
+//     });
+//   }
+// };
+
+// get sub-category by category
+export const getSubCategoryByCategory = (categoryId) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `${PRODUCT_API}/product-sub-categories/get-sub-category-by-category?categoryId=${categoryId}`
+    );
+    const data = await response.data;
+    if (data) {
+      dispatch({
+        type: types.GET_SUB_CATEGORIES_BY_CATEGORY,
+        payload: data,
+      });
+    }
+  } catch (error) {
+    console.log(error.response.data.message);
   }
 };
+
 // get  products with their respective sub-categories
 export const getProductBySubCategory = (subCategoryId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${PRODUCT_API}/products/lufumart-app/products-by-sub-category?${subCategoryId}&type=array`
+      `https://api-v1.lufumart.com/api/v1/products/products-by-sub-category?subCategoryIds[0]=${subCategoryId}&type=array`
     );
     const data = await response.data;
-    // console.log(data);
+    // console.log("action data", data);
     if (data) {
       dispatch({
         type: types.GET_PRODUCTS_BY_SUB_CATEGORY,
@@ -90,7 +113,7 @@ export const getProductBySubCategory = (subCategoryId) => async (dispatch) => {
       });
     }
   } catch (error) {
-    console.log(error.response);
+    console.log(error);
   }
 };
 
@@ -177,8 +200,8 @@ export const makeOrder = () => async (dispatch) => {
   // const { deliveryAddress, paymentMethod } = payload;
 
   const body = JSON.stringify({
-    deliveryAddress: "Electronic house,Luthuli Avenue ",
-    paymentMethod: "Cash on delivery",
+    deliveryAddress,
+    paymentMethod,
   });
   try {
     const response = await axios.post(
@@ -197,7 +220,25 @@ export const makeOrder = () => async (dispatch) => {
       getUserCartItems();
     }
   } catch (error) {
-    toast.error(error.response.data.message);
+    toast.error(error.response.data);
+    console.log(error.response.data);
+  }
+};
+// get orders
+export const getOrders = () => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `${PRODUCT_API}/orders/customer-orders`,
+      authToken()
+    );
+    const data = await response.data;
+    if (data) {
+      dispatch({
+        type: types.GET_ORDERS,
+        payload: data,
+      });
+    }
+  } catch (error) {
     console.log(error.response.data.message);
   }
 };

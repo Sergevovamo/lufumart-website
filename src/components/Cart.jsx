@@ -54,9 +54,9 @@ const Cart = () => {
 
   return (
     <>
-      <section className=" h-full  bg-gray-50 py-16">
+      <section className=" min-h-[50vh] h-full  bg-gray-50 md:py-16 py-10 flex flex-col  items-center justify-center">
         {Totals === 0 || !token ? (
-          <div className="text-center space-y-8">
+          <div className="space-y-8">
             <p className=" text-xl">Your cart is empty</p>
             <div>
               <Link to="/">
@@ -67,7 +67,7 @@ const Cart = () => {
             </div>
           </div>
         ) : (
-          <div className="w-container_width mx-auto  flex flex-col  md:grid md:grid-cols-3 gap-4 ">
+          <div className=" w-[95%] md:w-container_width mx-auto  flex flex-col  md:grid md:grid-cols-3 gap-4 ">
             <div className="col-span-2 bg-white shadow  rounded pb-5">
               <div>
                 {totalCartItems === 1 ? (
@@ -98,73 +98,84 @@ const Cart = () => {
                   </div>
                 </main>
               ) : (
-                CartItems &&
-                CartItems.map((item) => {
-                  const { imageUrl, description, name, _id, price, salePrice } =
-                    item;
-                  const items =
-                    itemQuantity &&
-                    itemQuantity.find((item) => item.productId === _id);
-                  const { quantity, vat } = items;
+                <div className="space-y-5">
+                  {CartItems &&
+                    CartItems.map((item) => {
+                      const { imageUrl, name, _id, salePrice } = item;
+                      const items =
+                        itemQuantity &&
+                        itemQuantity.find((item) => item.productId === _id);
+                      const { quantity, vat } = items;
 
-                  return (
-                    <div key={_id} className="  px-4">
-                      <main className="flex justify-between py-3 border-b-[1px] border-gray-200">
-                        <div className="inline-flex gap-4 items-center">
-                          <div className="h-32 w-20 ">
-                            <img src={imageUrl[0]} alt="" className="h-full" />
+                      return (
+                        <div
+                          key={_id}
+                          className="p-2 border-b-[1px] grid  grid-cols-4 gap-3 md:items-center  "
+                        >
+                          <div className="h-32  flex justify-center">
+                            <img src={imageUrl[0]} alt="" />
                           </div>
-                          <div>
-                            <p>{name}</p>
-                            <p className="text-lg">
-                              $ {salePrice.toLocaleString()}
-                            </p>
-                            <p className="text-sm">Vat: $ {vat}</p>
+                          <div className="col-span-3 grid grid-rows-2 gap-2 ">
+                            <div className="text-orange text-lg">
+                              <p>{name}</p>
+                            </div>
+                            <div className=" flex justify-between items-center">
+                              <div>
+                                <p className="text-lg">
+                                  $ {salePrice.toLocaleString()}
+                                </p>
+                                {/* <p className="text-sm">Vat: $ {vat}</p> */}
+                              </div>
+                              <div>
+                                {" "}
+                                <div className="flex items-center space-x-3">
+                                  <button
+                                    onClick={() =>
+                                      decreaseCartProdQty(event, _id)
+                                    }
+                                    disabled={quantity <= 1 ? true : false}
+                                    className={
+                                      quantity <= 1
+                                        ? "bg-gray-200 w-8 h-8 cursor-not-allowed  rounded-full"
+                                        : "w-8 h-8 bg-gray-800 text-white  rounded-full "
+                                    }
+                                  >
+                                    -
+                                  </button>
+
+                                  <span className="mx-2">{quantity}</span>
+                                  <button
+                                    onClick={() =>
+                                      increaseCartProdQty(event, _id)
+                                    }
+                                    className="w-8 h-8 bg-gray-800 text-white rounded-full "
+                                  >
+                                    +
+                                  </button>
+                                  <div onClick={() => handleRemoveProduct(_id)}>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-7 w-7 text-green cursor-pointer "
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                      strokeWidth={2}
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                      />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex flex-col justify-center items-end space-y-7">
-                          <div onClick={() => handleRemoveProduct(_id)}>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6 text-black cursor-pointer "
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              strokeWidth={2}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
-                          </div>
-                          <div className="flex items-center">
-                            <button
-                              onClick={() => decreaseCartProdQty(event, _id)}
-                              disabled={quantity <= 1 ? true : false}
-                              className={
-                                quantity <= 1
-                                  ? "bg-gray-200 w-8 h-8 cursor-not-allowed  rounded-lg"
-                                  : "w-8 h-8 bg-green text-white  rounded-lg "
-                              }
-                            >
-                              -
-                            </button>
-
-                            <span className="mx-2">{quantity}</span>
-                            <button
-                              onClick={() => increaseCartProdQty(event, _id)}
-                              className="w-8 h-8 bg-green text-white rounded-lg "
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                      </main>
-                    </div>
-                  );
-                })
+                      );
+                    })}
+                </div>
               )}
             </div>
             <div className=" bg-white h-full md:h-56 shadow-sm rounded ">

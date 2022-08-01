@@ -1,12 +1,14 @@
 import * as types from "../types";
 const initialState = {
   loading: true,
-  products: [],
+  products: null,
   product: {},
   categories: [],
   sub_categories: [],
   cart: [],
   orderPaid: null,
+  orders: [],
+  sub_category_products: null,
 };
 
 export const productsReducer = (state = initialState, action) => {
@@ -29,17 +31,24 @@ export const productsReducer = (state = initialState, action) => {
         loading: false,
         categories: action.payload,
       };
-    case types.GET_SUB_CATEGORIES:
+    // case types.GET_SUB_CATEGORIES:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     sub_categories: action.payload,
+    //   };
+    case types.GET_SUB_CATEGORIES_BY_CATEGORY:
       return {
         ...state,
         loading: false,
         sub_categories: action.payload,
       };
+
     case types.GET_PRODUCTS_BY_SUB_CATEGORY:
       return {
         ...state,
         loading: false,
-        products: action.payload,
+        sub_category_products: action.payload,
       };
     case types.GET_USER_CART_ITEMS:
       return {
@@ -61,7 +70,12 @@ export const productsReducer = (state = initialState, action) => {
         loading: false,
         orderPaid: action.payload,
       };
-
+    case types.GET_ORDERS:
+      return {
+        ...state,
+        loading: false,
+        orders: action.payload,
+      };
     default:
       return state;
   }
