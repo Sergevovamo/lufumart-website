@@ -31,7 +31,7 @@ const OpenOrders = () => {
   return (
     <>
       {isOrderDetailOpen ? (
-        <div className="grid sm:grid-cols-2 gap-3 h-[500px]  overflow-y-auto pb-5 pr-3">
+        <div className="grid sm:grid-cols-2 gap-3 sm:h-[500px]  sm:overflow-y-auto pb-5 pr-3">
           {openOrders?.map((openOrder) => {
             const {
               _id,
@@ -45,20 +45,21 @@ const OpenOrders = () => {
             return (
               <div
                 key={_id}
-                className="flex  space-x-5 bg-white shadow p-3 rounded-lg relative"
+                className="flex  space-x-5 bg-white shadow p-3 rounded-lg "
               >
-                <p
-                  onClick={() => handleShowOrder(items)}
-                  className=" absolute right-3 top-1  text-green px-[7px] py-[3px] rounded-lg hover:bg-green hover:text-white cursor-pointer transition"
-                >
-                  view
-                </p>
-
-                <div className="h-36 w-28 flex items-center">
+                <div className="h-36  flex items-center">
                   <img src={items[0]?.imageUrl[0]} alt="" className="h-full " />
                 </div>
-                <div>
-                  <h2 className="font-bold">{orderNumber}</h2>
+                <div className="flex-auto">
+                  <div className="flex justify-between items-center">
+                    <p className="font-bold">{orderNumber}</p>
+                    <p
+                      onClick={() => handleShowOrder(items)}
+                      className="  text-green px-[7px] py-[3px] rounded-lg hover:bg-green hover:text-white cursor-pointer transition"
+                    >
+                      view
+                    </p>
+                  </div>
                   <p>Order price: $ {amountPaid}</p>
                   <p>Shipping fee: $ {shippingFee}</p>
                   <p>
