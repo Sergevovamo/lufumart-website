@@ -1,6 +1,7 @@
 import * as types from "../types";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { getErrors, loginFail, registerFail } from "./ErrorActions";
 
 const AUTH_API = "https://api-v1.lufumart.com/api/v1/auth";
 
@@ -73,10 +74,10 @@ export const customerRegister = (payload) => async (dispatch) => {
       toast.success("Succesfully registered");
     }
   } catch (error) {
-    dispatch({
-      type: types.CUSTOMER_REGISTER_FAIL,
-      payload: error.response.data.message,
-    });
+    dispatch(
+      getErrors(error.response.data.message, types.CUSTOMER_REGISTER_FAIL)
+    );
+    dispatch(registerFail());
     toast.error(error.response.data.message);
     localStorage.removeItem("loginToken");
   }
@@ -99,6 +100,7 @@ export const customerLogin = (payload) => async (dispatch) => {
   try {
     const response = await axios.post(`${AUTH_API}/signin`, body, config);
     const data = await response.data;
+
     if (data) {
       dispatch({
         type: types.CUSTOMER_LOGIN,
@@ -111,6 +113,8 @@ export const customerLogin = (payload) => async (dispatch) => {
   } catch (error) {
     console.log(error.response.data.message);
     toast.error(error.response.data.message);
+    dispatch(getErrors(error.response.data.message, types.CUSTOMER_LOGIN_FAIL));
+    dispatch(loginFail());
     localStorage.removeItem("loginToken");
   }
 };

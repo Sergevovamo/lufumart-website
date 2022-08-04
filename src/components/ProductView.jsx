@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { addToCart, getSingleProduct } from "../redux/actions/ProductsActions";
-import Footer from "./Footer";
+
 const ProductView = () => {
   const { id } = useParams();
   //   console.log(id);
@@ -49,25 +48,18 @@ const ProductView = () => {
           </main>
         ) : (
           <div className="  w-full md:w-container_width mx-auto rounded-lg md:shadow  bg-white h-auto p-3 ">
-            <div className="grid md:grid-cols-3 gap-14 items-center ">
-              <div className="">
-                <div className="h-80 w-full bg-white flex justify-center ">
-                  <img src={productData?.imageUrl[0]} alt="" />
-                </div>
-                <div className="my-4 flex justify-center space-x-3   h-20   ">
-                  {productData?.imageUrl.length < 2
-                    ? ""
-                    : productData?.imageUrl.map((prdImg) => {
-                        return (
-                          <div
-                            key={prdImg}
-                            className="bg-white  flex jusify-center   rounded-lg "
-                          >
-                            <img src={prdImg} alt="" />
-                          </div>
-                        );
-                      })}
-                </div>
+            <div className="grid md:grid-cols-3 gap-7 items-center ">
+              <div className="flex overflow-auto">
+                {productData?.imageUrl?.map((prdImg, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="h-80 min-w-full bg-white flex justify-center "
+                    >
+                      <img src={prdImg} alt="" />
+                    </div>
+                  );
+                })}
               </div>
 
               <div className=" md:col-span-2  flex flex-col space-y-2">

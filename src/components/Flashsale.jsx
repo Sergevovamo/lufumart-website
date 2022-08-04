@@ -48,7 +48,7 @@ const Flashsale = () => {
   return (
     <section className="py-6 bg-uniform_grey">
       <div className="w-mobile md:w-container_width mx-auto">
-        <h2 className="text-2xl text-center mb-8">FLASH SALE</h2>
+        <h2 className="sm:text-2xl text-center mb-8">FLASH SALE</h2>
         <Swiper
           // install Swiper modules
           ref={swiperRef}

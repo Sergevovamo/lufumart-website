@@ -313,7 +313,7 @@ const Navbar = () => {
         <div
           className={
             menu
-              ? "sm:shadow  h-[100vh] sm:h-[60vh]  overflow-auto  w-[270px] bg-white text-black z-50  absolute md:left-[180px] translate-x-[-42px] md:translate-x-0  top-[85px] transition"
+              ? "sm:shadow  h-[100vh] sm:h-[60vh]  overflow-auto  w-[270px] bg-white text-black z-50  absolute md:left-[180px] translate-x-[-42px] md:translate-x-0 border-r   top-[85px] transition"
               : "md:hidden translate-x-[-300px] h-screen overflow-auto w-[250px] absolute  bg-white top-[85px] transition z-50"
           }
         >

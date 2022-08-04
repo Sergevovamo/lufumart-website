@@ -9,11 +9,13 @@ const CustomerLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
   const path = location?.state?.from?.pathname || "/";
-  console.log("path", path);
-  const auth = useSelector((state) => state.auth.isAuthenticated);
-
+  console.log("login path is", path);
+  const auth = useSelector((state) => state?.auth?.isAuthenticated);
+  const error = useSelector((state) => state?.error);
+  // console.log("error", error);
+  // console.log("isLoading", loading);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -25,14 +27,25 @@ const CustomerLogin = () => {
   });
   // getting the fileds value
   const onSubmit = (data) => {
+    setIsLoading(true);
     dispatch(customerLogin(data));
   };
 
   useEffect(() => {
     if (auth) {
+      setIsLoading(false);
       navigate(path);
     }
   }, [auth]);
+  // change button loading state if credentials are wrong
+
+  useEffect(() => {
+    if (error.typeID === "CUSTOMER_LOGIN_FAIL") {
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+    }
+  }, [error]);
   return (
     <div className="items-center flex justify-center  py-10 w-full bg-uniform_grey  ">
       <section className="rounded  bg-white w-11/12 md:w-1/3">
@@ -54,7 +67,7 @@ const CustomerLogin = () => {
             className="border  focus:outline-0 p-2  w-full"
             {...register("email", { required: true })}
           />
-          {errors.email && <p className="text-red"> Email is required </p>}
+          {errors.email && <p className="text-red">Email is required</p>}
 
           <input
             type="password"
@@ -67,10 +80,22 @@ const CustomerLogin = () => {
           )}
 
           <button
+            // onClick={handleLoading}
             type="submit "
-            className="border focus:outline-0 p-2 bg-green text-white rounded w-full  font-bold"
+            className={
+              isLoading
+                ? "opacity-50 border flex justify-center items-center space-x-4 focus:outline-0 p-2 bg-green text-white rounded w-full  font-bold"
+                : "border flex justify-center items-center space-x-4 focus:outline-0 p-2 bg-green text-white rounded w-full  font-bold"
+            }
           >
-            LOGIN
+            <div
+              className={
+                isLoading
+                  ? "border-2 border-r-3  border-r-gray-600 animate-spin rounded-full w-6 h-6"
+                  : "hidden"
+              }
+            ></div>
+            <div>LOGIN</div>
           </button>
 
           <div>

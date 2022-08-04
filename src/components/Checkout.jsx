@@ -38,7 +38,7 @@ const Checkout = () => {
           <div>
             <h2 className="text-lg my-2">Delivery Address</h2>
             <div
-              // onClick={() => setOpen(true)}
+              onClick={() => setOpen(true)}
               className="cursor-pointer  flex justify-between items-center rounded-lg bg-white p-2 space-x-5"
             >
               <svg

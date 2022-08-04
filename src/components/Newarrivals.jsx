@@ -43,7 +43,9 @@ const Newarrivals = () => {
   return (
     <section className="py-6 bg-uniform_grey">
       <div className="w-mobile md:w-container_width mx-auto">
-        <h2 className="text-2xl text-center mb-8">NEW ARRIVALS</h2>
+        <h2 className="sm:text-2xl sm:text-center mb-8 bg-orange text-white p-1.5 sm:p-0  sm:bg-transparent sm:text-black rounded">
+          NEW ARRIVALS
+        </h2>
         <Swiper
           // install Swiper modules
           ref={swiperRef}

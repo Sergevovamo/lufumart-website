@@ -2,6 +2,7 @@ import * as types from "../types";
 const initialState = {
   isAuthenticated: !!localStorage.getItem("loginToken"),
   loading: true,
+  // isLoading: true,
   customer: {},
   errorMsg: null,
   // address: {
@@ -22,6 +23,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        // isLoading: false,
         isAuthenticated: true,
         customer: action.payload,
       };
