@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import profile from "../../images/profile.png";
 import Home from "./customer_dashboard_routes/Home";
@@ -14,11 +14,23 @@ const CustomerDashboard = () => {
   useEffect(() => {
     dispatch(userAuth());
   }, []);
+  // set clicked tab active
+  const [active, setActive] = useState(false);
+  console.log("active is", active);
   return (
-    <section className="w-full  py-10 bg-uniform_grey ">
+    <section className="w-full  py-10 bg-uniform_grey">
       <div className="md:hidden z-50 fixed bottom-0 bg-green text-white w-full  grid grid-cols-4 ">
         <Link to="/dashboard/customer/">
-          <div className="flex flex-col  items-center p-3 space-y-1 bg-white text-black ">
+          <div
+            // onMouseEnter={() => setActive(true)}
+            // onMouseLeave={() => setActive(false)}
+            onClick={() => setActive(!active)}
+            className={
+              active
+                ? "flex flex-col  items-center p-2 space-y-1 bg-white text-black"
+                : "flex flex-col  items-center p-2 space-y-1 bg-green"
+            }
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -36,8 +48,11 @@ const CustomerDashboard = () => {
             <p>Home</p>
           </div>
         </Link>
-        <Link to="/dashboard/customer/orders">
-          <div className="flex flex-col  items-center p-3 space-y-1 ">
+        <Link
+          onMouseEnter={() => setActive(true)}
+          to="/dashboard/customer/orders"
+        >
+          <div className="flex flex-col  items-center p-2 space-y-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -55,8 +70,11 @@ const CustomerDashboard = () => {
             <p>Orders</p>
           </div>{" "}
         </Link>
-        <Link to="/dashboard/customer/wishlist">
-          <div className="flex flex-col  items-center p-3 space-y-1 ">
+        <Link
+          onMouseEnter={() => setActive(true)}
+          to="/dashboard/customer/wishlist"
+        >
+          <div className="flex flex-col  items-center p-2 space-y-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -72,10 +90,14 @@ const CustomerDashboard = () => {
               />
             </svg>
             <p>Wishlist</p>
-          </div>{" "}
+          </div>
         </Link>
-        <Link to="/dashboard/customer/manage_profile">
-          <div className="flex flex-col  items-center p-3 space-y-1 ">
+        <Link
+          onMouseEnter={() => setActive(true)}
+          onMouseLeave={() => setActive(false)}
+          to="/dashboard/customer/manage_profile"
+        >
+          <div className="flex flex-col  items-center p-2 space-y-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"

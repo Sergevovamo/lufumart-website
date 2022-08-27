@@ -9,6 +9,9 @@ const initialState = {
   orderPaid: null,
   orders: [],
   sub_category_products: null,
+  category_products: null,
+  more_category_products: null,
+  language: "fr",
 };
 
 export const productsReducer = (state = initialState, action) => {
@@ -43,6 +46,18 @@ export const productsReducer = (state = initialState, action) => {
         loading: false,
         sub_categories: action.payload,
       };
+    case types.GET_PRODUCTS_BY_CATEGORY:
+      return {
+        ...state,
+        loading: false,
+        category_products: action.payload,
+      };
+    case types.GET_MORE_PRODUCTS_BY_CATEGORY:
+      return {
+        ...state,
+        loading: false,
+        more_category_products: action.payload,
+      };
 
     case types.GET_PRODUCTS_BY_SUB_CATEGORY:
       return {
@@ -75,6 +90,11 @@ export const productsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         orders: action.payload,
+      };
+    case types.GET_LANGUAGE:
+      return {
+        ...state,
+        language: "en",
       };
     default:
       return state;

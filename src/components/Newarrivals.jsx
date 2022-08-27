@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback, useState } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import Swiper core and required modules
@@ -18,23 +19,33 @@ const Newarrivals = () => {
   const swiperRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //   get products from redux
+  let isEnglish = false;
+  const [newArrivals, setNewArrivals] = useState([]);
+  //   get  new arrivals products from redux
+  const isLoading = useSelector((state) => state?.Products?.loading);
 
+  const getNewArrivals = async () => {
+    try {
+      const response = await axios.get(
+        "https://api-v1.lufumart.com/api/v1/product-promotions/lufumart-app/new-arrivals-promotions"
+      );
+      const data = await response.data.products;
+      console.log("data", data);
+      if (data) {
+        setNewArrivals(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     let subscribed = true;
     if (subscribed) {
-      loadProducts();
+      getNewArrivals();
     }
     return () => (subscribed = false);
   }, []);
-  const loadProducts = useCallback(() => {
-    dispatch(getProducts());
-  }, []);
-  const loadedProducts = useSelector((state) => state.Products.products);
-  // console.log("loadedProducts are", loadedProducts);
-  const isLoading = useSelector((state) => state?.Products?.loading);
-  // const loaded = useSelector((state) => state?.Products);
-  // console.log(loaded);
+
   // view individual product
   const handleProductView = (id) => {
     dispatch(getSingleProduct(id));
@@ -121,8 +132,13 @@ const Newarrivals = () => {
             </main>
           ) : (
             <>
-              {loadedProducts?.map((loadedProduct) => {
-                const { _id, name, salePrice, imageUrl } = loadedProduct;
+              {newArrivals?.map((newArrival) => {
+                const { _id, name, salePrice, imageUrl, translations } =
+                  newArrival;
+                const french = translations[0]?.fr[0];
+                const english = translations[0]?.en[0];
+
+                // console.log(lang.name);
                 return (
                   <SwiperSlide
                     key={_id}
@@ -139,7 +155,7 @@ const Newarrivals = () => {
                     </div>
                     <div>
                       <p className="whitespace-nowrap overflow-hidden text-ellipsis	">
-                        {name}
+                        {isEnglish ? french.name : english.name}
                       </p>
                     </div>
                     <div className="flex justify-between items-center">

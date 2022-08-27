@@ -2,7 +2,8 @@ import axios from "axios";
 import * as types from "../types";
 import toast from "react-hot-toast";
 
-const PRODUCT_API = "https://api-v1.lufumart.com/api/v1";
+const PRODUCT_API = "https://api-v1.lufumart.com/api/v1/products";
+
 // authentication using the stored token
 export const authToken = () => {
   // getting the token from the local storage
@@ -23,7 +24,7 @@ export const authToken = () => {
 // get products
 export const getProducts = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${PRODUCT_API}/products`);
+    const response = await axios.get(`${PRODUCT_API}`);
     const data = await response.data;
     if (data) {
       dispatch({
@@ -33,15 +34,11 @@ export const getProducts = () => async (dispatch) => {
     }
   } catch (error) {
     console.log(error.response.data);
-    // toast.error(error.response.data);
   }
 };
 // get single product
 export const getSingleProduct = (id) => async (dispatch) => {
-  const response = await axios.get(
-    `${PRODUCT_API}/products/${id}`,
-    authToken()
-  );
+  const response = await axios.get(`${PRODUCT_API}/${id}`, authToken());
   const data = await response.data;
   // console.log(data);
   if (data) {
@@ -54,7 +51,9 @@ export const getSingleProduct = (id) => async (dispatch) => {
 // get all categories
 export const getCategories = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${PRODUCT_API}/product-categories`);
+    const response = await axios.get(
+      `https://api-v1.lufumart.com/api/v1/product-categories`
+    );
     const data = await response.data;
     // console.log(data);
     if (data) {
@@ -84,7 +83,7 @@ export const getCategories = () => async (dispatch) => {
 export const getSubCategoryByCategory = (categoryId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${PRODUCT_API}/product-sub-categories/get-sub-category-by-category?categoryId=${categoryId}`
+      `https://api-v1.lufumart.com/api/v1/product-sub-categories/get-sub-category-by-category?categoryId=${categoryId}`
     );
     const data = await response.data;
     if (data) {
@@ -97,12 +96,47 @@ export const getSubCategoryByCategory = (categoryId) => async (dispatch) => {
     console.log(error.response.data.message);
   }
 };
-
+// get  products with their respective categories
+export const getProductsByCategory = (categoryId) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `${PRODUCT_API}/lufumart-app/products-by-category?&categoryId=${categoryId}`
+    );
+    const data = await response.data;
+    // console.log("products by category are", data);
+    if (data) {
+      dispatch({
+        type: types.GET_PRODUCTS_BY_CATEGORY,
+        payload: data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+// get more products by sub-category
+export const getMoreProductsByCategory = (payload) => async (dispatch) => {
+  const { subCategoryId, page } = payload;
+  try {
+    const response = await axios.get(
+      `${PRODUCT_API}/lufumart-app/sub-category-products?subCategoryId=${subCategoryId}&page=${page}`
+    );
+    const data = await response.data;
+    if (data) {
+      dispatch({
+        type: types.GET_MORE_PRODUCTS_BY_CATEGORY,
+        payload: data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 // get  products with their respective sub-categories
 export const getProductBySubCategory = (subCategoryId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://api-v1.lufumart.com/api/v1/products/products-by-sub-category?subCategoryIds[0]=${subCategoryId}&type=array`
+      `${PRODUCT_API}/products-by-sub-category?subCategoryIds[0]=${subCategoryId}&type=array`
     );
     const data = await response.data;
     // console.log("action data", data);
@@ -121,7 +155,7 @@ export const getProductBySubCategory = (subCategoryId) => async (dispatch) => {
 export const addToCart = (prodId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${PRODUCT_API}/products/add-product-to-cart?productId=${prodId}`,
+      `${PRODUCT_API}/add-product-to-cart?productId=${prodId}`,
       authToken()
     );
     const data = await response.data;
@@ -142,7 +176,7 @@ export const addToCart = (prodId) => async (dispatch) => {
 export const getUserCartItems = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${PRODUCT_API}/products/user-cart-products`,
+      `${PRODUCT_API}/user-cart-products`,
       authToken()
     );
     const data = await response.data;
@@ -158,7 +192,7 @@ export const getUserCartItems = () => async (dispatch) => {
 export const decreaseProdQty = (prodId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${PRODUCT_API}/products/decrease-cart-product-quantity?productId=${prodId}`,
+      `${PRODUCT_API}/decrease-cart-product-quantity?productId=${prodId}`,
       authToken()
     );
     const data = await response.data;
@@ -179,7 +213,7 @@ export const decreaseProdQty = (prodId) => async (dispatch) => {
 export const removeProduct = (prodId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${PRODUCT_API}/products/remove-product-to-cart?productId=${prodId}`,
+      `${PRODUCT_API}/remove-product-to-cart?productId=${prodId}`,
       authToken()
     );
     const data = await response.data;
@@ -228,7 +262,7 @@ export const makeOrder = () => async (dispatch) => {
 export const getOrders = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${PRODUCT_API}/orders/customer-orders`,
+      `https://api-v1.lufumart.com/api/v1/orders/customer-orders`,
       authToken()
     );
     const data = await response.data;
@@ -241,4 +275,9 @@ export const getOrders = () => async (dispatch) => {
   } catch (error) {
     console.log(error.response.data.message);
   }
+};
+export const getLanguage = () => (dispatch) => {
+  dispatch({
+    type: types.GET_LANGUAGE,
+  });
 };

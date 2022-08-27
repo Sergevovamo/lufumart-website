@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  // getMoreProductsByCategory,
   getProductBySubCategory,
   getSingleProduct,
 } from "../redux/actions/ProductsActions";
@@ -27,7 +28,12 @@ const SubCategoryProducts = () => {
     (state) =>
       state?.Products?.sub_category_products?.subCategories[0]?.products
   );
-  // console.log("productBySubCategories", productBySubCategories);
+  // load more products by subcategory
+  // const moreSubcategoryProducts = useSelector((state) => state?.Products);
+  // console.log("moreSubcategoryProducts are", moreSubcategoryProducts);
+  // useEffect(() => {
+  //   dispatch(getMoreProductsByCategory("627f3510dfa8780fea3c8736", 2));
+  // }, []);
   // get total products
   const totalProducts = productBySubCategories?.length;
   // navigate to product details

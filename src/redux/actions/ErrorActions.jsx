@@ -15,7 +15,6 @@ export const loginFail = () => {
     type: types.CUSTOMER_LOGIN_FAIL,
   };
 };
-
 export const registerFail = () => {
   return {
     type: types.CUSTOMER_REGISTER_FAIL,

@@ -36,6 +36,7 @@ const MapComponent = ({ setOpen, setDeliveryAddress }) => {
     lat: "",
     lng: "",
   });
+  console.log("marker is", marker);
   // const [selected, setSelected] = useState(null);
 
   useEffect(() => {
@@ -68,10 +69,31 @@ const MapComponent = ({ setOpen, setDeliveryAddress }) => {
     libraries,
   });
   if (loadError) return "Error loading the map";
-  if (!isLoaded) return "loading map";
+  if (!isLoaded)
+    return (
+      <div className="absolute top-[30%] left-[50%]">
+        {" "}
+        <main className=" w-full text-center mt-10 ">
+          <div className="lds-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </main>
+      </div>
+    );
 
   return (
-    <section className="  h-screen w-full bg-[rgba(0,0,0,0.5)]  bg-blend-multiply absolute top-0">
+    <section className="h-screen w-full bg-[rgba(0,0,0,0.5)]  bg-blend-multiply fixed top-0">
       <div className=" bg-white text-center w-[80%] shadow  mx-auto py-8 rounded-lg  absolute top-[50px] left-[0px] right-[0px] ">
         <div
           onClick={() => setOpen(false)}
@@ -92,7 +114,7 @@ const MapComponent = ({ setOpen, setDeliveryAddress }) => {
         >
           <Locate panTo={panTo} />
           <Marker
-            draggable={true}
+            // draggable={true}
             position={{ lat: marker.lat, lng: marker.lng }}
           />
         </GoogleMap>
@@ -156,7 +178,7 @@ const Search = ({ panTo, setDeliveryAddress }) => {
             console.log("lat:", lat, "lng:", lng);
             panTo({ lat, lng });
             console.log("searched address", getLatLng(results[0]));
-            // setMarker((prevstate)=> getLatLng(results[0]));
+            // setMarker(results[0]);
           } catch (error) {
             console.log(error);
           }

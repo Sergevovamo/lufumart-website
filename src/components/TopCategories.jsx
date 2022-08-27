@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategories } from "../redux/actions/ProductsActions";
+import { useNavigate } from "react-router-dom";
 const TopCategories = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getCategories());
   }, []);
+
   // getting all the categories from state
   const categories = useSelector((state) => state.Products.categories);
   const loadingStatus = useSelector((state) => state.Products.loading);
+
   return (
     <section className="bg-uniform_grey py-7">
-      <p className="sm:text-2xl text-center pb-7 ">TOP CATEGORIES</p>
+      <p className="sm:text-2xl text-center pb-7 ">SHOP BY CATEGORIES</p>
       {loadingStatus ? (
         <main className=" bg-full text-center mt-5 ">
           <div className="lds-spinner">
@@ -34,11 +38,14 @@ const TopCategories = () => {
           {categories &&
             categories.map((category) => (
               <div
+                onClick={() =>
+                  navigate(`/category_prd/${category?._id}/${category.name}`)
+                }
                 key={category._id}
                 className="md:flex p-2 md:p-0 md:space-x-4 space-y-3 px-2 justify-between items-center md:h-24 cursor-pointer shadow-sm bg-white rounded-lg  hover:shadow-lg"
               >
                 <div className=" h-20 w-full   flex justify-center ">
-                  <img src={category.imageUrl} alt="" />
+                  <img src={category.imageUrl} alt={category.name} />
                 </div>
                 <div className=" w-full ">
                   <p>{category.name}</p>

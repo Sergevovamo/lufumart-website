@@ -12,7 +12,7 @@ import TopCategories from "./components/TopCategories";
 // import Footer from "./components/Footer";
 import DeliveryGuyDashboard from "./components/DeliveryGuyDashboard";
 // import ElectronicDeals from "./components/deals/ElectronicDeals";
-import ForYou from "./components/deals/ForYou";
+// import ForYou from "./components/deals/ForYou";
 import RecommendedSellers from "./components/RecommendedSellers";
 import { Toaster } from "react-hot-toast";
 import Hero from "./components/Hero";
@@ -25,6 +25,7 @@ import Newarrivals from "./components/Newarrivals";
 // import MapComponent from "./components/MapComponent";
 import Footer from "./components/Footer";
 import SubCategoryProducts from "./components/SubCategoryProducts";
+import CategoryProducts from "./components/CategoryProducts";
 
 function App() {
   return (
@@ -43,7 +44,7 @@ function App() {
                 <Flashsale />
                 <TopCategories />
                 {/* <Featured /> */}
-                <ForYou />
+                {/* <ForYou /> */}
                 <RecommendedSellers />
                 {/* <ElectronicDeals /> */}
                 <Subscribe />
@@ -67,6 +68,11 @@ function App() {
             element={<DeliveryGuyDashboard />}
           />
           <Route path="/product_view/:id" element={<ProductView />} />
+          <Route
+            path="/category_prd/:id/:category_name"
+            element={<CategoryProducts />}
+          />
+
           <Route
             path="/sub_prd/:id/:sub_name"
             element={<SubCategoryProducts />}

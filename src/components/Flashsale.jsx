@@ -9,6 +9,7 @@ import SwiperCore, { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import { getSingleProduct } from "../redux/actions/ProductsActions";
+import toast from "react-hot-toast";
 // install Swiper modules
 SwiperCore.use([Navigation]);
 
@@ -41,7 +42,7 @@ const Flashsale = () => {
       const data = await response.data;
       setFlashsaleProducts(data?.products);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
   const totalFlashsales = flashsaleProducts?.length;

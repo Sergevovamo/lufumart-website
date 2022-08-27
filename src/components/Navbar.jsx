@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCategories,
+  getLanguage,
   getSubCategoryByCategory,
   getUserCartItems,
 } from "../redux/actions/ProductsActions";
@@ -20,6 +21,7 @@ const Navbar = () => {
   const [title, setTitle] = useState("");
   const [isAuth, setIsAuth] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLangClicked, setisLangClicked] = useState(false);
   // const [openSearch, setOpenSearch] = useState(false);
   // getting all the categories from state
   const categories = useSelector((state) => state?.Products?.categories);
@@ -133,6 +135,13 @@ const Navbar = () => {
     dispatch(logout());
     setIsDropdownOpen(false);
   };
+  // toggle language
+  const language = useSelector((state) => state?.Products?.language);
+  // console.log("language", language);
+
+  // useEffect(() => {
+  //   dispatch(getLanguage());
+  // }, []);
   return (
     <section
       className={
@@ -145,7 +154,7 @@ const Navbar = () => {
         <div className="text-orange" onClick={() => setMenu(!menu)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-9 w-9 sm:hidden block "
+            className="h-9 w-9 sm:hidden block"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -309,11 +318,49 @@ const Navbar = () => {
             </div>
           </Link>
         </div>
-
+        {/* <div className="relative">
+          <svg
+            onClick={() => setisLangClicked(!isLangClicked)}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className=" text-orange w-7 h-7 cursor-pointer"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              // d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
+              d={
+                isLangClicked
+                  ? "M6 18L18 6M6 6l12 12"
+                  : "M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
+              }
+            />
+          </svg>
+          <div
+            className={
+              isLangClicked
+                ? "absolute -left-14 top-[55px]  bg-black text-white"
+                : "hidden"
+            }
+          >
+            <div className="absolute right-2  -top-2  rotate-45 w-5 h-5 bg-black"></div>
+            <p
+              onClick={() => dispatch(getLanguage())}
+              className="px-5 my-1.5 cursor-pointer"
+            >
+              Eng
+            </p>
+            <p className="px-5 my-1.5 cursor-pointer">French</p>
+          </div>
+        </div> */}
         <div
+          // onMouseLeave={() => setMenu(false)}
           className={
             menu
-              ? "sm:shadow  h-[100vh] sm:h-[60vh]  overflow-auto  w-[270px] bg-white text-black z-50  absolute md:left-[180px] translate-x-[-42px] md:translate-x-0 border-r   top-[85px] transition"
+              ? "sm:shadow  h-[100vh] sm:h-[60vh]  overflow-auto  w-[270px] bg-white text-black z-50  absolute md:left-[180px] translate-x-[-32px] md:translate-x-0 border-r   top-[85px] transition"
               : "md:hidden translate-x-[-300px] h-screen overflow-auto w-[250px] absolute  bg-white top-[85px] transition z-50"
           }
         >
@@ -345,7 +392,7 @@ const Navbar = () => {
                 return (
                   <ul
                     key={_id}
-                    className={hideCategories ? "hidden" : "block "}
+                    className={hideCategories ? "hidden" : "block  "}
                   >
                     <div
                       onClick={() => handleShowSubCtegories(_id, name)}
@@ -397,7 +444,7 @@ const Navbar = () => {
                       <li
                         key={_id}
                         onClick={() => handleProductSubCategiesView(_id, name)}
-                        className="my-[4px] mx-3  hover:text-orange  cursor-pointer"
+                        className="py-1.5 mx-3  hover:text-orange  cursor-pointer"
                       >
                         {name}
                       </li>

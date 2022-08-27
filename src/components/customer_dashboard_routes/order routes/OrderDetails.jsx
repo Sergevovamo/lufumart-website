@@ -6,7 +6,7 @@ const OrderDetails = ({ items }) => {
 
   return (
     <div className="py-7">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid sm:grid-cols-2 gap-3">
         {items?.map((itm) => {
           const { name, imageUrl, price, _id, quantity } = itm;
           return (
