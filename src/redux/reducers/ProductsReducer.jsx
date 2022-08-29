@@ -11,7 +11,8 @@ const initialState = {
   sub_category_products: null,
   category_products: null,
   more_category_products: null,
-  language: "fr",
+  language: localStorage.getItem("lang"),
+  // language: null,
 };
 
 export const productsReducer = (state = initialState, action) => {
@@ -94,7 +95,7 @@ export const productsReducer = (state = initialState, action) => {
     case types.GET_LANGUAGE:
       return {
         ...state,
-        language: "en",
+        language: action.payload,
       };
     default:
       return state;

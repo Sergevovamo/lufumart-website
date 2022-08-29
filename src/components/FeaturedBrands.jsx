@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 const FeaturedBrands = () => {
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <section className="bg-uniform_grey">
       <div className="w-mobile  md:w-container_width mx-auto ">
-        <p className="sm:text-2xl text-center sm:pt-5  ">FEATURED BRANDS</p>
+        <p className="sm:text-2xl text-center sm:pt-5  ">
+          {isEnglish ? "FEATURED BRANDS" : "MARQUES EN VEDETTE"}
+        </p>
       </div>
       <div className="w-mobile  md:w-container_width mx-auto grid grid-cols-2 gap-2 md:flex  justify-between md:space-y-0  md:space-x-2 py-10  text-white">
         {brands.map((brand, index) => {

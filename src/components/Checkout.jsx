@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserCartItems, makeOrder } from "../redux/actions/ProductsActions";
+import { orderPayment } from "../redux/actions/OrderActions";
+import { getUserCartItems } from "../redux/actions/ProductsActions";
 import MapComponent from "./MapComponent";
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -18,19 +19,37 @@ const Checkout = () => {
     return () => (subscribed = false);
   }, []);
 
-  const handlePay = () => {
-    dispatch(makeOrder(data));
-  };
-
   const total = orderedItems?.length;
+
   // open google maps
   const [open, setOpen] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  console.log("Actual address is", deliveryAddress);
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [phone, setPhone] = useState("");
+  // console.log("Actual address iss", deliveryAddress);
+
+  // get payment values
+  const handlePayment = (e) => {
+    let value = e.target.value;
+    setPaymentMethod(value);
+  };
+  // get phone number
+  const handlePhoneNo = (e) => {
+    let phone = e.target.value;
+    setPhone(phone);
+  };
+  // get values from the state and male payment
   const data = {
     deliveryAddress,
-    paymentMethod: "Mpesa",
+    paymentMethod,
+    phone,
   };
+  const handlePay = () => {
+    dispatch(orderPayment(data));
+    // alert("paid");
+    console.log("data is", data);
+  };
+
   return (
     <section className="py-14 bg-uniform_grey">
       <div className="w-mobile md:w-container_width  grid md:grid-cols-5 gap-4 mx-auto">
@@ -81,65 +100,39 @@ const Checkout = () => {
           </div>
           <div>
             <h2 className="text-lg my-2">Payment Method</h2>
-            <div className="flex justify-between items-center rounded-lg bg-white p-2 space-x-5">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-11 w-11 p-1.5 bg-orange text-white rounded-full"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="flex-auto">Cash on delivery</p>
-              <form action="">
-                <input type="radio" />
-              </form>
+            <div className="flex flex-col space-y-4" onChange={handlePayment}>
+              <label className=" bg-white p-2 flex space-x-3 rounded-lg cursor-pointer">
+                <input type="radio" name="payment" value="3" />
+                <p>Orange</p>
+              </label>
+              <label className=" bg-white p-2 flex space-x-3 rounded-lg cursor-pointer">
+                <input type="radio" name="payment" value="2" />
+                <p>Mpesa</p>
+              </label>
+              <label className=" bg-white p-2 flex space-x-3 rounded-lg cursor-pointer">
+                <input type="radio" name="payment" value="1" />
+                <p>Airtel</p>
+              </label>
+              <label className=" bg-white p-2 flex space-x-3 rounded-lg cursor-pointer">
+                <input type="radio" name="payment" value="0" />
+                <p>Maxicash</p>
+              </label>
             </div>
+          </div>
+          <div>
+            <h2 className="text-lg mb-2">Enter payment mobile number</h2>
+            <input
+              type="text"
+              className="p-2 rounded w-full"
+              placeholder="Enter mobile number"
+              value={phone}
+              onChange={handlePhoneNo}
+            />
           </div>
         </div>
 
         <div className="md:col-span-2">
-          <h2 className="text-lg my-2">My Order</h2>
-          {/* <div
-            className={
-              total <= 2
-                ? "grid sm:grid-cols-1 gap-3  pb-5"
-                : "grid sm:grid-cols-2 gap-3 h-[300px] overflow-y-auto pb-5"
-            }
-          >
-            {orderedItems?.map((orderedItem) => {
-              const { name, price, quantity, imageUrl, _id } = orderedItem;
-              return (
-                <div
-                  key={_id}
-                  className={
-                    total <= 2
-                      ? "flex items-center space-x-3  bg-white p-3 rounded-lg h-[110px]"
-                      : "flex items-center space-x-3  bg-white p-3 rounded-lg"
-                  }
-                >
-                  <div className="h-[100px] flex">
-                    <img src={imageUrl?.[0]} alt={name} />
-                  </div>
-                  <div className="space-y-5 ">
-                    <p>{name}</p>
-                    <div className="flex justify-between">
-                      <p>
-                        Qty: <span>{quantity}</span>{" "}
-                      </p>
-                      <p className="text-green"> $ {price}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div> */}
+          <h2 className="text-lg my-2">My Order({total})</h2>
 
           <div className="grid grid-cols-2 gap-2">
             {orderedItems?.map((orderedItem) => {

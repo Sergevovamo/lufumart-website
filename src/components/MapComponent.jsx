@@ -15,7 +15,7 @@ import {
 import "@reach/combobox/styles.css";
 const containerStyle = {
   height: "60vh",
-  width: "80%",
+  width: "100%",
   margin: "0px auto",
   position: "relative",
 };
@@ -94,7 +94,7 @@ const MapComponent = ({ setOpen, setDeliveryAddress }) => {
 
   return (
     <section className="h-screen w-full bg-[rgba(0,0,0,0.5)]  bg-blend-multiply fixed top-0">
-      <div className=" bg-white text-center w-[80%] shadow  mx-auto py-8 rounded-lg  absolute top-[50px] left-[0px] right-[0px] ">
+      <div className=" bg-white text-center w-[90%] sm:w-[70%] shadow  mx-auto py-8 p-3 sm:p-5 rounded-lg  absolute top-[50px] left-[0px] right-[0px] ">
         <div
           onClick={() => setOpen(false)}
           className=" cursor-pointer absolute top-3 right-3 bg-orange text-white p-2 rounded-full w-9 h-9"
@@ -185,7 +185,7 @@ const Search = ({ panTo, setDeliveryAddress }) => {
         }}
       >
         <ComboboxInput
-          className="p-2 border  rounded w-1/2 "
+          className="p-2 border  rounded w-[90%] sm:w-1/2 "
           placeholder="Enter your delivery address"
           value={value}
           onChange={(e) => {

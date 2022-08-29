@@ -46,10 +46,24 @@ const Flashsale = () => {
     }
   };
   const totalFlashsales = flashsaleProducts?.length;
+
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <section className="py-6 bg-uniform_grey">
       <div className="w-mobile md:w-container_width mx-auto">
-        <h2 className="sm:text-2xl text-center mb-8">FLASH SALE</h2>
+        <h2 className="sm:text-2xl text-center mb-8">
+          {isEnglish ? "FLASH SALE" : "VENTE FLASH"}
+        </h2>
         <Swiper
           // install Swiper modules
           ref={swiperRef}
@@ -135,7 +149,10 @@ const Flashsale = () => {
           ) : (
             <>
               {flashsaleProducts?.map((flashsaleProduct) => {
-                const { _id, name, salePrice, imageUrl } = flashsaleProduct;
+                const { _id, name, salePrice, imageUrl, translations } =
+                  flashsaleProduct;
+                const french = translations[0]?.fr[0];
+                const english = translations[0]?.en[0];
                 return (
                   <SwiperSlide
                     key={_id}
@@ -149,7 +166,7 @@ const Flashsale = () => {
                     </div>
                     <div>
                       <p className="whitespace-nowrap overflow-hidden text-ellipsis	">
-                        {name}
+                        {isEnglish ? english.name : french.name}
                       </p>
                     </div>
                     <div className="flex justify-between items-center">

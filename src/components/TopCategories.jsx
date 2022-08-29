@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategories } from "../redux/actions/ProductsActions";
 import { useNavigate } from "react-router-dom";
@@ -11,11 +11,24 @@ const TopCategories = () => {
 
   // getting all the categories from state
   const categories = useSelector((state) => state.Products.categories);
+  console.log("categories are", categories);
   const loadingStatus = useSelector((state) => state.Products.loading);
-
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <section className="bg-uniform_grey py-7">
-      <p className="sm:text-2xl text-center pb-7 ">SHOP BY CATEGORIES</p>
+      <p className="sm:text-2xl text-center pb-7 ">
+        {isEnglish ? "SHOP BY CATEGORIES" : "ACHETER PAR CATÉGORIES"}
+      </p>
       {loadingStatus ? (
         <main className=" bg-full text-center mt-5 ">
           <div className="lds-spinner">

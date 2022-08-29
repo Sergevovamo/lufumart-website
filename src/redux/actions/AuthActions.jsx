@@ -145,24 +145,30 @@ export const logout = () => (dispatch) => {
   userAuth();
 };
 
-// get customer address
+// update customer profile
 
-export const getCustomerAddress = () => async (dispatch) => {
-  const response = await axios.get(
-    "http://localhost:7000/user_address",
-    authToken()
-  );
-  const data = await response.data;
-  if (data) {
-    dispatch({
-      type: types.GET_CUSTOMER_ADDRESS,
-      payload: data,
+export const updateCustomer = (payload) => async (dispatch) => {
+  const { name, email, phone } = payload;
+  try {
+    // body
+    const body = JSON.stringify({
+      name,
+      email,
+      phone,
     });
+    const response = await axios.put(`${AUTH_API}/profile`, body, authToken());
+    const data = await response.data;
+
+    if (data) {
+      dispatch({
+        type: types.UPDATE_CUSTOMER_PROFILE,
+        payload: data,
+      });
+      toast.success(`${data.message}`);
+      dispatch(getErrors(data.message, types.UPDATE_CUSTOMER_PROFILE));
+      dispatch(userAuth());
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
-
-// token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbWVzQGdtYWlsLmNvbSIsImlkIjoiNjI1M2Y5NWExOTZkOTgwOGZjNmU3OTA2IiwiaWF0IjoxNjQ5NjcwNDkwLCJleHAiOjE2NTIwODk2OTB9.D89kJalYysagtuv1O4nCXyYE0ACruUp65kumGp4XCDY
-
-// token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtlbHZpbm1hdGlAZ21haWwuY29tIiwiaWQiOiI2MjUzZmY3NTE5NmQ5ODA4ZmM2ZTc5MWEiLCJpYXQiOjE2NDk2NzIwNTQsImV4cCI6MTY1MjA5MTI1NH0.5PPYZmy_ALMOAGCtLu__xqTNJYpOQiN9S2rgGGY5Eoo
-// james@gmail.com
-// jamesjames

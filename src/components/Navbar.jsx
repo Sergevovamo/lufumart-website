@@ -21,7 +21,7 @@ const Navbar = () => {
   const [title, setTitle] = useState("");
   const [isAuth, setIsAuth] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLangClicked, setisLangClicked] = useState(false);
+
   // const [openSearch, setOpenSearch] = useState(false);
   // getting all the categories from state
   const categories = useSelector((state) => state?.Products?.categories);
@@ -135,13 +135,17 @@ const Navbar = () => {
     dispatch(logout());
     setIsDropdownOpen(false);
   };
-  // toggle language
+  // get language
   const language = useSelector((state) => state?.Products?.language);
-  // console.log("language", language);
-
-  // useEffect(() => {
-  //   dispatch(getLanguage());
-  // }, []);
+  const [isEnglish, setIsEnglish] = useState(false);
+  // console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <section
       className={
@@ -181,7 +185,9 @@ const Navbar = () => {
           className="hidden sm:block text-orange relative md:flex items-center space-x-1 cursor-pointer"
           onClick={() => setMenu(!menu)}
         >
-          <h2 className=" text-lg ">Categories</h2>
+          <h2 className=" text-lg ">
+            {isEnglish ? "Categories" : "catégories"}
+          </h2>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className={
@@ -207,13 +213,17 @@ const Navbar = () => {
             <div className="relative">
               <input
                 type="text"
-                placeholder="search products categories,brands etc here...."
+                placeholder={
+                  isEnglish
+                    ? "search products categories,sub-categories etc here...."
+                    : "rechercher des catégories de produits, des sous-catégories, etc. ici"
+                }
                 className="border p-2.5 w-full rounded-full outline-green"
               />
               <input
                 type="submit"
                 className="border p-2.5 absolute right-0 rounded-tr-full rounded-br-full bg-green text-white cursor-pointer   "
-                value="search"
+                value={isEnglish ? "Search" : "Chercher"}
               />
             </div>
           </form>

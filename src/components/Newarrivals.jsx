@@ -19,11 +19,21 @@ const Newarrivals = () => {
   const swiperRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let isEnglish = false;
+  // let isEnglish = true;
   const [newArrivals, setNewArrivals] = useState([]);
   //   get  new arrivals products from redux
   const isLoading = useSelector((state) => state?.Products?.loading);
-
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   const getNewArrivals = async () => {
     try {
       const response = await axios.get(
@@ -55,7 +65,7 @@ const Newarrivals = () => {
     <section className="py-6 bg-uniform_grey">
       <div className="w-mobile md:w-container_width mx-auto">
         <h2 className="sm:text-2xl sm:text-center mb-8 bg-orange text-white p-1.5 sm:p-0  sm:bg-transparent sm:text-black rounded">
-          NEW ARRIVALS
+          {isEnglish ? "NEW ARRIVALS" : "NOUVELLES ARRIVÉES"}
         </h2>
         <Swiper
           // install Swiper modules
@@ -137,7 +147,6 @@ const Newarrivals = () => {
                   newArrival;
                 const french = translations[0]?.fr[0];
                 const english = translations[0]?.en[0];
-
                 // console.log(lang.name);
                 return (
                   <SwiperSlide
@@ -145,7 +154,7 @@ const Newarrivals = () => {
                     className="bg-white p-2.5 rounded space-y-3 relative"
                   >
                     <div className="absolute right-0 bg-red text-white px-3 py-1 rounded-tl-full rounded-bl-full top-[9px] animate-bounce">
-                      New
+                      {isEnglish ? "New" : "Nouveau"}
                     </div>
                     <div
                       onClick={() => handleProductView(_id)}
@@ -155,7 +164,7 @@ const Newarrivals = () => {
                     </div>
                     <div>
                       <p className="whitespace-nowrap overflow-hidden text-ellipsis	">
-                        {isEnglish ? french.name : english.name}
+                        {isEnglish ? english.name : french.name}
                       </p>
                     </div>
                     <div className="flex justify-between items-center">

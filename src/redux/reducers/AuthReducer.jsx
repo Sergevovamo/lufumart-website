@@ -5,21 +5,13 @@ const initialState = {
   // isLoading: true,
   customer: {},
   errorMsg: null,
-  // address: {
-  //     username: "Steve",
-  //     deliveryAddress: "Mombasa,Umoja house eldoret",
-  //     country: "Congo",
-  //     zipCode: "34-43423",
-  //     phoneNo: "0756324589",
-  //     alternativePhone: "07544678656",
-  // },
-  // address: {},
 };
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.CUSTOMER_REGISTER:
     case types.CUSTOMER_LOGIN:
+    case types.UPDATE_CUSTOMER_PROFILE:
       return {
         ...state,
         loading: false,

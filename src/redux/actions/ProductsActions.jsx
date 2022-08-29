@@ -172,7 +172,6 @@ export const addToCart = (prodId) => async (dispatch) => {
   }
 };
 // get user cart products
-
 export const getUserCartItems = () => async (dispatch) => {
   try {
     const response = await axios.get(
@@ -229,35 +228,6 @@ export const removeProduct = (prodId) => async (dispatch) => {
   }
 };
 
-// make payment for the order
-export const makeOrder = () => async (dispatch) => {
-  // const { deliveryAddress, paymentMethod } = payload;
-
-  const body = JSON.stringify({
-    deliveryAddress,
-    paymentMethod,
-  });
-  try {
-    const response = await axios.post(
-      "https://api-v1.lufumart.com/api/v1/orders/create",
-      body,
-      authToken()
-    );
-    const data = await response.data;
-    console.log("Data is", data);
-    if (data) {
-      dispatch({
-        type: types.MAKE_ORDER,
-        payload: data,
-      });
-      toast.success(data.message);
-      getUserCartItems();
-    }
-  } catch (error) {
-    toast.error(error.response.data);
-    console.log(error.response.data);
-  }
-};
 // get orders
 export const getOrders = () => async (dispatch) => {
   try {
@@ -276,8 +246,12 @@ export const getOrders = () => async (dispatch) => {
     console.log(error.response.data.message);
   }
 };
-export const getLanguage = () => (dispatch) => {
+// get language
+export const getLanguage = (lang) => (dispatch) => {
   dispatch({
     type: types.GET_LANGUAGE,
+    payload: lang,
   });
+  localStorage.setItem("lang", lang);
+  toast.success("Language set succesfully");
 };

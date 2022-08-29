@@ -1,3 +1,4 @@
+import React, { useEffect, useState, Fragment } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom";
 import CustomerRegister from "./components/CustomerRegister";
@@ -27,63 +28,113 @@ import Footer from "./components/Footer";
 import SubCategoryProducts from "./components/SubCategoryProducts";
 import CategoryProducts from "./components/CategoryProducts";
 
+import { useDispatch } from "react-redux";
+import { getLanguage } from "./redux/actions/ProductsActions";
 function App() {
+  const dispatch = useDispatch();
+  const [isLanguagePopUpOpen, setIsLanguagePopUpOpen] = useState(false);
+  let storedLang = localStorage.getItem("lang");
+  useEffect(() => {
+    if (storedLang) {
+      setIsLanguagePopUpOpen(false);
+    } else {
+      setIsLanguagePopUpOpen(true);
+    }
+  }, [storedLang]);
+
+  const handleLanguage = (e) => {
+    let language = e.target.value;
+    dispatch(getLanguage(language));
+    setIsLanguagePopUpOpen(false);
+  };
   return (
-    <Router>
-      <div>
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Hero />
-                <Banners />
-                <Newarrivals />
-                <FeaturedBrands />
-                <Flashsale />
-                <TopCategories />
-                {/* <Featured /> */}
-                {/* <ForYou /> */}
-                <RecommendedSellers />
-                {/* <ElectronicDeals /> */}
-                <Subscribe />
-              </>
-            }
-          />
-          <Route path="/register/customer" element={<CustomerRegister />} />
-          <Route path="/login/customer" element={<CustomerLogin />} />
-          {/* <Route path="/map" element={<MapComponent />} /> */}
+    <Fragment>
+      <Router>
+        <div>
+          <Navbar />
 
-          <Route element={<PrivateRoute />}>
+          <Routes>
             <Route
-              path="/dashboard/customer/*"
-              element={<CustomerDashboard />}
+              path="/"
+              element={
+                <>
+                  <Hero />
+                  <Banners />
+                  <Newarrivals />
+                  <FeaturedBrands />
+                  <Flashsale />
+                  <TopCategories />
+                  {/* <Featured /> */}
+                  {/* <ForYou /> */}
+                  <RecommendedSellers />
+                  {/* <ElectronicDeals /> */}
+                  <Subscribe />
+                </>
+              }
             />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/register/customer" element={<CustomerRegister />} />
+            <Route path="/login/customer" element={<CustomerLogin />} />
+            {/* <Route path="/map" element={<MapComponent />} /> */}
+
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/dashboard/customer/*"
+                element={
+                  <CustomerDashboard
+                    setIsLanguagePopUpOpen={setIsLanguagePopUpOpen}
+                  />
+                }
+              />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+            </Route>
+            <Route
+              path="/dashboard/delivery/*"
+              element={<DeliveryGuyDashboard />}
+            />
+            <Route path="/product_view/:id" element={<ProductView />} />
+            <Route
+              path="/category_prd/:id/:category_name"
+              element={<CategoryProducts />}
+            />
+
+            <Route
+              path="/sub_prd/:id/:sub_name"
+              element={<SubCategoryProducts />}
+            />
+
             <Route path="/checkout" element={<Checkout />} />
-          </Route>
-          <Route
-            path="/dashboard/delivery/*"
-            element={<DeliveryGuyDashboard />}
-          />
-          <Route path="/product_view/:id" element={<ProductView />} />
-          <Route
-            path="/category_prd/:id/:category_name"
-            element={<CategoryProducts />}
-          />
+          </Routes>
+          <Footer />
+        </div>
+        <Toaster />
+      </Router>
+      <section className={isLanguagePopUpOpen ? "block" : "hidden"}>
+        <div className="bg-[rgba(0,0,0,0.7)] z-50 bg-blend-multiply w-screen h-screen fixed top-0  ">
+          <div className="w-[90%] sm:w-[50%] h-[250px] mx-auto  bg-white rounded p-3 fixed left-0 right-0 top-[25%] z-50">
+            <div>
+              <img
+                src="https://res.cloudinary.com/lufumart-ecommerce/image/upload/q_auto/c_scale,w_187,h_29/v1649943020/lufumart-logo/Lufumart_Logo_owimai.png"
+                alt=""
+              />
+            </div>
 
-          <Route
-            path="/sub_prd/:id/:sub_name"
-            element={<SubCategoryProducts />}
-          />
-
-          <Route path="/checkout" element={<Checkout />} />
-        </Routes>
-        <Footer />
-      </div>
-      <Toaster />
-    </Router>
+            <h2 className="text-lg ">Choose your preffered language</h2>
+            <h2 className="text-lg ">Choisissez votre langue préférée</h2>
+            <div onChange={handleLanguage}>
+              <div className="space-x-2">
+                <input type="radio" value="french" name="lang" id="" />
+                <label htmlFor="">French</label>
+              </div>
+              <div className="space-x-2">
+                <input type="radio" value="english" name="lang" id="" />
+                <label htmlFor="">English</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Fragment>
   );
 }
 

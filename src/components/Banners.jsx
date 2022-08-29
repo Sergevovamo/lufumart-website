@@ -3,7 +3,7 @@ import React from "react";
 const Banners = () => {
   const banners = [1, 2, 3];
   return (
-    <section className="bg-uniform_grey py-9 md:py-2 hidden sm:block">
+    <section className="bg-uniform_grey py-9  hidden sm:block">
       <div className="w-container_width mx-auto ">
         {/* <marquee behavior="" direction=""> */}
         <div className="   grid grid-cols-2 md:grid-cols-3 gap-3">

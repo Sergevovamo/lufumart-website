@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import profile from "../../images/profile.png";
 import Home from "./customer_dashboard_routes/Home";
-import ManageProfile from "./customer_dashboard_routes/ManageProfile";
 import Wishlist from "./customer_dashboard_routes/Wishlist";
 import { useDispatch, useSelector } from "react-redux";
 import { userAuth } from "../redux/actions/AuthActions";
 import Orders from "./customer_dashboard_routes/Orders";
-const CustomerDashboard = () => {
+import Settings from "./customer_dashboard_routes/Settings";
+const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.customer.current_user);
 
@@ -16,7 +16,7 @@ const CustomerDashboard = () => {
   }, []);
   // set clicked tab active
   const [active, setActive] = useState(false);
-  console.log("active is", active);
+  // console.log("active is", active);
   return (
     <section className="w-full  py-10 bg-uniform_grey">
       <div className="md:hidden z-50 fixed bottom-0 bg-green text-white w-full  grid grid-cols-4 ">
@@ -95,24 +95,30 @@ const CustomerDashboard = () => {
         <Link
           onMouseEnter={() => setActive(true)}
           onMouseLeave={() => setActive(false)}
-          to="/dashboard/customer/manage_profile"
+          to="/dashboard/customer/settings"
         >
           <div className="flex flex-col  items-center p-2 space-y-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
+              strokeWidth={1.5}
               stroke="currentColor"
-              strokeWidth={2}
+              className="w-6 h-6"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-            <p> profile</p>
+
+            <p>Settings</p>
           </div>
         </Link>
       </div>
@@ -186,23 +192,29 @@ const CustomerDashboard = () => {
                 <span className="">Wishlist</span>
               </li>
             </Link>
-            <Link to="/dashboard/customer/manage_profile">
+            <Link to="/dashboard/customer/settings">
               <li className="hover:shadow p-2 rounded-lg list-none flex space-x-3 items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
+                  strokeWidth={1.5}
                   stroke="currentColor"
-                  strokeWidth={2}
+                  className="w-6 h-6"
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span className="">Manage profile</span>
+
+                <span className="">Settings</span>
               </li>
             </Link>
           </div>
@@ -212,7 +224,12 @@ const CustomerDashboard = () => {
             <Route path="/" element={<Home currentUser={currentUser} />} />
             <Route path="/orders/*" element={<Orders />} />
             <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/manage_profile" element={<ManageProfile />} />
+            <Route
+              path="/settings"
+              element={
+                <Settings setIsLanguagePopUpOpen={setIsLanguagePopUpOpen} />
+              }
+            />
           </Routes>
         </div>
       </div>

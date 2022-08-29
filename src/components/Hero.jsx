@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -12,7 +13,17 @@ SwiperCore.use([Navigation, Autoplay, Pagination]);
 
 const Hero = () => {
   const swiperRef = useRef(null);
-
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <section className="bg-uniform_grey py-5">
       <div className="w-mobile md:w-container_width mx-auto sm:h-[400px]">
@@ -21,7 +32,9 @@ const Hero = () => {
             {" "}
             <div className="md:block hidden p-2 bg-white">
               <h2 className="text-orange animate-bounce text-center text-xl -z-10">
-                Enjoy amazing deals!!
+                {isEnglish
+                  ? "Enjoy amazing deals!!"
+                  : "Profitez d'offres incroyables !!"}
               </h2>
               <div className="grid grid-rows-2 h-full  items-center">
                 <div className="grid grid-cols-2 gap-4 ">
@@ -60,13 +73,14 @@ const Hero = () => {
                       </svg>
                     </div>
                     <div className="text-center space-y-2 ">
-                      <a>BECOME A SELLER</a>
+                      <a>{isEnglish ? "BECOME A SELLER" : "DEVENEZ VENDEUR"}</a>
+
                       <button className="  bg-green text-white rounded-lg p-2">
                         <a
                           target="_blank"
                           href="https://play.google.com/store/search?q=lufumart&c=apps"
                         >
-                          Get started
+                          {isEnglish ? "Get started" : "Commencer"}
                         </a>
                       </button>
                     </div>
@@ -104,13 +118,14 @@ const Hero = () => {
               </svg>
             </div>
             <div className=" space-y-2 ">
-              <h2>BECOME A SELLER</h2>
+              <a>{isEnglish ? "BECOME A SELLER" : "DEVENEZ VENDEUR"}</a>
+
               <button className="  bg-green text-white rounded-lg p-2">
                 <a
                   target="_blank"
                   href="https://play.google.com/store/search?q=lufumart&c=apps"
                 >
-                  Get started
+                  {isEnglish ? "Get started" : "Commencer"}
                 </a>
               </button>
             </div>
