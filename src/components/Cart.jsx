@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -20,8 +20,12 @@ const Cart = () => {
     return () => (suscribed = false);
   }, []);
 
-  const CartItems = useSelector((state) => state.Products.cart.cartProducts);
-  const totals = useSelector((state) => state.Products.cart.cartProductTotal);
+  const CartItems = useSelector((state) => state?.Products?.cart?.cartProducts);
+  // console.log("CartItems", CartItems);
+
+  const totals = useSelector(
+    (state) => state?.Products?.cart?.cartProductTotal
+  );
 
   const Totals = totals && totals.subTotal;
 
@@ -51,7 +55,17 @@ const Cart = () => {
   let totalCartItems = CartItems && CartItems.length;
   // get token
   const token = localStorage.getItem("loginToken");
-
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  // console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <>
       <section className=" min-h-[50vh] h-full  bg-gray-50 md:py-16 py-10 flex flex-col  items-center justify-center">
@@ -72,11 +86,16 @@ const Cart = () => {
               <div>
                 {totalCartItems === 1 ? (
                   <p className="p-2  border-b-2 border-dashed text-xl  ">
-                    There is 1 item in your cart
+                    {isEnglish
+                      ? "There is 1 item in your cart"
+                      : "Il y a 1 article dans votre panier"}
                   </p>
                 ) : (
                   <p className="p-2  border-b-2 border-dashed text-2xl  ">
-                    There are {totalCartItems || 0} items in your cart
+                    {isEnglish ? "There are" : "Il y a"} {totalCartItems || 0}{" "}
+                    {isEnglish
+                      ? "items in your cart"
+                      : "Articles dans votre panier"}
                   </p>
                 )}
               </div>
@@ -101,7 +120,14 @@ const Cart = () => {
                 <div className="space-y-5">
                   {CartItems &&
                     CartItems.map((item) => {
-                      const { imageUrl, name, _id, salePrice } = item;
+                      const { imageUrl, name, _id, salePrice, translations } =
+                        item;
+
+                      // translate to english
+                      const english = translations[0]?.en[0];
+                      // translate to french
+                      const french = translations[0]?.fr[0];
+
                       const items =
                         itemQuantity &&
                         itemQuantity.find((item) => item.productId === _id);
@@ -117,7 +143,7 @@ const Cart = () => {
                           </div>
                           <div className="col-span-3 grid grid-rows-2 gap-2 ">
                             <div className="text-orange text-lg">
-                              <p>{name}</p>
+                              <p>{isEnglish ? english.name : french.name}</p>
                             </div>
                             <div className=" flex justify-between items-center">
                               <div>
@@ -178,10 +204,10 @@ const Cart = () => {
                 </div>
               )}
             </div>
-            <div className=" bg-white h-full md:h-56 shadow-sm rounded ">
+            <div className=" bg-white h-full md:h-72 shadow-sm rounded ">
               <div>
                 <p className="p-2  border-b-2 border-dashed text-xl  ">
-                  Cart summary
+                  {isEnglish ? "Cart summary" : "Récapitulatif du panier"}
                 </p>
               </div>
 
@@ -198,17 +224,25 @@ const Cart = () => {
                     $ {(totals && totals.vat.toLocaleString()) || 0}
                   </p>
                 </div>
+                <div className="font-bold border-t-[1px] flex justify-between py-2">
+                  <h2>Total</h2>
+                  <h2>USD {totals?.total}</h2>
+                </div>
 
-                <p className="text-orange">Delivery charges not included</p>
+                <p className="text-orange">
+                  {isEnglish
+                    ? "Delivery charges not included"
+                    : "Frais de livraison non inclus"}
+                </p>
                 <div className="flex space-x-2 ">
                   <Link to="/checkout">
                     <button className=" p-2 bg-green rounded-lg text-white ">
-                      Checkout
+                      {isEnglish ? "Checkout" : "Vérifier"}
                     </button>
                   </Link>
                   <Link to="/">
                     <button className="p-2 bg-green rounded-lg text-white ">
-                      Continue shopping
+                      {isEnglish ? "Continue shopping" : "Continuer vos achats"}
                     </button>
                   </Link>
                 </div>

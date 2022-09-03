@@ -14,7 +14,7 @@ import TopCategories from "./components/TopCategories";
 import DeliveryGuyDashboard from "./components/DeliveryGuyDashboard";
 // import ElectronicDeals from "./components/deals/ElectronicDeals";
 // import ForYou from "./components/deals/ForYou";
-import RecommendedSellers from "./components/RecommendedSellers";
+// import RecommendedSellers from "./components/RecommendedSellers";
 import { Toaster } from "react-hot-toast";
 import Hero from "./components/Hero";
 import PrivateRoute from "./components/middleware/PrivateRoute";
@@ -22,7 +22,7 @@ import Checkout from "./components/Checkout";
 import Navbar from "./components/Navbar";
 import Flashsale from "./components/Flashsale";
 import Newarrivals from "./components/Newarrivals";
-// import Featured from "./components/Featured";
+import Featured from "./components/Featured";
 // import MapComponent from "./components/MapComponent";
 import Footer from "./components/Footer";
 import SubCategoryProducts from "./components/SubCategoryProducts";
@@ -30,6 +30,7 @@ import CategoryProducts from "./components/CategoryProducts";
 
 import { useDispatch } from "react-redux";
 import { getLanguage } from "./redux/actions/ProductsActions";
+import Explore from "./components/Explore";
 function App() {
   const dispatch = useDispatch();
   const [isLanguagePopUpOpen, setIsLanguagePopUpOpen] = useState(false);
@@ -60,13 +61,14 @@ function App() {
                 <>
                   <Hero />
                   <Banners />
-                  <Newarrivals />
                   <FeaturedBrands />
+                  <Newarrivals />
                   <Flashsale />
                   <TopCategories />
-                  {/* <Featured /> */}
+                  <Featured />
+                  <Explore />
                   {/* <ForYou /> */}
-                  <RecommendedSellers />
+                  {/* <RecommendedSellers /> */}
                   {/* <ElectronicDeals /> */}
                   <Subscribe />
                 </>
@@ -74,6 +76,7 @@ function App() {
             />
             <Route path="/register/customer" element={<CustomerRegister />} />
             <Route path="/login/customer" element={<CustomerLogin />} />
+
             {/* <Route path="/map" element={<MapComponent />} /> */}
 
             <Route element={<PrivateRoute />}>

@@ -25,7 +25,7 @@ const OpenOrders = () => {
     setProducts(items);
   };
   const openOrders = useSelector((state) => state?.Products?.orders);
-  // console.log(openOrders);
+  console.log("openOrders are", openOrders);
   // console.log("isOrderDetailOpen", isOrderDetailOpen);
 
   return (

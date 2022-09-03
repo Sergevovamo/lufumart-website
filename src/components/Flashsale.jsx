@@ -50,7 +50,7 @@ const Flashsale = () => {
   // get language
   const language = useSelector((state) => state?.Products?.language);
   const [isEnglish, setIsEnglish] = useState(false);
-  console.log("language is", language);
+  // console.log("language is", language);
   useEffect(() => {
     if (language === "french") {
       setIsEnglish(false);

@@ -1,9 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getMoreProductsByCategory,
-  getProductsByCategory,
-} from "../redux/actions/ProductsActions";
+import { getProductsByCategory } from "../redux/actions/ProductsActions";
 import { useParams, useNavigate } from "react-router-dom";
 const CategoryProducts = () => {
   const dispatch = useDispatch();
@@ -26,11 +23,6 @@ const CategoryProducts = () => {
   const categoryProducts = useSelector(
     (state) => state?.Products?.category_products?.products
   );
-  // const moreCategoryProducts = useSelector((state) => state?.Products);
-  // console.log("moreCategoryProducts are", moreCategoryProducts);
-  // useEffect(() => {
-  //   dispatch(getMoreProductsByCategory("627eaa45dfa8780fea3c8044", 5));
-  // }, []);
 
   return (
     <section className="bg-uniform_grey py-10">

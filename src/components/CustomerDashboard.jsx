@@ -17,9 +17,20 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
   // set clicked tab active
   const [active, setActive] = useState(false);
   // console.log("active is", active);
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  // console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <section className="w-full  py-10 bg-uniform_grey">
-      <div className="md:hidden z-50 fixed bottom-0 bg-green text-white w-full  grid grid-cols-4 ">
+      <div className="md:hidden z-50 fixed bottom-0 bg-green text-white w-full  grid grid-cols-3 ">
         <Link to="/dashboard/customer/">
           <div
             // onMouseEnter={() => setActive(true)}
@@ -45,7 +56,7 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
               />
             </svg>
-            <p>Home</p>
+            <p>{isEnglish ? "Home" : "Maison"}</p>
           </div>
         </Link>
         <Link
@@ -70,7 +81,7 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
             <p>Orders</p>
           </div>{" "}
         </Link>
-        <Link
+        {/* <Link
           onMouseEnter={() => setActive(true)}
           to="/dashboard/customer/wishlist"
         >
@@ -91,7 +102,7 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
             </svg>
             <p>Wishlist</p>
           </div>
-        </Link>
+        </Link> */}
         <Link
           onMouseEnter={() => setActive(true)}
           onMouseLeave={() => setActive(false)}
@@ -118,7 +129,7 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
               />
             </svg>
 
-            <p>Settings</p>
+            <p>{isEnglish ? "Settings" : "Réglages"}</p>
           </div>
         </Link>
       </div>
@@ -150,7 +161,7 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                   />
                 </svg>
-                <span className="">Home</span>
+                <span className="">{isEnglish ? "Home" : "Maison"}</span>
               </li>
             </Link>
             <Link to="/dashboard/customer/orders">
@@ -170,10 +181,10 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
                   />
                 </svg>
 
-                <span className="">Orders</span>
+                <span className="">{isEnglish ? "Orders" : "Ordres"}</span>
               </li>
             </Link>
-            <Link to="/dashboard/customer/wishlist">
+            {/* <Link to="/dashboard/customer/wishlist">
               <li className="hover:shadow p-2 rounded-lg list-none flex space-x-3 items-center ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +202,7 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
                 </svg>
                 <span className="">Wishlist</span>
               </li>
-            </Link>
+            </Link> */}
             <Link to="/dashboard/customer/settings">
               <li className="hover:shadow p-2 rounded-lg list-none flex space-x-3 items-center">
                 <svg
@@ -214,7 +225,7 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
                   />
                 </svg>
 
-                <span className="">Settings</span>
+                <span className="">{isEnglish ? "Settings" : "Réglages"}</span>
               </li>
             </Link>
           </div>

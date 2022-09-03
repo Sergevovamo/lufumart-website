@@ -6,78 +6,11 @@
   font-family: "Beau Rivage", cursive;
 }
 
-/* setting the navbar fixed on scroll */
-
-/* .navbar {
-    z-index: 999;
-    width: 100%;
-    height: auto;
-    background-color: #fff;
-    box-shadow: 0 0 0 0.5px rgb(50 50 93 / 10%), 0 2px 5px 0 rgb(50 50 93 / 10%), 0 1px 1.5px 0 rgb(0 0 0 / 7%);
-}
-
-.Fixed {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    z-index: 999;
-    background-color: #fff;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.473);
-    box-shadow: 0 0 0 0.5px rgb(50 50 93 / 10%), 0 2px 5px 0 rgb(50 50 93 / 10%), 0 1px 1.5px 0 rgb(0 0 0 / 7%);
-} */
-
 /* icon styling */
 
 ion-icon {
   font-size: 22px;
 }
-
-/* dashboard */
-
-/* .dashboard {
-  display: grid;
-  grid-template-columns: 2fr 7fr;
-  gap: 35px;
-} */
-
-/* swiper js styling */
-
-/* .slides_container .swiper {
-  display: flex;
-  align-items: center;
-}
-
-.slides_container .swiper-slide {
-  background-color: #fff;
-  border-radius: 2px;
-  padding: 10px 7px;
-  cursor: pointer;
-}
-
-.previousButton,
-.nextButton {
-  background-color: rgba(0, 0, 0, 0.411);
-  color: #fff;
-  padding: 7px;
-  border-radius: 50%;
-  position: absolute;
-  z-index: 200;
-  cursor: pointer;
-}
-
-.previousButton:hover,
-.nextButton:hover {
-  background-color: rgba(0, 0, 0, 0.61);
-}
-
-.nextButton {
-  right: 0px;
-}
-
-.previousButton {
-  left: 0px;
-} */
 
 /* Works on Firefox */
 

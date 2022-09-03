@@ -26,12 +26,12 @@ const Navbar = () => {
   // getting all the categories from state
   const categories = useSelector((state) => state?.Products?.categories);
 
-  // console.log("Categories are", categories);
   const categoriesLoading = useSelector((state) => state?.Products?.loading);
   // console.log("Loading is", categoriesLoading);
   // getting all the sub-categories from state
   const subCategories = useSelector((state) => state?.Products?.sub_categories);
   // console.log("subCategories are", subCategories);
+
   // auth state
   // check if user is authenticated
   const [dashboard, setDashboard] = useState("");
@@ -215,8 +215,8 @@ const Navbar = () => {
                 type="text"
                 placeholder={
                   isEnglish
-                    ? "search products categories,sub-categories etc here...."
-                    : "rechercher des catégories de produits, des sous-catégories, etc. ici"
+                    ? "search products here...."
+                    : "rechercher des produits ici..."
                 }
                 className="border p-2.5 w-full rounded-full outline-green"
               />
@@ -397,7 +397,9 @@ const Navbar = () => {
           ) : (
             <div>
               {categories?.map((category) => {
-                const { name, _id } = category;
+                const { name, _id, translations } = category;
+                const english = translations[0]?.en[0];
+                const french = translations[0]?.fr[0];
 
                 return (
                   <ul
@@ -405,10 +407,15 @@ const Navbar = () => {
                     className={hideCategories ? "hidden" : "block  "}
                   >
                     <div
-                      onClick={() => handleShowSubCtegories(_id, name)}
+                      onClick={() =>
+                        handleShowSubCtegories(
+                          _id,
+                          isEnglish ? english?.name : french?.name
+                        )
+                      }
                       className="flex justify-between items-center p-1.5 hover:bg-gray-50 cursor-pointer"
                     >
-                      <li>{name}</li>
+                      <li>{isEnglish ? english.name : french.name}</li>
                       <svg
                         className="h-5 w-5 text-orange"
                         xmlns="http://www.w3.org/2000/svg"
@@ -448,15 +455,21 @@ const Navbar = () => {
                 </div>
                 <ul className="bg-white">
                   {subCategories?.map((sub) => {
-                    const { name, _id } = sub;
-
+                    const { name, _id, translations } = sub;
+                    const english = translations[0]?.en[0];
+                    const french = translations[0]?.fr[0];
                     return (
                       <li
                         key={_id}
-                        onClick={() => handleProductSubCategiesView(_id, name)}
+                        onClick={() =>
+                          handleProductSubCategiesView(
+                            _id,
+                            isEnglish ? english?.name : french?.name
+                          )
+                        }
                         className="py-1.5 mx-3  hover:text-orange  cursor-pointer"
                       >
-                        {name}
+                        {isEnglish ? english?.name : french?.name}
                       </li>
                     );
                   })}

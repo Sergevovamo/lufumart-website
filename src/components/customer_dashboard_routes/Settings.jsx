@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCustomer } from "../../redux/actions/AuthActions";
 const Settings = ({ setIsLanguagePopUpOpen }) => {
@@ -52,6 +53,10 @@ const Settings = ({ setIsLanguagePopUpOpen }) => {
       dispatch(updateCustomer(userValues));
     }
   };
+  // handle popup
+  const handlePopUp = () => {
+    setIsLanguagePopUpOpen(true);
+  };
 
   return (
     <section>
@@ -59,7 +64,7 @@ const Settings = ({ setIsLanguagePopUpOpen }) => {
         <div className="flex justify-between items-center">
           <h2 className="font-bold "> Account</h2>
           <button
-            onClick={() => setIsLanguagePopUpOpen(true)}
+            onClick={handlePopUp}
             className="p-2 bg-orange rounded-full text-white"
           >
             Language

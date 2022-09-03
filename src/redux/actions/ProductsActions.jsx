@@ -36,6 +36,21 @@ export const getProducts = () => async (dispatch) => {
     console.log(error.response.data);
   }
 };
+// get more products
+export const getMoreProducts = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`${PRODUCT_API}/lufumart-app?limit=10`);
+    const data = await response.data;
+    if (data) {
+      dispatch({
+        type: types.GET_MORE_PRODUCTS,
+        payload: data?.products,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 // get single product
 export const getSingleProduct = (id) => async (dispatch) => {
   const response = await axios.get(`${PRODUCT_API}/${id}`, authToken());
@@ -114,24 +129,7 @@ export const getProductsByCategory = (categoryId) => async (dispatch) => {
     console.log(error);
   }
 };
-// get more products by sub-category
-export const getMoreProductsByCategory = (payload) => async (dispatch) => {
-  const { subCategoryId, page } = payload;
-  try {
-    const response = await axios.get(
-      `${PRODUCT_API}/lufumart-app/sub-category-products?subCategoryId=${subCategoryId}&page=${page}`
-    );
-    const data = await response.data;
-    if (data) {
-      dispatch({
-        type: types.GET_MORE_PRODUCTS_BY_CATEGORY,
-        payload: data,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 // get  products with their respective sub-categories
 export const getProductBySubCategory = (subCategoryId) => async (dispatch) => {
   try {
@@ -144,6 +142,29 @@ export const getProductBySubCategory = (subCategoryId) => async (dispatch) => {
       dispatch({
         type: types.GET_PRODUCTS_BY_SUB_CATEGORY,
         payload: data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+// get more products by subCategory
+export const getMoreProductsBySubCategory = (payload) => async (dispatch) => {
+  const { subCategoryId, page } = payload;
+  console.log("page is", page);
+  try {
+    const response = await axios.get(
+      `${PRODUCT_API}/lufumart-app/sub-category-products?subCategoryId=${subCategoryId}&page=${page}`
+    );
+    const data = await response.data;
+    if (data) {
+      dispatch({
+        type: types.GET_MORE_PRODUCTS_BY_SUB_CATEGORY,
+        // payload: {
+        //   products: data?.products,
+        //   page: page,
+        // },
+        payload: data?.products,
       });
     }
   } catch (error) {
@@ -253,5 +274,5 @@ export const getLanguage = (lang) => (dispatch) => {
     payload: lang,
   });
   localStorage.setItem("lang", lang);
-  toast.success("Language set succesfully");
+  // toast.success("Language set succesfully");
 };

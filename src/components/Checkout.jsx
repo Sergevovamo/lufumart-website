@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { orderPayment } from "../redux/actions/OrderActions";
+import { calculateShipping, orderPayment } from "../redux/actions/OrderActions";
 import { getUserCartItems } from "../redux/actions/ProductsActions";
 import MapComponent from "./MapComponent";
 const Checkout = () => {
   const dispatch = useDispatch();
+  // set button loading
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+
   const orderedItems = useSelector(
     (state) => state?.Products?.cart?.cartDetail?.[0]?.items
   );
-  const totalAmount = useSelector(
-    (state) => state?.Products?.cart?.cartDetail?.[0]
+
+  const subTotal = useSelector(
+    (state) => state?.Products?.cart?.cartProductTotal
   );
+  // const subTotal = useSelector(
+  //   (state) => state?.Products?.cart?.cartDetail?.[0]
+  // );
   useEffect(() => {
     let subscribed = true;
     if (subscribed) {
@@ -20,7 +28,25 @@ const Checkout = () => {
   }, []);
 
   const total = orderedItems?.length;
+  // get the shipping cost
+  useEffect(() => {
+    dispatch(calculateShipping());
+  }, []);
+  const shippingFee = useSelector((state) => state?.Order?.shipping);
 
+  // calculate total amount
+  const totalAmount = subTotal?.total + shippingFee;
+  // get order errors from the state
+  const error = useSelector((state) => state?.error);
+
+  console.log("order error", error);
+  useEffect(() => {
+    if (error.typeId === "MAKE_ORDER_FAIL") {
+      setIsButtonLoading(false);
+    } else {
+      setIsButtonLoading(false);
+    }
+  }, [error]);
   // open google maps
   const [open, setOpen] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState("");
@@ -45,17 +71,30 @@ const Checkout = () => {
     phone,
   };
   const handlePay = () => {
+    setIsButtonLoading(true);
     dispatch(orderPayment(data));
     // alert("paid");
     console.log("data is", data);
   };
-
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  // console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <section className="py-14 bg-uniform_grey">
       <div className="w-mobile md:w-container_width  grid md:grid-cols-5 gap-4 mx-auto">
         <div className="space-y-5 md:md:col-span-3">
           <div>
-            <h2 className="text-lg my-2">Delivery Address</h2>
+            <h2 className="text-lg my-2">
+              {isEnglish ? "Delivery Address" : "Adresse de livraison"}
+            </h2>
             <div
               onClick={() => setOpen(true)}
               className="cursor-pointer  flex justify-between items-center rounded-lg bg-white p-2 space-x-5"
@@ -80,7 +119,14 @@ const Checkout = () => {
                 />
               </svg>
               <p className="flex-auto">
-                {deliveryAddress || "Search your delivery location "}
+                {/* {deliveryAddress || isEnglish
+                  ? "Click to search delivery location"
+                  : "Cliquez pour rechercher le lieu de livraison"} */}
+                {deliveryAddress === ""
+                  ? isEnglish
+                    ? "Click to search delivery location"
+                    : "Cliquez pour rechercher le lieu de livraison"
+                  : deliveryAddress}
               </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +145,9 @@ const Checkout = () => {
             </div>
           </div>
           <div>
-            <h2 className="text-lg my-2">Payment Method</h2>
+            <h2 className="text-lg my-2">
+              {isEnglish ? "Payment Method" : "Mode de paiement"}
+            </h2>
             <div className="flex flex-col space-y-4" onChange={handlePayment}>
               <label className=" bg-white p-2 flex space-x-3 rounded-lg cursor-pointer">
                 <input type="radio" name="payment" value="3" />
@@ -120,11 +168,19 @@ const Checkout = () => {
             </div>
           </div>
           <div>
-            <h2 className="text-lg mb-2">Enter payment mobile number</h2>
+            <h2 className="text-lg mb-2">
+              {isEnglish
+                ? "Enter payment mobile number"
+                : "Entrez le numéro de mobile de paiement"}
+            </h2>
             <input
               type="text"
               className="p-2 rounded w-full"
-              placeholder="Enter mobile number"
+              placeholder={
+                isEnglish
+                  ? "Enter mobile number"
+                  : "Entrez le numéro de téléphone portable"
+              }
               value={phone}
               onChange={handlePhoneNo}
             />
@@ -132,7 +188,9 @@ const Checkout = () => {
         </div>
 
         <div className="md:col-span-2">
-          <h2 className="text-lg my-2">My Order({total})</h2>
+          <h2 className="text-lg my-2">
+            {isEnglish ? "My Order" : "ma commande"}({total})
+          </h2>
 
           <div className="grid grid-cols-2 gap-2">
             {orderedItems?.map((orderedItem) => {
@@ -153,17 +211,32 @@ const Checkout = () => {
               );
             })}
           </div>
-          <div className="space-y-8">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center mt-4  ">
+              <h2>{isEnglish ? "Sub Total" : "Sous-total"}</h2>
+              <h2>USD ${subTotal?.total}</h2>
+            </div>
+            <div className="flex justify-between items-center mt-4  ">
+              <h2>{isEnglish ? "Shipping fee" : "Frais d'expédition"}</h2>
+              <h2>USD ${shippingFee}</h2>
+            </div>
             <div className="flex justify-between items-center mt-4 font-bold ">
-              <h2>Total Amount</h2>
-              <h2>USD {totalAmount?.total}</h2>
+              <h2>{isEnglish ? "Total Amount" : "Montant total"}</h2>
+              <h2>USD ${totalAmount}</h2>
             </div>
             <div>
               <button
                 onClick={handlePay}
-                className="p-2  bg-green text-white w-full rounded-lg "
+                className="p-2 flex justify-center items-center space-x-3 bg-green text-white w-full rounded-lg "
               >
-                PAY NOW
+                <span
+                  className={
+                    isButtonLoading
+                      ? "w-8 h-8 border-[2px] border-r-gray-700 rounded-full animate-spin"
+                      : "hidden"
+                  }
+                ></span>
+                <span>{isEnglish ? "PAY NOW" : "PAYEZ MAINTENANT"}</span>
               </button>
             </div>
           </div>
@@ -180,4 +253,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
-const loop = [1, 2];
+// const loop = [1, 2];

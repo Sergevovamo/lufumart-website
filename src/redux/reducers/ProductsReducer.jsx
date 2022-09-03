@@ -1,7 +1,8 @@
 import * as types from "../types";
 const initialState = {
   loading: true,
-  products: null,
+  products: [],
+  more_products: [],
   product: {},
   categories: [],
   sub_categories: [],
@@ -9,9 +10,11 @@ const initialState = {
   orderPaid: null,
   orders: [],
   sub_category_products: null,
-  category_products: null,
+  more_sub_category_products: [],
+  category_products: [],
   more_category_products: null,
   language: localStorage.getItem("lang"),
+
   // language: null,
 };
 
@@ -22,6 +25,12 @@ export const productsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         products: action.payload,
+      };
+    case types.GET_MORE_PRODUCTS:
+      return {
+        ...state,
+        loading: false,
+        more_products: [...state.more_products, ...action.payload],
       };
     case types.GET_SINGLE_PRODUCT:
       return {
@@ -53,18 +62,19 @@ export const productsReducer = (state = initialState, action) => {
         loading: false,
         category_products: action.payload,
       };
-    case types.GET_MORE_PRODUCTS_BY_CATEGORY:
-      return {
-        ...state,
-        loading: false,
-        more_category_products: action.payload,
-      };
-
     case types.GET_PRODUCTS_BY_SUB_CATEGORY:
       return {
         ...state,
         loading: false,
         sub_category_products: action.payload,
+      };
+    case types.GET_MORE_PRODUCTS_BY_SUB_CATEGORY:
+      return {
+        ...state,
+        more_sub_category_products: [
+          ...state?.more_sub_category_products,
+          ...action?.payload,
+        ],
       };
     case types.GET_USER_CART_ITEMS:
       return {
@@ -92,6 +102,7 @@ export const productsReducer = (state = initialState, action) => {
         loading: false,
         orders: action.payload,
       };
+
     case types.GET_LANGUAGE:
       return {
         ...state,

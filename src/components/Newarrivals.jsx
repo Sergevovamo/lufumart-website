@@ -26,7 +26,7 @@ const Newarrivals = () => {
   // get language
   const language = useSelector((state) => state?.Products?.language);
   const [isEnglish, setIsEnglish] = useState(false);
-  console.log("language is", language);
+  // console.log("language is", language);
   useEffect(() => {
     if (language === "french") {
       setIsEnglish(false);
@@ -40,7 +40,7 @@ const Newarrivals = () => {
         "https://api-v1.lufumart.com/api/v1/product-promotions/lufumart-app/new-arrivals-promotions"
       );
       const data = await response.data.products;
-      console.log("data", data);
+      // console.log("data", data);
       if (data) {
         setNewArrivals(data);
       }
@@ -48,6 +48,8 @@ const Newarrivals = () => {
       console.log(error);
     }
   };
+  // get total new arrivals
+  const totalNewArrivals = newArrivals?.length;
   useEffect(() => {
     let subscribed = true;
     if (subscribed) {
@@ -58,7 +60,7 @@ const Newarrivals = () => {
 
   // view individual product
   const handleProductView = (id) => {
-    dispatch(getSingleProduct(id));
+    // dispatch(getSingleProduct(id));
     navigate(`/product_view/${id}`);
   };
   return (
@@ -94,7 +96,12 @@ const Newarrivals = () => {
           <div onClick={() => swiperRef.current.swiper.slidePrev()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10  p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 left-0"
+              // className="h-10 w-10  p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 left-0"
+              className={
+                totalNewArrivals <= 6
+                  ? "hidden"
+                  : "h-10 w-10  p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 left-0"
+              }
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -110,7 +117,11 @@ const Newarrivals = () => {
           <div onClick={() => swiperRef.current.swiper.slideNext()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10 p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 right-0"
+              className={
+                totalNewArrivals <= 6
+                  ? "hidden"
+                  : "h-10 w-10 p-2 bg-white border hover:bg-gray-200  rounded-full cursor-pointer absolute top-[43%] z-50 right-0"
+              }
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -147,15 +158,11 @@ const Newarrivals = () => {
                   newArrival;
                 const french = translations[0]?.fr[0];
                 const english = translations[0]?.en[0];
-                // console.log(lang.name);
                 return (
                   <SwiperSlide
                     key={_id}
-                    className="bg-white p-2.5 rounded space-y-3 relative"
+                    className="bg-white p-2.5 rounded space-y-3 "
                   >
-                    <div className="absolute right-0 bg-red text-white px-3 py-1 rounded-tl-full rounded-bl-full top-[9px] animate-bounce">
-                      {isEnglish ? "New" : "Nouveau"}
-                    </div>
                     <div
                       onClick={() => handleProductView(_id)}
                       className="h-36 flex justify-center cursor-pointer"
@@ -174,7 +181,7 @@ const Newarrivals = () => {
                       <svg
                         // onClick={() => alert("Clicked")}
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-orange "
+                        className="h-6 w-6 text-orange z-50"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"

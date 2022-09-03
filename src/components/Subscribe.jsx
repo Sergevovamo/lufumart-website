@@ -1,5 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 const Subscribe = () => {
+  // get language
+  const language = useSelector((state) => state?.Products?.language);
+  const [isEnglish, setIsEnglish] = useState(false);
+  // console.log("language is", language);
+  useEffect(() => {
+    if (language === "french") {
+      setIsEnglish(false);
+    } else {
+      setIsEnglish(true);
+    }
+  }, [language]);
   return (
     <section className="w-full h-auto py-7 bg-uniform_grey">
       <div className="w-mobile md:w-container_width  h-full mx-auto  grid md:grid-cols-3  gap-4 ">
@@ -19,12 +31,12 @@ const Subscribe = () => {
             />
           </svg>
           <a href="#">
-            <p>Term & Conditions</p>
+            <p>{isEnglish ? "Term & Conditions" : "Termes et conditions"}</p>
           </a>
         </div>
         <div className=" w-full  h-full bg-white shadow flex flex-col justify-center items-center py-3 rounded ">
           <h2 className=" ">
-            Get lufumart{" "}
+            {isEnglish ? "Get lufumart" : "Obtenez Lufumart"}
             <span className="before:block mx-2 before:absolute before:-inset-1 before:-skew-y-3 before:bg-orange relative inline-block">
               <span className="relative text-white p-2">App</span>
             </span>
@@ -48,22 +60,29 @@ const Subscribe = () => {
           </div>
         </div>
         <div className="  w-full p-3  h-full bg-white shadow rounded">
-          <p className="pb-5">
+          {/* <p className="pb-5">
             Subcribe to our newsletter to get{" "}
             <span className="text-orange px-1">updated</span> on{" "}
             <span className="text-orange">New </span> new and
             <span className="text-orange"> amazing !! </span> deals
+          </p> */}
+          <p className="pb-5">
+            {isEnglish
+              ? "Subscribe to get updated on new deals"
+              : "Abonnez-vous pour être informé des nouvelles offres"}
           </p>
           <form className="flex space-x-2 ">
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder={
+                isEnglish ? "Enter your email" : "Entrer votre Email"
+              }
               className="border  focus:outline-0 p-2  w-full"
             />
             <input
               type="submit"
-              value="Subscribe"
-              className="bg-orange uppercase text-gray-100  p-2"
+              value={isEnglish ? "Subscribe" : "S'ABONNER"}
+              className="bg-orange uppercase text-white  p-2"
             />
           </form>
         </div>

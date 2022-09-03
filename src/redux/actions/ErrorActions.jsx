@@ -20,3 +20,9 @@ export const registerFail = () => {
     type: types.CUSTOMER_REGISTER_FAIL,
   };
 };
+
+export const orderPaymentFail = () => {
+  return {
+    type: types.MAKE_ORDER_FAIL,
+  };
+};
