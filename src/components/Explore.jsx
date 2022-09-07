@@ -21,8 +21,10 @@ const Explore = () => {
 
   const moreProducts = useSelector((state) => state?.Products?.more_products);
 
-  const isLoading = useSelector((state) => state?.Products?.loading);
-  //   console.log("loading is", loading);
+  const isLoading = useSelector(
+    (state) => state?.Products?.more_products_loading
+  );
+  console.log("loading is", isLoading);
   // get language
   const language = useSelector((state) => state?.Products?.language);
   const [isEnglish, setIsEnglish] = useState(false);

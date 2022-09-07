@@ -9,6 +9,11 @@ export const getErrors = (msg, typeId) => {
     },
   };
 };
+export const clearErrors = () => {
+  return {
+    type: types.CLEAR_ERRORS,
+  };
+};
 
 export const loginFail = () => {
   return {
@@ -24,5 +29,10 @@ export const registerFail = () => {
 export const orderPaymentFail = () => {
   return {
     type: types.MAKE_ORDER_FAIL,
+  };
+};
+export const networError = () => {
+  return {
+    type: types.NETWORK_ERROR,
   };
 };

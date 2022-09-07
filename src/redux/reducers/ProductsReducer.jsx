@@ -1,6 +1,7 @@
 import * as types from "../types";
 const initialState = {
   loading: true,
+  more_products_loading: true,
   products: [],
   more_products: [],
   product: {},
@@ -29,7 +30,7 @@ export const productsReducer = (state = initialState, action) => {
     case types.GET_MORE_PRODUCTS:
       return {
         ...state,
-        loading: false,
+        more_products_loading: false,
         more_products: [...state.more_products, ...action.payload],
       };
     case types.GET_SINGLE_PRODUCT:

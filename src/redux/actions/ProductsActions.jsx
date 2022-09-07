@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as types from "../types";
 import toast from "react-hot-toast";
+import { clearErrors, getErrors, networError } from "./ErrorActions";
 
 const PRODUCT_API = "https://api-v1.lufumart.com/api/v1/products";
 
@@ -31,9 +32,12 @@ export const getProducts = () => async (dispatch) => {
         type: types.GET_PRODUCTS,
         payload: data,
       });
+      dispatch(clearErrors());
     }
   } catch (error) {
-    console.log(error.response.data);
+    console.log("products response", error.message);
+    dispatch(getErrors(error.message, types.NETWORK_ERROR));
+    dispatch(networError());
   }
 };
 // get more products
@@ -76,9 +80,15 @@ export const getCategories = () => async (dispatch) => {
         type: types.GET_CATEGORIES,
         payload: data,
       });
+      // dispatch(clearErrors());
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error.message);
+    if (error) {
+      // dispatch(getErrors(error.message, types.NETWORK_ERROR));
+      // dispatch(networError());
+      console.log(error);
+    }
   }
 };
 // get all sub-categories

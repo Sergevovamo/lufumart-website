@@ -142,7 +142,7 @@ const Hero = () => {
             // install Swiper modules
             ref={swiperRef}
             modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={10}
+            spaceBetween={0}
             slidesPerView={1}
             navigation={false}
             pagination={true}

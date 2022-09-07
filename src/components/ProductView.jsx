@@ -18,6 +18,7 @@ const ProductView = () => {
   }, []);
 
   const productData = useSelector((state) => state?.Products?.product[0]);
+  console.log("productData is", productData);
   // english translation
   const english = productData?.translations[0]?.en[0];
   console.log("English translation is", english);
@@ -118,6 +119,7 @@ const ProductView = () => {
                 <p>
                   <b>Items left:</b> {productData?.quantity}
                 </p>
+                <p>{/* <b>Weight:</b> {productData?.weight} */}</p>
 
                 <button
                   onClick={handleAddToCart}

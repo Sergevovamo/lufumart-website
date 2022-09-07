@@ -73,7 +73,18 @@ const Home = ({ currentUser }) => {
                         <td className="py-3 px-1">{orderNumber}</td>
                         <td className="py-3 px-1">{shipDate}</td>
                         <td className="py-3 px-1">{total}</td>
-                        <td className="py-3 px-1">{status}</td>
+                        <td className="py-3 px-1">
+                          {" "}
+                          <span
+                            className={
+                              status === "paid"
+                                ? "bg-green text-white  p-2 rounded-lg"
+                                : "bg-yellow-400  p-2 rounded-lg"
+                            }
+                          >
+                            {status}
+                          </span>{" "}
+                        </td>
                       </tr>
                     );
                   })}

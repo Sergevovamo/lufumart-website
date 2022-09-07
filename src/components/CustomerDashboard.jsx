@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, Routes, Route, useLocation } from "react-router-dom";
 import profile from "../../images/profile.png";
 import Home from "./customer_dashboard_routes/Home";
 import Wishlist from "./customer_dashboard_routes/Wishlist";
@@ -9,13 +9,14 @@ import Orders from "./customer_dashboard_routes/Orders";
 import Settings from "./customer_dashboard_routes/Settings";
 const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location?.pathname;
   const currentUser = useSelector((state) => state.auth.customer.current_user);
 
   useEffect(() => {
     dispatch(userAuth());
   }, []);
-  // set clicked tab active
-  const [active, setActive] = useState(false);
+
   // console.log("active is", active);
   // get language
   const language = useSelector((state) => state?.Products?.language);
@@ -31,17 +32,15 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
   return (
     <section className="w-full  py-10 bg-uniform_grey">
       <div className="md:hidden z-50 fixed bottom-0 bg-green text-white w-full  grid grid-cols-3 ">
-        <Link to="/dashboard/customer/">
-          <div
-            // onMouseEnter={() => setActive(true)}
-            // onMouseLeave={() => setActive(false)}
-            onClick={() => setActive(!active)}
-            className={
-              active
-                ? "flex flex-col  items-center p-2 space-y-1 bg-white text-black"
-                : "flex flex-col  items-center p-2 space-y-1 bg-green"
-            }
-          >
+        <Link
+          className={
+            path === "/dashboard/customer/"
+              ? "flex flex-col  items-center p-2 space-y-1 bg-white text-black"
+              : "flex flex-col  items-center p-2 space-y-1 bg-green"
+          }
+          to="/dashboard/customer/"
+        >
+          <div className="flex flex-col  items-center p-2 space-y-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -60,8 +59,12 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
           </div>
         </Link>
         <Link
-          onMouseEnter={() => setActive(true)}
           to="/dashboard/customer/orders"
+          className={
+            path === "/dashboard/customer/orders"
+              ? "flex flex-col  items-center p-2 space-y-1 bg-white text-black"
+              : "flex flex-col  items-center p-2 space-y-1 bg-green"
+          }
         >
           <div className="flex flex-col  items-center p-2 space-y-1">
             <svg
@@ -104,8 +107,11 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
           </div>
         </Link> */}
         <Link
-          onMouseEnter={() => setActive(true)}
-          onMouseLeave={() => setActive(false)}
+          className={
+            path === "/dashboard/customer/settings"
+              ? "flex flex-col  items-center p-2 space-y-1 bg-white text-black"
+              : "flex flex-col  items-center p-2 space-y-1 bg-green"
+          }
           to="/dashboard/customer/settings"
         >
           <div className="flex flex-col  items-center p-2 space-y-1">

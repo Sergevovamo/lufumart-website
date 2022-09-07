@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateShipping, orderPayment } from "../redux/actions/OrderActions";
 import { getUserCartItems } from "../redux/actions/ProductsActions";
-import MapComponent from "./MapComponent";
+// import MapComponent from "./MapComponent";
 const Checkout = () => {
   const dispatch = useDispatch();
   // set button loading
@@ -242,12 +242,12 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      {open ? (
+      {/* {open ? (
         <MapComponent
           setOpen={setOpen}
           setDeliveryAddress={setDeliveryAddress}
         />
-      ) : null}
+      ) : null} */}
     </section>
   );
 };

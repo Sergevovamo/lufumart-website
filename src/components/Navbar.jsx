@@ -22,7 +22,7 @@ const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // const [openSearch, setOpenSearch] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
   // getting all the categories from state
   const categories = useSelector((state) => state?.Products?.categories);
 
@@ -208,7 +208,13 @@ const Navbar = () => {
             />
           </svg>
         </div>
-        <div className="flex-auto hidden sm:block">
+        <div
+          className={
+            openSearch
+              ? " absolute top-[85px] z-50 w-[90%]  "
+              : "flex-auto hidden sm:block"
+          }
+        >
           <form>
             <div className="relative">
               <input
@@ -245,7 +251,7 @@ const Navbar = () => {
               {dashboard}
             </button>
           </div>
-          {/* <div>
+          <div>
             <svg
               onClick={() => setOpenSearch(!openSearch)}
               xmlns="http://www.w3.org/2000/svg"
@@ -258,10 +264,14 @@ const Navbar = () => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                d={
+                  openSearch
+                    ? "M6 18L18 6M6 6l12 12"
+                    : "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                }
               />
             </svg>
-          </div> */}
+          </div>
 
           <div className="relative">
             <svg

@@ -61,7 +61,7 @@ const Settings = ({ setIsLanguagePopUpOpen }) => {
   return (
     <section>
       <div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center sm:my-2 my-4">
           <h2 className="font-bold "> Account</h2>
           <button
             onClick={handlePopUp}

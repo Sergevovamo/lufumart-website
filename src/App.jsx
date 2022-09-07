@@ -31,6 +31,7 @@ import CategoryProducts from "./components/CategoryProducts";
 import { useDispatch } from "react-redux";
 import { getLanguage } from "./redux/actions/ProductsActions";
 import Explore from "./components/Explore";
+import NetworkError from "./components/NetworkError";
 function App() {
   const dispatch = useDispatch();
   const [isLanguagePopUpOpen, setIsLanguagePopUpOpen] = useState(false);
@@ -53,6 +54,7 @@ function App() {
       <Router>
         <div>
           <Navbar />
+          <NetworkError />
 
           <Routes>
             <Route
