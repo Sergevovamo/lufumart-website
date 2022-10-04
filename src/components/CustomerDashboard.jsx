@@ -12,7 +12,7 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
   const location = useLocation();
   const path = location?.pathname;
   const currentUser = useSelector((state) => state.auth.customer.current_user);
-
+  console.log("current user is", currentUser);
   useEffect(() => {
     dispatch(userAuth());
   }, []);
@@ -34,11 +34,11 @@ const CustomerDashboard = ({ setIsLanguagePopUpOpen }) => {
       <div className="md:hidden z-50 fixed bottom-0 bg-green text-white w-full  grid grid-cols-3 ">
         <Link
           className={
-            path === "/dashboard/customer/"
+            path === "/dashboard/customer"
               ? "flex flex-col  items-center p-2 space-y-1 bg-white text-black"
               : "flex flex-col  items-center p-2 space-y-1 bg-green"
           }
-          to="/dashboard/customer/"
+          to="/dashboard/customer"
         >
           <div className="flex flex-col  items-center p-2 space-y-1">
             <svg

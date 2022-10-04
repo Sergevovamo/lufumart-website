@@ -100,7 +100,7 @@ export const customerLogin = (payload) => async (dispatch) => {
   try {
     const response = await axios.post(`${AUTH_API}/signin`, body, config);
     const data = await response.data;
-
+    // console.log("data is", data);
     if (data) {
       dispatch({
         type: types.CUSTOMER_LOGIN,

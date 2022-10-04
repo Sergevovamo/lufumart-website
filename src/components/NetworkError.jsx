@@ -7,7 +7,7 @@ const NetworkError = () => {
   // network error
   const [isNetworkModalOpen, setisNetworkModalOpen] = useState(false);
   const error = useSelector((state) => state?.error);
-  console.log("error is", error);
+  // console.log("error is", error);
 
   useEffect(() => {
     if (error.typeId === "NETWORK_ERROR") {

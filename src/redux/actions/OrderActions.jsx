@@ -35,7 +35,7 @@ export const orderPayment = (payload) => async (dispatch) => {
     });
     const response = await axios.post(`${ORDER_API}/create`, body, authToken());
     const data = await response.data;
-    console.log("payment response", data);
+    // console.log("payment response", data);
     if (data) {
       dispatch({
         type: types.MAKE_ORDER_SUCCESS,
@@ -44,9 +44,11 @@ export const orderPayment = (payload) => async (dispatch) => {
       toast.success("Succefuly made an order");
     }
   } catch (error) {
-    console.log(error.response);
+    // console.log("order console err", error.response);
     dispatch(getErrors(error.response.data.message, types.MAKE_ORDER_FAIL));
     dispatch(orderPaymentFail());
     toast.error(error.response.data.message);
   }
 };
+
+// 243898724400

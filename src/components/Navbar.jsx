@@ -2,10 +2,12 @@ import React, { useState, useEffect, Fragment, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearMoreProductsBySubcategory,
   getCategories,
   getLanguage,
   getSubCategoryByCategory,
   getUserCartItems,
+  searchProduct,
 } from "../redux/actions/ProductsActions";
 import { logout } from "../redux/actions/AuthActions";
 // import SidebarItem from "./SidebarItem";
@@ -118,6 +120,7 @@ const Navbar = () => {
     setHideCategories(false);
     setMenu(false);
     navigate(`/sub_prd/${id}/${name}`);
+    dispatch(clearMoreProductsBySubcategory());
   };
 
   const handleToggle = () => {
@@ -135,6 +138,19 @@ const Navbar = () => {
     dispatch(logout());
     setIsDropdownOpen(false);
   };
+  // products search functionality
+  const [searchedTerm, setSearchedTerm] = useState("");
+  const getSearchedTerm = (e) => {
+    // console.log(e.target.value);
+    setSearchedTerm(e.target.value);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    dispatch(searchProduct(searchedTerm));
+  };
+  const term = useSelector((state) => state?.Products?.searched_products);
+  // console.log("Results are", term);
   // get language
   const language = useSelector((state) => state?.Products?.language);
   const [isEnglish, setIsEnglish] = useState(false);
@@ -215,16 +231,18 @@ const Navbar = () => {
               : "flex-auto hidden sm:block"
           }
         >
-          <form>
+          <form onSubmit={handleSearch}>
             <div className="relative">
               <input
                 type="text"
+                // required
                 placeholder={
                   isEnglish
                     ? "search products here...."
                     : "rechercher des produits ici..."
                 }
                 className="border p-2.5 w-full rounded-full outline-green"
+                onChange={getSearchedTerm}
               />
               <input
                 type="submit"

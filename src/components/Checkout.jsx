@@ -93,7 +93,8 @@ const Checkout = () => {
         <div className="space-y-5 md:md:col-span-3">
           <div>
             <h2 className="text-lg my-2">
-              {isEnglish ? "Delivery Address" : "Adresse de livraison"}
+              {isEnglish ? "Delivery Address " : "Adresse de livraison"}{" "}
+              <span className="text-red">*</span>
             </h2>
             <div
               onClick={() => setOpen(true)}
@@ -147,6 +148,7 @@ const Checkout = () => {
           <div>
             <h2 className="text-lg my-2">
               {isEnglish ? "Payment Method" : "Mode de paiement"}
+              <span className="text-red"> *</span>
             </h2>
             <div className="flex flex-col space-y-4" onChange={handlePayment}>
               <label className=" bg-white p-2 flex space-x-3 rounded-lg cursor-pointer">
@@ -172,6 +174,7 @@ const Checkout = () => {
               {isEnglish
                 ? "Enter payment mobile number"
                 : "Entrez le numéro de mobile de paiement"}
+              <span className="text-red"> *</span>
             </h2>
             <input
               type="text"
@@ -227,16 +230,19 @@ const Checkout = () => {
             <div>
               <button
                 onClick={handlePay}
-                className="p-2 flex justify-center items-center space-x-3 bg-green text-white w-full rounded-lg "
+                className="p-2  bg-green text-white w-full rounded-lg "
               >
-                <span
-                  className={
-                    isButtonLoading
-                      ? "w-8 h-8 border-[2px] border-r-gray-700 rounded-full animate-spin"
-                      : "hidden"
-                  }
-                ></span>
-                <span>{isEnglish ? "PAY NOW" : "PAYEZ MAINTENANT"}</span>
+                {isButtonLoading ? (
+                  <div className="flex justify-center items-center space-x-2 opacity-90 disabled">
+                    <span className="w-7 h-7 border-[2px]  border-r-gray-700 rounded-full animate-spin"></span>
+                    <span>
+                      {isEnglish ? "PLEASE WAIT" : "S'IL VOUS PLAÎT, ATTENDEZ"}
+                    </span>
+                  </div>
+                ) : (
+                  // <span>PAY NOW</span>
+                  <span>{isEnglish ? "PAY NOW" : "PAYEZ MAINTENANT"}</span>
+                )}
               </button>
             </div>
           </div>

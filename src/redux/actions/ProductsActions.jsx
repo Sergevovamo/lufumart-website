@@ -3,7 +3,7 @@ import * as types from "../types";
 import toast from "react-hot-toast";
 import { clearErrors, getErrors, networError } from "./ErrorActions";
 
-const PRODUCT_API = "https://api-v1.lufumart.com/api/v1/products";
+const PRODUCT_API = "https://apis.lufumart.net/api/v1/products";
 
 // authentication using the stored token
 export const authToken = () => {
@@ -50,6 +50,7 @@ export const getMoreProducts = () => async (dispatch) => {
         type: types.GET_MORE_PRODUCTS,
         payload: data?.products,
       });
+      dispatch(resetProdyctsByCategory());
     }
   } catch (error) {
     console.log(error);
@@ -71,7 +72,7 @@ export const getSingleProduct = (id) => async (dispatch) => {
 export const getCategories = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://api-v1.lufumart.com/api/v1/product-categories`
+      `https://apis.lufumart.net/api/v1/product-categories`
     );
     const data = await response.data;
     // console.log(data);
@@ -81,6 +82,7 @@ export const getCategories = () => async (dispatch) => {
         payload: data,
       });
       // dispatch(clearErrors());
+      // dispatch(resetProdyctsByCategory());
     }
   } catch (error) {
     // console.log(error.message);
@@ -108,7 +110,7 @@ export const getCategories = () => async (dispatch) => {
 export const getSubCategoryByCategory = (categoryId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://api-v1.lufumart.com/api/v1/product-sub-categories/get-sub-category-by-category?categoryId=${categoryId}`
+      `https://apis.lufumart.net/api/v1/product-sub-categories/get-sub-category-by-category?categoryId=${categoryId}`
     );
     const data = await response.data;
     if (data) {
@@ -122,19 +124,39 @@ export const getSubCategoryByCategory = (categoryId) => async (dispatch) => {
   }
 };
 // get  products with their respective categories
-export const getProductsByCategory = (categoryId) => async (dispatch) => {
+export const getProductsByCategory = (payload) => async (dispatch) => {
+  const { categoryId, page } = payload;
   try {
-    const response = await axios.get(
-      `${PRODUCT_API}/lufumart-app/products-by-category?&categoryId=${categoryId}`
-    );
-    const data = await response.data;
-    // console.log("products by category are", data);
-    if (data) {
-      dispatch({
-        type: types.GET_PRODUCTS_BY_CATEGORY,
-        payload: data,
-      });
+    await dispatch({
+      type: types.PRODUCTS_LOADING,
+    });
+    if (page) {
+      console.log("loaded page is", page);
+      const response = await axios.get(
+        `${PRODUCT_API}/lufumart-app/products-by-category?&categoryId=${categoryId}&page=${page}`
+      );
+      const data = await response.data;
+      // console.log("products by category are", data);
+
+      if (data) {
+        dispatch({
+          type: types.GET_PRODUCTS_BY_CATEGORY,
+          payload: data?.products,
+          totalProducts: data?.totalProducts,
+        });
+      }
     }
+  } catch (error) {
+    console.log(error);
+    // dispatch(resetProdyctsByCategory());
+  }
+};
+// empty the product by categories state
+export const resetProdyctsByCategory = () => (dispatch) => {
+  try {
+    dispatch({
+      type: types.RESET_PRODUCTS_BY_CATEGORY,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -147,12 +169,12 @@ export const getProductBySubCategory = (subCategoryId) => async (dispatch) => {
       `${PRODUCT_API}/products-by-sub-category?subCategoryIds[0]=${subCategoryId}&type=array`
     );
     const data = await response.data;
-    // console.log("action data", data);
     if (data) {
       dispatch({
         type: types.GET_PRODUCTS_BY_SUB_CATEGORY,
-        payload: data,
+        payload: data?.subCategories[0]?.products,
       });
+      // dispatch(clearMoreProductsBySubcategory());
     }
   } catch (error) {
     console.log(error);
@@ -161,7 +183,7 @@ export const getProductBySubCategory = (subCategoryId) => async (dispatch) => {
 // get more products by subCategory
 export const getMoreProductsBySubCategory = (payload) => async (dispatch) => {
   const { subCategoryId, page } = payload;
-  console.log("page is", page);
+  // console.log("page is", page);
   try {
     const response = await axios.get(
       `${PRODUCT_API}/lufumart-app/sub-category-products?subCategoryId=${subCategoryId}&page=${page}`
@@ -170,11 +192,36 @@ export const getMoreProductsBySubCategory = (payload) => async (dispatch) => {
     if (data) {
       dispatch({
         type: types.GET_MORE_PRODUCTS_BY_SUB_CATEGORY,
-        // payload: {
-        //   products: data?.products,
-        //   page: page,
-        // },
-        payload: data?.products,
+        payload: {
+          products: data?.products,
+          page: page,
+        },
+      });
+      // console.log("more prds", data);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const clearMoreProductsBySubcategory = () => (dispatch) => {
+  try {
+    dispatch({
+      type: types.CLEAR_MORE_PRODUCTS_BY_SUB_CATEGORY,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+// search product
+
+export const searchProduct = (searchTerm) => async (dispatch) => {
+  try {
+    const response = await axios.get(`${PRODUCT_API}?searchTerm=${searchTerm}`);
+    const data = await response?.data;
+    if (data) {
+      dispatch({
+        type: types.SEARCH_PRODUCTS,
+        payload: data,
       });
     }
   } catch (error) {
@@ -190,7 +237,7 @@ export const addToCart = (prodId) => async (dispatch) => {
       authToken()
     );
     const data = await response.data;
-    console.log(data);
+    console.log("add to cart", data);
     if (data) {
       dispatch({
         type: types.ADD_TO_CART,
@@ -263,7 +310,7 @@ export const removeProduct = (prodId) => async (dispatch) => {
 export const getOrders = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://api-v1.lufumart.com/api/v1/orders/customer-orders`,
+      `https://apis.lufumart.net/api/v1/orders/customer-orders`,
       authToken()
     );
     const data = await response.data;
